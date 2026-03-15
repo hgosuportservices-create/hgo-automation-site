@@ -1,8 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { gsap } from 'gsap';
 import { ArrowLeft, Clock, ArrowUpRight, ChevronRight } from 'lucide-react';
 import { articles } from '../data/articles';
+
+const MONTHS = { 'janvier':'01','février':'02','mars':'03','avril':'04','mai':'05','juin':'06','juillet':'07','août':'08','septembre':'09','octobre':'10','novembre':'11','décembre':'12' };
+function toISO(frDate) {
+  const [d, m, y] = frDate.split(' ');
+  return `${y}-${MONTHS[m]}-${d.padStart(2,'0')}`;
+}
 
 const Logo = () => (
   <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-cyan shadow-xl shadow-cyan/20 overflow-hidden">
@@ -80,6 +87,20 @@ function renderBlock(block, i, onContact) {
           </table>
         </div>
       );
+    case 'image':
+      return (
+        <figure key={i} className="my-10">
+          <img
+            src={block.src}
+            alt={block.alt}
+            className="w-full rounded-2xl object-cover max-h-80"
+            loading="lazy"
+          />
+          {block.caption && (
+            <figcaption className="mt-3 text-center text-xs text-ghost/40 italic font-mono">{block.caption}</figcaption>
+          )}
+        </figure>
+      );
     case 'cta':
       return (
         <div key={i} className="mt-16 rounded-[1.5rem] border border-cyan/20 bg-cyan/5 p-8 md:p-10">
@@ -114,8 +135,45 @@ export default function ArticlePage() {
 
   const related = articles.filter(a => a.slug !== slug).slice(0, 2);
 
+  const canonicalUrl = `https://hgoautomation.fr/blog/${article.slug}`;
+
   return (
     <main ref={containerRef} className="min-h-screen text-ghost font-sans bg-void">
+      <Helmet>
+        <title>{article.title} — HGO Automation</title>
+        <meta name="description" content={article.metaDescription} />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={article.metaDescription} />
+        <meta property="og:image" content={article.image} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={article.title} />
+        <meta name="twitter:description" content={article.metaDescription} />
+        <meta name="twitter:image" content={article.image} />
+        <link rel="canonical" href={canonicalUrl} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": article.title,
+          "description": article.metaDescription,
+          "image": article.image,
+          "url": canonicalUrl,
+          "datePublished": toISO(article.date),
+          "author": {
+            "@type": "Person",
+            "name": "Hugo Fonseca",
+            "url": "https://hgoautomation.fr"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "HGO Automation",
+            "url": "https://hgoautomation.fr",
+            "logo": { "@type": "ImageObject", "url": "https://hgoautomation.fr/hgo-logo.svg" }
+          }
+        })}</script>
+      </Helmet>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-8 py-3 px-8 rounded-full border border-ghost/10 bg-void/60 backdrop-blur-xl w-[90%] max-w-4xl">
         <Link to="/" className="text-xl font-bold tracking-tighter flex items-center gap-3">
           <Logo />
@@ -132,7 +190,7 @@ export default function ArticlePage() {
 
       {/* Hero image */}
       <div className="fade-in relative h-[50vh] overflow-hidden">
-        <img src={article.image} alt={article.title} className="w-full h-full object-cover opacity-50" />
+        <img src={article.image} alt={article.title} loading="eager" fetchpriority="high" className="w-full h-full object-cover opacity-50" />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-void/20" />
       </div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Clock, ChevronRight } from 'lucide-react';
 import { articles } from '../data/articles';
@@ -39,6 +40,15 @@ export default function BlogPage() {
 
   return (
     <main ref={containerRef} className="min-h-screen text-ghost font-sans bg-void">
+      <Helmet>
+        <title>Blog Automatisation & IA — HGO Automation</title>
+        <meta name="description" content="Guides pratiques, comparatifs et tutoriels sur l'automatisation d'entreprise avec n8n, Make et l'IA. Ressources pour PME françaises." />
+        <meta property="og:title" content="Blog Automatisation & IA — HGO Automation" />
+        <meta property="og:description" content="Guides pratiques, comparatifs et tutoriels sur l'automatisation d'entreprise avec n8n, Make et l'IA." />
+        <meta property="og:url" content="https://hgoautomation.fr/blog" />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://hgoautomation.fr/blog" />
+      </Helmet>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-8 py-3 px-8 rounded-full border border-ghost/10 bg-void/60 backdrop-blur-xl w-[90%] max-w-4xl">
         <Link to="/" className="text-xl font-bold tracking-tighter flex items-center gap-3">
           <Logo />
@@ -69,7 +79,7 @@ export default function BlogPage() {
         <Link to={`/blog/${featured.slug}`} className="fade-in group block mb-16">
           <div className="relative rounded-[2rem] overflow-hidden border border-ghost/10 hover:border-cyan/30 transition-all duration-500">
             <div className="relative h-72 md:h-96 overflow-hidden">
-              <img src={featured.image} alt={featured.title} className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" />
+              <img src={featured.image} alt={featured.title} loading="eager" fetchpriority="high" className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-void via-void/60 to-transparent" />
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -91,7 +101,7 @@ export default function BlogPage() {
           {rest.map((article) => (
             <Link key={article.slug} to={`/blog/${article.slug}`} className="fade-in group block rounded-[1.5rem] border border-ghost/10 hover:border-cyan/30 transition-all duration-500 overflow-hidden bg-void/30">
               <div className="relative h-48 overflow-hidden">
-                <img src={article.image} alt={article.title} className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" />
+                <img src={article.image} alt={article.title} loading="lazy" className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-void/80 to-transparent" />
               </div>
               <div className="p-8">

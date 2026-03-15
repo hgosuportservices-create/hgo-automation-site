@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useContact } from './context/ContactContext';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -18,7 +19,8 @@ import {
   Database,
   Search,
   MessageSquare,
-  Package
+  Package,
+  LayoutDashboard
 } from 'lucide-react';
 import { cn } from './lib/utils';
 
@@ -55,263 +57,39 @@ const Logo = ({ className }) => (
   </div>
 );
 
-const ContactModal = ({ isOpen, onClose }) => {
-  const modalRef = useRef(null);
-  const contentRef = useRef(null);
-  const [formData, setFormData] = useState({
-    nom: '',
-    email: '',
-    entreprise: '',
-    tel: '',
-    type: 'crm',
-    budget: 'small',
-    message: ''
-  });
-  const [status, setStatus] = useState('idle'); // idle, loading, success, error
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-      gsap.fromTo(contentRef.current, { scale: 0.9, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" });
-    } else {
-      document.body.style.overflow = 'unset';
-      if (status === 'success') {
-        setTimeout(() => {
-          setStatus('idle');
-          setFormData({ nom: '', email: '', entreprise: '', tel: '', type: 'crm', budget: 'small', message: '' });
-        }, 500);
-      }
-    }
-  }, [isOpen, status]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-
-    const payload = {
-      demande_id: `WEB-${Date.now()}`,
-      client_nom: formData.nom,
-      client_email: formData.email,
-      client_telephone: formData.tel,
-      nom_entreprise: formData.entreprise,
-      type_intervention: formData.type,
-      description: `Budget estimé: ${formData.budget}\n\nMessage: ${formData.message}`,
-      urgence: 'normale',
-      client_adresse: 'Gentilly',
-      client_ville: 'France',
-      client_code_postal: '94250'
-    };
-
-    try {
-      const response = await fetch('https://n8n.srv1283814.hstgr.cloud/webhook/4f40bb5b-3fcf-42cc-95a8-b227e655328e', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setTimeout(() => onClose(), 2500);
-      } else {
-        throw new Error('Erreur réseau');
-      }
-    } catch (error) {
-      console.error('Submission error:', error);
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div ref={modalRef} className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
-      <div className="absolute inset-0 bg-void/80 backdrop-blur-md" onClick={onClose} />
-
-      <div ref={contentRef} className="relative glass w-full max-w-2xl p-8 md:p-12 rounded-premium overflow-hidden">
-        {status === 'success' ? (
-          <div className="py-20 text-center animate-in fade-in zoom-in duration-500">
-            <div className="w-20 h-20 bg-cyan/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan/30">
-              <CheckCircle2 className="w-10 h-10 text-cyan animate-bounce" />
-            </div>
-            <h2 className="text-4xl font-bold uppercase tracking-tight mb-4 text-ghost">Flux Initié !</h2>
-            <p className="text-ghost/60 font-light">Votre demande a été injectée dans nos systèmes. <br />Hugo vous recontactera sous peu.</p>
-          </div>
-        ) : (
-          <>
-            <div className="absolute top-0 right-0 p-6">
-              <button onClick={onClose} className="text-ghost/40 hover:text-cyan transition-colors">
-                <Zap className="w-6 h-6 rotate-45" />
-              </button>
-            </div>
-
-            <div className="mb-8">
-              <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4">Démarrer votre <span className="text-cyan">Flux.</span></h2>
-              <p className="text-ghost/60 font-light">Parlez-nous de votre projet. Nos experts concevront votre architecture d'automatisation sur mesure.</p>
-            </div>
-
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Nom Complet</label>
-                <div className="relative">
-                  <input
-                    name="nom"
-                    value={formData.nom}
-                    onChange={handleChange}
-                    type="text"
-                    required
-                    className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors"
-                    placeholder="Jean Dupont"
-                  />
-                  <ArrowUpRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Email Professionnel</label>
-                <div className="relative">
-                  <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    type="email"
-                    required
-                    className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors"
-                    placeholder="jean@entreprise.com"
-                  />
-                  <Zap className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Entreprise</label>
-                <div className="relative">
-                  <input
-                    name="entreprise"
-                    value={formData.entreprise}
-                    onChange={handleChange}
-                    type="text"
-                    required
-                    className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors"
-                    placeholder="HGO Tech"
-                  />
-                  <Box className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Téléphone</label>
-                <div className="relative">
-                  <input
-                    name="tel"
-                    value={formData.tel}
-                    onChange={handleChange}
-                    type="tel"
-                    className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors"
-                    placeholder="+33 6 00 00 00 00"
-                  />
-                  <Activity className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Type de Projet</label>
-                <div className="relative">
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleChange}
-                    className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors appearance-none cursor-pointer"
-                  >
-                    <option value="crm" className="bg-void">Automatisation CRM</option>
-                    <option value="ia" className="bg-void">IA & Chatbots</option>
-                    <option value="data" className="bg-void">Scraping & Data</option>
-                    <option value="other" className="bg-void">Autre besoin complexe</option>
-                  </select>
-                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40 rotate-90 pointer-events-none" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Budget Approximatif</label>
-                <div className="relative">
-                  <select
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors appearance-none cursor-pointer"
-                  >
-                    <option value="small" className="bg-void">{`< 2 500€`}</option>
-                    <option value="medium" className="bg-void">2 500€ - 5 000€</option>
-                    <option value="large" className="bg-void">5 000€ - 10 000€</option>
-                    <option value="enterprise" className="bg-void">{`> 10 000€`}</option>
-                  </select>
-                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40 rotate-90 pointer-events-none" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 md:col-span-2">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Votre Message / Objectif</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="3"
-                  className="w-full bg-void/50 border border-ghost/10 rounded-3xl px-5 py-4 text-sm focus:border-cyan outline-none resize-none transition-colors"
-                  placeholder="Décrivez les processus que vous souhaitez automatiser..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className={cn(
-                  "md:col-span-2 group relative overflow-hidden bg-cyan text-void py-4 rounded-full font-extrabold uppercase tracking-widest transition-all shadow-lg shadow-cyan/20",
-                  status === 'loading' ? "opacity-50 cursor-not-allowed" : "hover:scale-[1.02] active:scale-95"
-                )}
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {status === 'loading' ? (
-                    <>Alignement des Systèmes... <Activity className="w-5 h-5 animate-spin" /></>
-                  ) : status === 'error' ? (
-                    <>Erreur - Réessayer <Zap className="w-5 h-5 text-red-500" /></>
-                  ) : (
-                    <>Initier le Workflow <ArrowUpRight className="w-5 h-5" /></>
-                  )}
-                </span>
-                <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-              </button>
-            </form>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
-
 // --- Components ---
+
+const NAV_SERVICES = [
+  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram' },
+  { label: 'Agents IA', href: '/services/agent-ia' },
+  { label: 'Automatisation n8n', href: '/services/automatisation-n8n' },
+  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise' },
+  { label: 'Automatisation & Création CRM', href: '/services/automatisation-crm' },
+  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards' },
+];
 
 const Navbar = ({ onOpenContact }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setServicesOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
   return (
     <nav className={cn(
-      "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out flex items-center gap-8 py-3 px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl",
+      "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out flex items-center gap-6 py-3 px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl",
       scrolled ? "bg-void/60 backdrop-blur-xl py-4" : "bg-transparent text-ghost"
     )}>
       <div className="text-xl font-bold tracking-tighter flex items-center gap-3">
@@ -319,10 +97,31 @@ const Navbar = ({ onOpenContact }) => {
         <span className="font-sans uppercase tracking-widest text-sm md:text-base">HGOAutomation</span>
       </div>
 
-      <div className="hidden md:flex items-center gap-6 ml-auto">
-        {['Expertise', 'Processus', 'Impact'].map((item) => (
-          <a key={item} href={`#${item.toLowerCase()}`} className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
-            {item}
+      <div className="hidden md:flex items-center gap-5 ml-auto">
+        {/* Services dropdown */}
+        <div ref={dropdownRef} className="relative">
+          <button
+            onClick={() => setServicesOpen(v => !v)}
+            className="flex items-center gap-1 text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors"
+          >
+            Services
+            <ChevronRight className={cn("w-3 h-3 transition-transform duration-200", servicesOpen ? "rotate-90" : "")} />
+          </button>
+          {servicesOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-2 shadow-2xl">
+              {NAV_SERVICES.map(({ label, href }) => (
+                <Link key={href} to={href} onClick={() => setServicesOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors text-sm text-ghost/70">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan/40 flex-shrink-0" />
+                  {label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {[{ label: 'Expertise', id: 'expertise' }, { label: 'Processus', id: 'processus' }, { label: 'Services', id: 'services' }].map((item) => (
+          <a key={item.id} href={`#${item.id}`} className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
+            {item.label}
           </a>
         ))}
         <Link to="/blog" className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
@@ -332,7 +131,7 @@ const Navbar = ({ onOpenContact }) => {
 
       <button
         onClick={onOpenContact}
-        className="hidden md:flex ml-4 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
+        className="hidden md:flex ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
       >
         <span className="relative z-10">Démarrer</span>
         <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
@@ -374,12 +173,12 @@ const Hero = ({ onOpenContact }) => {
 
       <div className="max-w-5xl">
         <h1 className="hero-up flex flex-col leading-[0.85] tracking-tighter">
-          <span className="text-4xl md:text-6xl font-sans font-extrabold uppercase mb-4 text-cyan">L'automatisation au-delà</span>
+          <span className="text-7xl md:text-[11rem] font-serif italic text-cyan">L'IA au-delà</span>
           <span className="text-7xl md:text-[11rem] font-serif italic text-ghost">des Limites.</span>
         </h1>
 
         <p className="hero-up mt-8 text-lg max-w-xl text-ghost/60 font-sans font-light leading-relaxed">
-          HGOAutomation conçoit des écosystèmes intelligents qui transforment votre modèle économique. L'approche Croissance et Performance pour dominer votre marché.
+          HGO Automation conçoit des écosystèmes intelligents qui transforment votre modèle économique — CRM, agents IA, n8n, WhatsApp. Opérationnel en moins d'une semaine.
         </p>
 
         <div className="hero-up mt-12 flex flex-wrap gap-4">
@@ -393,6 +192,19 @@ const Hero = ({ onOpenContact }) => {
           <button onClick={onOpenContact} className="group px-8 py-4 rounded-full text-sm md:text-base font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan transition-colors flex items-center gap-2">
             Discuter de mon projet <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
+        </div>
+
+        <div className="hero-up mt-12 flex flex-wrap gap-8 pt-8 border-t border-ghost/10">
+          {[
+            { value: '5 jours', label: 'Délai de livraison moyen' },
+            { value: '100%', label: 'Projets livrés dans les délais' },
+            { value: '30 min', label: 'Appel découverte gratuit' },
+          ].map((stat, i) => (
+            <div key={i} className="flex flex-col">
+              <span className="text-2xl md:text-3xl font-bold text-cyan tracking-tight">{stat.value}</span>
+              <span className="text-xs text-ghost/40 uppercase tracking-widest mt-1">{stat.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -669,223 +481,106 @@ const ProtocolSection = () => {
   );
 };
 
-const Pricing = ({ onOpenContact }) => {
-  return (
-    <section className="py-32 px-8 md:px-24" id="impact">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-24 text-center md:text-left">
-          <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6">Investir dans <br /><span className="text-cyan">la Performance.</span></h2>
-          <p className="text-ghost/60 max-w-xl text-lg font-light">Des modèles flexibles pour soutenir chaque étape de votre croissance.</p>
-        </div>
+const SERVICES_LIST = [
+  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare, desc: 'Chatbot, prise de RDV, relances automatiques sur les deux plateformes.' },
+  { label: 'Agents IA', href: '/services/agent-ia', icon: Cpu, desc: 'Un assistant intelligent formé sur vos données, disponible 24h/24.' },
+  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Zap, desc: 'Workflows sur mesure hébergés chez vous. 400+ intégrations natives.' },
+  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise', icon: Activity, desc: 'Connectez vos outils, éliminez les saisies manuelles, scalez sans embaucher.' },
+  { label: 'Automatisation & Création CRM', href: '/services/automatisation-crm', icon: Database, desc: 'CRM 100% adapté à votre process de vente. Livré en 5-10 jours.' },
+  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard, desc: 'Outils internes, portails clients, dashboards KPIs — livrés rapidement.' },
+];
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="glass p-12 rounded-premium border-transparent flex flex-col gap-8 opacity-60 hover:opacity-100 transition-opacity">
-            <h3 className="text-2xl font-bold uppercase tracking-tight">Essentiel</h3>
-            <div className="text-5xl font-extrabold tracking-tighter">990€<span className="text-base font-light opacity-40">/mois</span></div>
-            <ul className="space-y-4 text-ghost/60 text-sm">
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-cyan" /> 3 Workflows de base</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-cyan" /> Support Standard</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-cyan" /> Optimisation SEO IA</li>
-            </ul>
-            <button onClick={onOpenContact} className="mt-4 px-8 py-3 rounded-full border border-ghost/20 font-bold hover:bg-ghost hover:text-void transition-colors">Choisir ce plan</button>
-          </div>
+const TESTIMONIALS = [
+  {
+    name: 'Romain C.',
+    role: 'Directeur, Agence Immo Castelli — Paris',
+    initials: 'RC',
+    text: "Hugo a connecté notre formulaire de demande de visite à un workflow complet : confirmation automatique au prospect, notification à notre équipe, création de la fiche dans le CRM. On ne perd plus aucune demande, même le week-end. Mis en place en 3 jours.",
+    result: '+40% de RDV qualifiés',
+  },
+  {
+    name: 'Sarah B.',
+    role: 'Coach indépendante — Lyon',
+    initials: 'SB',
+    text: "Avant, j'envoyais les confirmations de séance à la main. Hugo a automatisé toute la chaîne : confirmation immédiate après réservation, rappel J-1, lien de la session Google Meet. J'économise 2h par semaine et mes clients adorent la réactivité.",
+    result: '2h économisées / semaine',
+  },
+  {
+    name: 'Marc L.',
+    role: 'Gérant, Société de services B2B — Bordeaux',
+    initials: 'ML',
+    text: "Notre processus de devis était chaotique : formulaire web → Excel → email manuel → oubli de relance. Hugo a tout automatisé avec n8n. Aujourd'hui le client reçoit une confirmation en 30 secondes, notre équipe est notifiée, et les relances partent automatiquement.",
+    result: '0 demande perdue depuis',
+  },
+];
 
-          <div className="glass p-12 rounded-premium border-cyan bg-cyan/5 relative overflow-hidden flex flex-col gap-8 scale-105 shadow-[0_0_40px_rgba(0,209,255,0.2)]">
-            <div className="absolute top-0 right-0 py-1 px-4 bg-cyan text-void text-[10px] uppercase font-bold tracking-widest rounded-bl-xl">Le plus populaire</div>
-            <h3 className="text-2xl font-bold uppercase tracking-tight">Performance</h3>
-            <div className="text-5xl font-extrabold tracking-tighter">2490€<span className="text-base font-light opacity-40">/mois</span></div>
-            <ul className="space-y-4 text-ghost/80 text-sm">
-              <li className="flex items-center gap-2"><Zap className="w-4 h-4 text-cyan" /> Automatisation Complète</li>
-              <li className="flex items-center gap-2"><Zap className="w-4 h-4 text-cyan" /> Intégration CRM Avancée</li>
-              <li className="flex items-center gap-2"><Zap className="w-4 h-4 text-cyan" /> Monitoring Temps Réel</li>
-              <li className="flex items-center gap-2"><Zap className="w-4 h-4 text-cyan" /> Support Prioritaire</li>
-            </ul>
-            <button onClick={onOpenContact} className="mt-4 px-8 py-4 rounded-full bg-cyan text-void font-bold hover:bg-white transition-colors">Démarrer maintenant</button>
-          </div>
-
-          <div className="glass p-12 rounded-premium border-transparent flex flex-col gap-8 opacity-60 hover:opacity-100 transition-opacity">
-            <h3 className="text-2xl font-bold uppercase tracking-tight">Entreprise</h3>
-            <div className="text-5xl font-extrabold tracking-tighter">Sur mesure</div>
-            <ul className="space-y-4 text-ghost/60 text-sm">
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-cyan" /> Infrastructures Dédiées</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-cyan" /> API Personnalisée</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-cyan" /> SLA Garanti</li>
-            </ul>
-            <button onClick={onOpenContact} className="mt-4 px-8 py-3 rounded-full border border-ghost/20 font-bold hover:bg-ghost hover:text-void transition-colors">Contacter un expert</button>
-          </div>
-        </div>
+const Testimonials = () => (
+  <section className="py-32 px-8 md:px-24 bg-graphite/20">
+    <div className="max-w-7xl mx-auto">
+      <div className="mb-16">
+        <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">// Ils nous font confiance</p>
+        <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter">
+          Ce que disent<br /><span className="text-cyan font-serif italic">nos clients.</span>
+        </h2>
       </div>
-    </section>
-  );
-};
-
-const LegalModal = ({ isOpen, onClose }) => {
-  const modalRef = useRef(null);
-  const contentRef = useRef(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-      gsap.fromTo(contentRef.current, { scale: 0.9, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" });
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div ref={modalRef} className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
-      <div className="absolute inset-0 bg-void/80 backdrop-blur-md" onClick={onClose} />
-
-      <div ref={contentRef} className="relative glass w-full max-w-3xl max-h-[80vh] overflow-y-auto p-8 md:p-12 rounded-premium custom-scrollbar">
-        <div className="sticky top-0 right-0 flex justify-end -mt-4 -mr-4 mb-4">
-          <button onClick={onClose} className="text-ghost/40 hover:text-cyan transition-colors bg-void/50 p-2 rounded-full">
-            <Zap className="w-6 h-6 rotate-45" />
-          </button>
-        </div>
-
-        <div className="prose prose-invert prose-cyan max-w-none">
-          <h1 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-8">Mentions <span className="text-cyan">Légales.</span></h1>
-          <p className="text-ghost/40 text-xs mb-8 font-mono border-b border-ghost/10 pb-4 italic">Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN)</p>
-
-          <div className="space-y-8 text-sm md:text-base font-light text-ghost/70 leading-relaxed">
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                <Box className="w-4 h-4 text-cyan" /> Éditeur du site
-              </h2>
-              <div className="bg-void/30 p-4 rounded-xl border border-ghost/5">
-                <p><strong>Hugo Fonseca</strong></p>
-                <p>Nom commercial : HGO Automation</p>
-                <p>Entrepreneur individuel (Auto-entrepreneur)</p>
-                <p>94250 Gentilly, France</p>
-                <p>SIRET : 908 443 120 00021</p>
-                <p>Email : <a href="mailto:hgosuportservices@gmail.com" className="text-cyan underline">hgosuportservices@gmail.com</a></p>
-                <p className="text-xs mt-2 opacity-60 italic">Non assujetti à la TVA — Article 293B du CGI</p>
+      <div className="grid md:grid-cols-3 gap-6">
+        {TESTIMONIALS.map((t, i) => (
+          <div key={i} className="glass p-8 rounded-premium flex flex-col gap-6 hover:border-cyan/30 transition-colors duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-cyan/20 border border-cyan/30 flex items-center justify-center flex-shrink-0">
+                <span className="text-xs font-bold text-cyan">{t.initials}</span>
               </div>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-cyan" /> Directeur de la publication
-              </h2>
-              <p>Hugo Fonseca</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                <Database className="w-4 h-4 text-cyan" /> Hébergement
-              </h2>
-              <p><strong>Netlify, Inc.</strong><br />512 2nd Street, Suite 200, San Francisco, CA 94107, USA</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-cyan" /> Propriété intellectuelle
-              </h2>
-              <p>L'ensemble du contenu de ce site (textes, images, code, logotypes, visuels) est la propriété exclusive de Hugo Fonseca — HGO Automation. Toute reproduction ou distribution est interdite sans autorisation écrite.</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-cyan" /> Données personnelles
-              </h2>
-              <p>Le site hgoautomation.fr collecte des données personnelles (nom, email, téléphone) via les formulaires de contact pour répondre à vos demandes. Aucune donnée n'est revendue à des tiers.</p>
-              <p className="mt-2 text-xs opacity-60 italic">Conformément au RGPD, vous disposez d'un droit d'accès et de rectification sur simple demande par email.</p>
-            </section>
+              <div>
+                <p className="font-bold text-ghost text-sm">{t.name}</p>
+                <p className="text-ghost/40 text-xs">{t.role}</p>
+              </div>
+            </div>
+            <p className="text-ghost/60 text-sm leading-relaxed flex-grow">"{t.text}"</p>
+            <div className="flex items-center gap-2 pt-4 border-t border-ghost/8">
+              <CheckCircle2 className="w-4 h-4 text-cyan flex-shrink-0" />
+              <span className="text-xs font-bold text-cyan">{t.result}</span>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
-  );
-};
+  </section>
+);
 
-const CGVModal = ({ isOpen, onClose }) => {
-  const modalRef = useRef(null);
-  const contentRef = useRef(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-      gsap.fromTo(contentRef.current, { scale: 0.9, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" });
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div ref={modalRef} className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
-      <div className="absolute inset-0 bg-void/80 backdrop-blur-md" onClick={onClose} />
-
-      <div ref={contentRef} className="relative glass w-full max-w-3xl max-h-[80vh] overflow-y-auto p-8 md:p-12 rounded-premium custom-scrollbar">
-        <div className="sticky top-0 right-0 flex justify-end -mt-4 -mr-4 mb-4">
-          <button onClick={onClose} className="text-ghost/40 hover:text-cyan transition-colors bg-void/50 p-2 rounded-full">
-            <Zap className="w-6 h-6 rotate-45" />
-          </button>
-        </div>
-
-        <div className="prose prose-invert prose-cyan max-w-none">
-          <h1 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-8">Conditions Générales de <span className="text-cyan">Vente.</span></h1>
-          <p className="text-ghost/40 text-xs mb-8 font-mono border-b border-ghost/10 pb-4 italic">Dernière mise à jour : février 2026 · Applicable à toute commande passée auprès de HGO Automation</p>
-
-          <div className="space-y-8 text-sm md:text-base font-light text-ghost/70 leading-relaxed text-left">
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 flex items-center gap-2 border-l-2 border-cyan pl-3">
-                Article 1 — Identification
-              </h2>
-              <div className="bg-void/30 p-4 rounded-xl border border-ghost/5">
-                <p><strong>Hugo Fonseca</strong>, exerçant sous le nom commercial <strong>HGO Automation</strong></p>
-                <p>Siège social : 94250 Gentilly, France</p>
-                <p>SIRET : 908 443 120 00021</p>
-                <p>Email : hgosuportservices@gmail.com</p>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 border-l-2 border-cyan pl-3">Article 2 — Objet</h2>
-              <p>Prestations d'automatisation (n8n, Make), IA, chatbots, consulting et création web.</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 border-l-2 border-cyan pl-3">Article 3 — Devis</h2>
-              <p>Devis gratuit valable 30 jours. Commande validée par signature et acompte.</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 border-l-2 border-cyan pl-3">Article 4 — Tarifs</h2>
-              <p>Franchise de TVA applicable. Acompte de 50% à la commande, solde à la livraison. Abonnements mensuels sans engagement.</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 border-l-2 border-cyan pl-3">Article 5 — Livraison</h2>
-              <p>48h pour le pack Starter. 5-10 jours pour le pack Pro.</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 border-l-2 border-cyan pl-3">Article 8 — Garantie</h2>
-              <p>Garantie "Satisfait ou Remboursé" de 30 jours sur les abonnements mensuels.</p>
-            </section>
-
-            <section>
-              <h2 className="text-ghost text-lg font-bold uppercase tracking-widest mb-3 border-l-2 border-cyan pl-3">Article 10 — Résiliation</h2>
-              <p>Sans engagement. Préavis de 30 jours par email ou WhatsApp.</p>
-            </section>
-
-            <section className="pt-8 border-t border-ghost/10">
-              <p className="text-xs opacity-50 italic">Pour toute question relative à ces CGV : hgosuportservices@gmail.com</p>
-            </section>
-          </div>
-        </div>
+const ServicesSection = ({ onOpenContact }) => (
+  <section className="py-32 px-8 md:px-24" id="services">
+    <div className="max-w-7xl mx-auto">
+      <div className="mb-16 text-center md:text-left">
+        <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6">Nos <br /><span className="text-cyan">Services.</span></h2>
+        <p className="text-ghost/60 max-w-xl text-lg font-light">6 expertises pour automatiser chaque dimension de votre activité.</p>
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {SERVICES_LIST.map(({ label, href, icon: Icon, desc }) => (
+          <Link key={href} to={href} className="group glass p-8 rounded-premium border-transparent hover:border-cyan/30 flex flex-col gap-4 transition-all duration-300 hover:shadow-lg hover:shadow-cyan/10">
+            <div className="w-12 h-12 rounded-2xl bg-cyan/10 border border-cyan/20 flex items-center justify-center group-hover:bg-cyan/20 transition-colors">
+              <Icon className="w-5 h-5 text-cyan" />
+            </div>
+            <div>
+              <h3 className="font-bold text-ghost uppercase tracking-tight text-lg mb-2">{label}</h3>
+              <p className="text-ghost/50 text-sm leading-relaxed">{desc}</p>
+            </div>
+            <div className="mt-auto flex items-center gap-2 text-cyan text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+              Découvrir <ArrowUpRight className="w-3 h-3" />
+            </div>
+          </Link>
+        ))}
+      </div>
+      <div className="mt-16 text-center">
+        <button onClick={onOpenContact} className="group relative overflow-hidden bg-cyan text-void px-10 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest transition-transform hover:scale-[1.03] active:scale-100">
+          <span className="relative z-10 flex items-center gap-2">Discuter de mon projet <ArrowUpRight className="w-4 h-4" /></span>
+          <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
+        </button>
       </div>
     </div>
-  );
-};
+  </section>
+);
 
-const Footer = ({ onOpenLegal, onOpenCGV }) => {
+const Footer = () => {
   return (
     <footer className="bg-graphite/40 backdrop-blur-sm pt-32 pb-12 px-8 md:px-24 rounded-t-[4rem]">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-24">
@@ -902,9 +597,9 @@ const Footer = ({ onOpenLegal, onOpenCGV }) => {
         <div>
           <h4 className="text-xs uppercase font-bold tracking-widest mb-6 opacity-40">Compagnie</h4>
           <ul className="space-y-4 text-ghost/60">
-            <li><a href="#" className="hover:text-cyan transition-colors font-medium">Notre Vision</a></li>
-            <li><a href="#" className="hover:text-cyan transition-colors font-medium">Services</a></li>
-            <li><a href="#impact" className="hover:text-cyan transition-colors font-medium">Tarifs</a></li>
+            <li><a href="#expertise" className="hover:text-cyan transition-colors font-medium">Notre Expertise</a></li>
+            <li><a href="#services" className="hover:text-cyan transition-colors font-medium">Services</a></li>
+            <li><a href="#processus" className="hover:text-cyan transition-colors font-medium">Processus</a></li>
             <li><Link to="/blog" className="hover:text-cyan transition-colors font-medium">Blog</Link></li>
           </ul>
         </div>
@@ -912,7 +607,7 @@ const Footer = ({ onOpenLegal, onOpenCGV }) => {
         <div>
           <h4 className="text-xs uppercase font-bold tracking-widest mb-6 opacity-40">Contact</h4>
           <ul className="space-y-4 text-ghost/60">
-            <li><a href="https://www.linkedin.com/public-profile/settings/?trk=d_flagship3_profile_self_view_public_profile&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BfO%2FVlMcyQ0qBHjZZUBojUw%3D%3D" target="_blank" rel="noopener noreferrer" className="hover:text-cyan transition-colors font-medium">LinkedIn</a></li>
+            <li><a href="https://www.linkedin.com/in/hugo-fonseca-hgo" target="_blank" rel="noopener noreferrer" className="hover:text-cyan transition-colors font-medium">LinkedIn</a></li>
             <li><a href="mailto:hgosuportservices@gmail.com" className="hover:text-cyan transition-colors text-cyan font-bold underline underline-offset-4">hgosuportservices@gmail.com</a></li>
           </ul>
         </div>
@@ -926,8 +621,8 @@ const Footer = ({ onOpenLegal, onOpenCGV }) => {
         <div className="text-[10px] font-mono opacity-40 flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4 uppercase">
           <span>© 2026 Hugo Fonseca — HGO Automation. SIRET 908 443 120 00021</span>
           <div className="flex gap-6">
-            <button onClick={onOpenLegal} className="hover:text-cyan transition-colors">Mentions Légales</button>
-            <button onClick={onOpenCGV} className="hover:text-cyan transition-colors">CGV</button>
+            <Link to="/mentions-legales" className="hover:text-cyan transition-colors">Mentions Légales</Link>
+            <Link to="/cgv" className="hover:text-cyan transition-colors">CGV</Link>
           </div>
         </div>
       </div>
@@ -936,18 +631,12 @@ const Footer = ({ onOpenLegal, onOpenCGV }) => {
 };
 
 function App() {
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isLegalOpen, setIsLegalOpen] = useState(false);
-  const [isCGVOpen, setIsCGVOpen] = useState(false);
+  const { open: openContact } = useContact();
 
   return (
     <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30">
-      <Navbar onOpenContact={() => setIsContactOpen(true)} />
-      <Hero onOpenContact={() => setIsContactOpen(true)} />
-
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-      <LegalModal isOpen={isLegalOpen} onClose={() => setIsLegalOpen(false)} />
-      <CGVModal isOpen={isCGVOpen} onClose={() => setIsCGVOpen(false)} />
+      <Navbar onOpenContact={openContact} />
+      <Hero onOpenContact={openContact} />
 
       <section className="py-32 px-8 md:px-24" id="expertise">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
@@ -979,8 +668,9 @@ function App() {
 
       <Philosophy />
       <ProtocolSection />
-      <Pricing onOpenContact={() => setIsContactOpen(true)} />
-      <Footer onOpenLegal={() => setIsLegalOpen(true)} onOpenCGV={() => setIsCGVOpen(true)} />
+      <Testimonials />
+      <ServicesSection onOpenContact={openContact} />
+      <Footer />
     </main>
   );
 }
