@@ -172,9 +172,9 @@ const Hero = ({ onOpenContact }) => {
       </div>
 
       <div className="max-w-5xl">
-        <h1 className="hero-up flex flex-col leading-[0.85] tracking-tighter">
-          <span className="text-7xl md:text-[11rem] font-serif italic text-cyan">L'IA au-delà</span>
-          <span className="text-7xl md:text-[11rem] font-serif italic text-ghost">des Limites.</span>
+        <h1 className="hero-up flex flex-col leading-[0.9] tracking-tighter">
+          <span className="text-6xl md:text-[8rem] font-serif italic text-cyan">L'automatisation</span>
+          <span className="text-6xl md:text-[8rem] font-serif italic text-ghost">au-delà des Limites.</span>
         </h1>
 
         <p className="hero-up mt-8 text-lg max-w-xl text-ghost/60 font-sans font-light leading-relaxed">
