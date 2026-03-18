@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Clock, ChevronRight } from 'lucide-react';
 import { articles } from '../data/articles';
+import SharedNav from '../components/SharedNav';
 
 const Logo = () => (
   <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-cyan shadow-xl shadow-cyan/20 overflow-hidden">
@@ -47,21 +48,17 @@ export default function BlogPage() {
         <meta property="og:description" content="Guides pratiques, comparatifs et tutoriels sur l'automatisation d'entreprise avec n8n, Make et l'IA." />
         <meta property="og:url" content="https://hgoautomation.fr/blog" />
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:image" content="https://hgoautomation.fr/og-cover.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Blog Automatisation & IA — HGO Automation" />
+        <meta name="twitter:description" content="Guides pratiques, comparatifs et tutoriels sur l'automatisation d'entreprise avec n8n, Make et l'IA." />
+        <meta name="twitter:image" content="https://hgoautomation.fr/og-cover.png" />
         <link rel="canonical" href="https://hgoautomation.fr/blog" />
       </Helmet>
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-8 py-3 px-8 rounded-full border border-ghost/10 bg-void/60 backdrop-blur-xl w-[90%] max-w-4xl">
-        <Link to="/" className="text-xl font-bold tracking-tighter flex items-center gap-3">
-          <Logo />
-          <span className="font-sans uppercase tracking-widest text-sm md:text-base">HGOAutomation</span>
-        </Link>
-        <div className="hidden md:flex items-center gap-6 ml-auto">
-          <Link to="/" className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">Accueil</Link>
-          <Link to="/blog" className="text-xs font-sans font-medium uppercase tracking-widest text-cyan">Blog</Link>
-        </div>
-        <Link to="/" className="hidden md:flex ml-4 bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest">
-          Démarrer
-        </Link>
-      </nav>
+      <SharedNav />
 
       <div className="max-w-6xl mx-auto px-8 md:px-16 pt-40 pb-32">
         <div className="fade-in mb-20">

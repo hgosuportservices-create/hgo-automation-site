@@ -26,7 +26,9 @@ import {
 } from 'lucide-react';
 import { cn } from './lib/utils';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // --- Brand Logo Component ---
 const Logo = ({ className }) => (
@@ -234,6 +236,8 @@ const Hero = ({ onOpenContact }) => {
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
           alt="Technologie Bleue Abstraite"
           className="w-full h-full object-cover opacity-60"
+          loading="eager"
+          fetchPriority="high"
         />
         {/* Gradients for perfect blending */}
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent pointer-events-none" />
