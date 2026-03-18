@@ -20,7 +20,9 @@ import {
   Search,
   MessageSquare,
   Package,
-  LayoutDashboard
+  LayoutDashboard,
+  Menu,
+  X
 } from 'lucide-react';
 import { cn } from './lib/utils';
 
@@ -71,6 +73,7 @@ const NAV_SERVICES = [
 const Navbar = ({ onOpenContact }) => {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -87,56 +90,123 @@ const Navbar = ({ onOpenContact }) => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  return (
-    <nav className={cn(
-      "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out flex items-center gap-6 py-3 px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl",
-      scrolled ? "bg-void/60 backdrop-blur-xl py-4" : "bg-transparent text-ghost"
-    )}>
-      <div className="text-xl font-bold tracking-tighter flex items-center gap-3">
-        <Logo className="w-8 h-8 rounded-lg" />
-        <span className="font-sans uppercase tracking-widest text-sm md:text-base">HGOAutomation</span>
-      </div>
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
-      <div className="hidden md:flex items-center gap-5 ml-auto">
-        {/* Services dropdown */}
-        <div ref={dropdownRef} className="relative">
-          <button
-            onClick={() => setServicesOpen(v => !v)}
-            className="flex items-center gap-1 text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors"
-          >
-            Services
-            <ChevronRight className={cn("w-3 h-3 transition-transform duration-200", servicesOpen ? "rotate-90" : "")} />
-          </button>
-          {servicesOpen && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-2 shadow-2xl">
-              {NAV_SERVICES.map(({ label, href }) => (
-                <Link key={href} to={href} onClick={() => setServicesOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors text-sm text-ghost/70">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan/40 flex-shrink-0" />
-                  {label}
-                </Link>
-              ))}
-            </div>
-          )}
+  return (
+    <>
+      <nav className={cn(
+        "fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out flex items-center gap-6 py-3 px-6 md:px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl",
+        scrolled ? "bg-void/60 backdrop-blur-xl py-4" : "bg-transparent text-ghost"
+      )}>
+        <div className="text-xl font-bold tracking-tighter flex items-center gap-3">
+          <Logo className="w-8 h-8 rounded-lg" />
+          <span className="font-sans uppercase tracking-widest text-sm md:text-base">HGOAutomation</span>
         </div>
 
-        {[{ label: 'Expertise', id: 'expertise' }, { label: 'Processus', id: 'processus' }, { label: 'Services', id: 'services' }].map((item) => (
-          <a key={item.id} href={`#${item.id}`} className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
-            {item.label}
-          </a>
-        ))}
-        <Link to="/blog" className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
-          Blog
-        </Link>
-      </div>
+        <div className="hidden md:flex items-center gap-5 ml-auto">
+          {/* Services dropdown */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setServicesOpen(v => !v)}
+              className="flex items-center gap-1 text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors"
+            >
+              Services
+              <ChevronRight className={cn("w-3 h-3 transition-transform duration-200", servicesOpen ? "rotate-90" : "")} />
+            </button>
+            {servicesOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-2 shadow-2xl">
+                {NAV_SERVICES.map(({ label, href }) => (
+                  <Link key={href} to={href} onClick={() => setServicesOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors text-sm text-ghost/70">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan/40 flex-shrink-0" />
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
 
-      <button
-        onClick={onOpenContact}
-        className="hidden md:flex ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
-      >
-        <span className="relative z-10">Démarrer</span>
-        <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
-      </button>
-    </nav>
+          {[{ label: 'Expertise', id: 'expertise' }, { label: 'Processus', id: 'processus' }, { label: 'Services', id: 'services' }].map((item) => (
+            <a key={item.id} href={`#${item.id}`} className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
+              {item.label}
+            </a>
+          ))}
+          <Link to="/blog" className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">
+            Blog
+          </Link>
+        </div>
+
+        <button
+          onClick={onOpenContact}
+          className="hidden md:flex ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
+        >
+          <span className="relative z-10">Démarrer</span>
+          <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
+        </button>
+
+        {/* Hamburger button - mobile only */}
+        <button
+          onClick={() => setMenuOpen(v => !v)}
+          className="md:hidden ml-auto p-2 rounded-xl hover:bg-ghost/10 transition-colors"
+          aria-label="Menu"
+        >
+          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-void/95 backdrop-blur-xl flex flex-col pt-28 pb-8 px-6 overflow-y-auto">
+          <div className="flex flex-col gap-2">
+            <p className="text-[10px] font-mono text-cyan/60 uppercase tracking-widest mb-2">Services</p>
+            {NAV_SERVICES.map(({ label, href }) => (
+              <Link
+                key={href}
+                to={href}
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-cyan/10 hover:text-cyan transition-colors text-base text-ghost/70 border border-ghost/5"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan/40 flex-shrink-0" />
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-2 mt-6">
+            {[{ label: 'Notre Expertise', id: 'expertise' }, { label: 'Processus', id: 'processus' }, { label: 'Services', id: 'services' }].map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={() => setMenuOpen(false)}
+                className="px-4 py-4 text-base font-medium uppercase tracking-widest hover:text-cyan transition-colors border-b border-ghost/5"
+              >
+                {item.label}
+              </a>
+            ))}
+            <Link
+              to="/blog"
+              onClick={() => setMenuOpen(false)}
+              className="px-4 py-4 text-base font-medium uppercase tracking-widest hover:text-cyan transition-colors border-b border-ghost/5"
+            >
+              Blog
+            </Link>
+          </div>
+
+          <button
+            onClick={() => { setMenuOpen(false); onOpenContact(); }}
+            className="mt-8 w-full bg-cyan text-void py-4 rounded-full text-sm font-extrabold uppercase tracking-widest"
+          >
+            Démarrer mon projet
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -157,7 +227,7 @@ const Hero = ({ onOpenContact }) => {
   }, []);
 
   return (
-    <section ref={container} className="relative h-screen flex flex-col justify-end pb-24 px-8 md:px-24 overflow-hidden">
+    <section ref={container} className="relative min-h-screen flex flex-col justify-end pb-16 md:pb-24 px-6 md:px-24 overflow-hidden">
       {/* Hero Image - Atmos bleu/teal pour coller au logo */}
       <div className="absolute inset-0 -z-10">
         <img
@@ -173,28 +243,28 @@ const Hero = ({ onOpenContact }) => {
 
       <div className="max-w-5xl">
         <h1 className="hero-up flex flex-col leading-[0.9] tracking-tighter">
-          <span className="text-6xl md:text-[8rem] font-serif italic text-cyan">L'automatisation</span>
-          <span className="text-6xl md:text-[8rem] font-serif italic text-ghost">au-delà des Limites.</span>
+          <span className="text-[2.8rem] sm:text-6xl md:text-[8rem] font-serif italic text-cyan">L'automatisation</span>
+          <span className="text-[2.8rem] sm:text-6xl md:text-[8rem] font-serif italic text-ghost">au-delà des Limites.</span>
         </h1>
 
-        <p className="hero-up mt-8 text-lg max-w-xl text-ghost/60 font-sans font-light leading-relaxed">
+        <p className="hero-up mt-6 md:mt-8 text-base md:text-lg max-w-xl text-ghost/60 font-sans font-light leading-relaxed">
           HGO Automation conçoit des écosystèmes intelligents qui transforment votre modèle économique — CRM, agents IA, n8n, WhatsApp. Opérationnel en moins d'une semaine.
         </p>
 
-        <div className="hero-up mt-12 flex flex-wrap gap-4">
+        <div className="hero-up mt-8 md:mt-12 flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4">
           <button
             onClick={onOpenContact}
-            className="group relative overflow-hidden bg-cyan text-void px-8 py-4 rounded-full text-sm md:text-base font-extrabold uppercase tracking-widest transition-transform hover:scale-[1.03] active:scale-100"
+            className="group relative overflow-hidden bg-cyan text-void px-6 md:px-8 py-3.5 md:py-4 rounded-full text-sm font-extrabold uppercase tracking-widest transition-transform hover:scale-[1.03] active:scale-100 text-center"
           >
             <span className="relative z-10">Planifier un appel de découverte</span>
             <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
           </button>
-          <button onClick={onOpenContact} className="group px-8 py-4 rounded-full text-sm md:text-base font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan transition-colors flex items-center gap-2">
-            Discuter de mon projet <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          <button onClick={onOpenContact} className="group px-6 md:px-8 py-3.5 md:py-4 rounded-full text-sm font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan transition-colors flex items-center justify-center gap-2">
+            Discuter de mon projet <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
         </div>
 
-        <div className="hero-up mt-12 flex flex-wrap gap-8 pt-8 border-t border-ghost/10">
+        <div className="hero-up mt-8 md:mt-12 flex flex-wrap gap-6 md:gap-8 pt-6 md:pt-8 border-t border-ghost/10">
           {[
             { value: '5 jours', label: 'Délai de livraison moyen' },
             { value: '100%', label: 'Projets livrés dans les délais' },
@@ -368,19 +438,19 @@ const Philosophy = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 px-8 md:px-24 relative overflow-hidden">
+    <section ref={sectionRef} className="py-20 md:py-32 px-6 md:px-24 relative overflow-hidden">
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-cyan/5 to-void opacity-50 pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto flex flex-col gap-12">
+      <div className="max-w-6xl mx-auto flex flex-col gap-10 md:gap-12">
         <div className="reveal-text">
           <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">Manifeste</p>
-          <h4 className="text-2xl md:text-3xl font-light text-ghost/40 leading-relaxed max-w-3xl">
+          <h4 className="text-xl md:text-3xl font-light text-ghost/40 leading-relaxed max-w-3xl">
             La plupart des automatisations se contentent de scripts basiques. Nous concevons des écosystèmes performants.
           </h4>
         </div>
 
         <div className="reveal-text">
-          <h2 className="text-5xl md:text-8xl leading-none tracking-tighter uppercase">
+          <h2 className="text-4xl sm:text-5xl md:text-8xl leading-none tracking-tighter uppercase">
             Focus sur la <br />
             <span className="font-serif italic text-cyan">Performance Intelligente.</span>
           </h2>
@@ -464,12 +534,12 @@ const ProtocolSection = () => {
   return (
     <div ref={container} className="bg-transparent" id="processus">
       {steps.map((step, i) => (
-        <div key={i} className="stacking-card px-8 md:px-24">
-          <div className="glass w-full max-w-5xl p-12 md:p-24 rounded-premium flex flex-col md:flex-row gap-12 items-center">
-            <div className="flex-1 flex flex-col gap-6">
-              <span className="font-mono text-cyan text-2xl">{step.num}</span>
-              <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight leading-none">{step.title}</h2>
-              <p className="text-ghost/60 text-lg font-light leading-relaxed max-w-md">{step.desc}</p>
+        <div key={i} className="stacking-card px-4 md:px-24">
+          <div className="glass w-full max-w-5xl p-6 sm:p-12 md:p-24 rounded-premium flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+            <div className="flex-1 flex flex-col gap-4 md:gap-6">
+              <span className="font-mono text-cyan text-xl md:text-2xl">{step.num}</span>
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-tight leading-none">{step.title}</h2>
+              <p className="text-ghost/60 text-base md:text-lg font-light leading-relaxed max-w-md">{step.desc}</p>
             </div>
             <div className="flex-1 flex justify-center">
               <step.Animation />
@@ -515,11 +585,11 @@ const TESTIMONIALS = [
 ];
 
 const Testimonials = () => (
-  <section className="py-32 px-8 md:px-24 bg-graphite/20">
+  <section className="py-20 md:py-32 px-6 md:px-24 bg-graphite/20">
     <div className="max-w-7xl mx-auto">
-      <div className="mb-16">
+      <div className="mb-10 md:mb-16">
         <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">// Ils nous font confiance</p>
-        <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter">
+        <h2 className="text-3xl md:text-6xl font-bold uppercase tracking-tighter">
           Ce que disent<br /><span className="text-cyan font-serif italic">nos clients.</span>
         </h2>
       </div>
@@ -548,11 +618,11 @@ const Testimonials = () => (
 );
 
 const ServicesSection = ({ onOpenContact }) => (
-  <section className="py-32 px-8 md:px-24" id="services">
+  <section className="py-20 md:py-32 px-6 md:px-24" id="services">
     <div className="max-w-7xl mx-auto">
-      <div className="mb-16 text-center md:text-left">
-        <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6">Nos <br /><span className="text-cyan">Services.</span></h2>
-        <p className="text-ghost/60 max-w-xl text-lg font-light">6 expertises pour automatiser chaque dimension de votre activité.</p>
+      <div className="mb-10 md:mb-16 text-center md:text-left">
+        <h2 className="text-4xl md:text-7xl font-bold uppercase tracking-tighter mb-4 md:mb-6">Nos <br /><span className="text-cyan">Services.</span></h2>
+        <p className="text-ghost/60 max-w-xl text-base md:text-lg font-light">6 expertises pour automatiser chaque dimension de votre activité.</p>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {SERVICES_LIST.map(({ label, href, icon: Icon, desc }) => (
@@ -582,8 +652,8 @@ const ServicesSection = ({ onOpenContact }) => (
 
 const Footer = () => {
   return (
-    <footer className="bg-graphite/40 backdrop-blur-sm pt-32 pb-12 px-8 md:px-24 rounded-t-[4rem]">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-24">
+    <footer className="bg-graphite/40 backdrop-blur-sm pt-16 md:pt-32 pb-12 px-6 md:px-24 rounded-t-[2rem] md:rounded-t-[4rem]">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-16 md:mb-24">
         <div className="col-span-2">
           <div className="text-3xl font-bold tracking-tighter flex items-center gap-3 mb-6">
             <Logo className="w-10 h-10" />
@@ -638,7 +708,7 @@ function App() {
       <Navbar onOpenContact={openContact} />
       <Hero onOpenContact={openContact} />
 
-      <section className="py-32 px-8 md:px-24" id="expertise">
+      <section className="py-20 md:py-32 px-6 md:px-24" id="expertise">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
           <FeatureCard
             title="Workflows sur mesure"

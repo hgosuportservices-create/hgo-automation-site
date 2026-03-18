@@ -81,6 +81,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Fix background-attachment: fixed sur iOS Safari */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 @keyframes float {
 
   0%,

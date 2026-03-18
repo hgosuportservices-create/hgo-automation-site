@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, Zap, Activity, MessageSquare, Cpu, Database, LayoutDashboard } from 'lucide-react';
+import { ChevronRight, Zap, Activity, MessageSquare, Cpu, Database, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useContact } from '../context/ContactContext';
 
 const Logo = () => (
@@ -29,6 +29,7 @@ export default function SharedNav() {
   const { open } = useContact();
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
 
@@ -40,6 +41,7 @@ export default function SharedNav() {
 
   useEffect(() => {
     setServicesOpen(false);
+    setMenuOpen(false);
   }, [location]);
 
   useEffect(() => {
@@ -52,51 +54,106 @@ export default function SharedNav() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  return (
-    <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 flex items-center gap-6 py-3 px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl ${scrolled ? 'bg-void/60 backdrop-blur-xl' : 'bg-void/40 backdrop-blur-md'}`}>
-      <Link to="/" className="flex items-center gap-3 flex-shrink-0">
-        <Logo />
-        <span className="font-sans uppercase tracking-widest text-sm font-bold hidden md:block">HGOAutomation</span>
-      </Link>
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
-      <div className="hidden md:flex items-center gap-5 ml-auto">
-        {/* Services dropdown */}
-        <div ref={dropdownRef} className="relative">
-          <button
-            onClick={() => setServicesOpen(v => !v)}
-            className="flex items-center gap-1 text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors"
-          >
-            Services
-            <ChevronRight className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? 'rotate-90' : ''}`} />
-          </button>
-          {servicesOpen && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-2 shadow-2xl">
-              {services.map(({ label, href, icon: Icon }) => (
-                <Link
-                  key={href}
-                  to={href}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors text-sm text-ghost/70"
-                >
-                  <Icon className="w-4 h-4 text-cyan/60 flex-shrink-0" />
-                  {label}
-                </Link>
-              ))}
-            </div>
-          )}
+  return (
+    <>
+      <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 flex items-center gap-6 py-3 px-6 md:px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl ${scrolled ? 'bg-void/60 backdrop-blur-xl' : 'bg-void/40 backdrop-blur-md'}`}>
+        <Link to="/" className="flex items-center gap-3 flex-shrink-0">
+          <Logo />
+          <span className="font-sans uppercase tracking-widest text-sm font-bold hidden md:block">HGOAutomation</span>
+        </Link>
+
+        <div className="hidden md:flex items-center gap-5 ml-auto">
+          {/* Services dropdown */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setServicesOpen(v => !v)}
+              className="flex items-center gap-1 text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors"
+            >
+              Services
+              <ChevronRight className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? 'rotate-90' : ''}`} />
+            </button>
+            {servicesOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-2 shadow-2xl">
+                {services.map(({ label, href, icon: Icon }) => (
+                  <Link
+                    key={href}
+                    to={href}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors text-sm text-ghost/70"
+                  >
+                    <Icon className="w-4 h-4 text-cyan/60 flex-shrink-0" />
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link to="/blog" className={`text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors ${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'text-cyan' : ''}`}>
+            Blog
+          </Link>
         </div>
 
-        <Link to="/blog" className={`text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors ${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'text-cyan' : ''}`}>
-          Blog
-        </Link>
-      </div>
+        <button
+          onClick={open}
+          className="hidden md:flex ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
+        >
+          <span className="relative z-10">Démarrer</span>
+          <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
+        </button>
 
-      <button
-        onClick={open}
-        className="hidden md:flex ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
-      >
-        <span className="relative z-10">Démarrer</span>
-        <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
-      </button>
-    </nav>
+        {/* Hamburger button - mobile only */}
+        <button
+          onClick={() => setMenuOpen(v => !v)}
+          className="md:hidden ml-auto p-2 rounded-xl hover:bg-ghost/10 transition-colors"
+          aria-label="Menu"
+        >
+          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-void/95 backdrop-blur-xl flex flex-col pt-28 pb-8 px-6 overflow-y-auto">
+          <div className="flex flex-col gap-2">
+            <p className="text-[10px] font-mono text-cyan/60 uppercase tracking-widest mb-2">Services</p>
+            {services.map(({ label, href, icon: Icon }) => (
+              <Link
+                key={href}
+                to={href}
+                className="flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-cyan/10 hover:text-cyan transition-colors text-base text-ghost/70 border border-ghost/5"
+              >
+                <Icon className="w-4 h-4 text-cyan/60 flex-shrink-0" />
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-2 mt-6">
+            <Link
+              to="/blog"
+              className="px-4 py-4 text-base font-medium uppercase tracking-widest hover:text-cyan transition-colors border-b border-ghost/5"
+            >
+              Blog
+            </Link>
+          </div>
+
+          <button
+            onClick={() => { setMenuOpen(false); open(); }}
+            className="mt-8 w-full bg-cyan text-void py-4 rounded-full text-sm font-extrabold uppercase tracking-widest"
+          >
+            Démarrer mon projet
+          </button>
+        </div>
+      )}
+    </>
   );
 }
