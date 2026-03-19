@@ -97,11 +97,13 @@ async function prerender() {
         if (tStart !== -1 && tEnd !== -1) {
           output = output.substring(0, tStart) + output.substring(tEnd + '</title>'.length);
         }
-        // Supprimer les meta og:*, twitter:*, canonical du template (seront réinjectés)
+        // Supprimer les meta og:*, twitter:*, canonical, description et JSON-LD du template (seront réinjectés)
         output = output
           .replace(/<meta\s+property="og:[^"]*"[^>]*\/?>/gi, '')
           .replace(/<meta\s+name="twitter:[^"]*"[^>]*\/?>/gi, '')
-          .replace(/<link\s+rel="canonical"[^>]*\/?>/gi, '');
+          .replace(/<meta\s+property="twitter:[^"]*"[^>]*\/?>/gi, '')
+          .replace(/<link\s+rel="canonical"[^>]*\/?>/gi, '')
+          .replace(/<script\s+type="application\/ld\+json"[\s\S]*?<\/script>/gi, '');
         // Injecter les tags Helmet dans <head>
         output = output.replace('</head>', `  ${headTags}\n</head>`);
       }

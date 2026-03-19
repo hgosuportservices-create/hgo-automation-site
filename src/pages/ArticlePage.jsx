@@ -140,7 +140,7 @@ export default function ArticlePage() {
   return (
     <main ref={containerRef} className="min-h-screen text-ghost font-sans bg-void">
       <Helmet>
-        <title>{article.title} — HGO Automation</title>
+        <title>{`${article.title} — HGO Automation`}</title>
         <meta name="description" content={article.metaDescription} />
         <meta property="og:locale" content="fr_FR" />
         <meta property="og:title" content={article.title} />
@@ -172,6 +172,15 @@ export default function ArticlePage() {
             "url": "https://hgoautomation.fr",
             "logo": { "@type": "ImageObject", "url": "https://hgoautomation.fr/hgo-logo.svg" }
           }
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://hgoautomation.fr" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://hgoautomation.fr/blog" },
+            { "@type": "ListItem", "position": 3, "name": article.title, "item": canonicalUrl }
+          ]
         })}</script>
       </Helmet>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-8 py-3 px-8 rounded-full border border-ghost/10 bg-void/60 backdrop-blur-xl w-[90%] max-w-4xl">

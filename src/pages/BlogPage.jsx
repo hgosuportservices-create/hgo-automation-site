@@ -57,6 +57,27 @@ export default function BlogPage() {
         <meta name="twitter:description" content="Guides pratiques, comparatifs et tutoriels sur l'automatisation d'entreprise avec n8n, Make et l'IA." />
         <meta name="twitter:image" content="https://hgoautomation.fr/og-cover.png" />
         <link rel="canonical" href="https://hgoautomation.fr/blog" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://hgoautomation.fr" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://hgoautomation.fr/blog" }
+          ]
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "name": "Blog Automatisation & IA — HGO Automation",
+          "description": "Guides pratiques, comparatifs et tutoriels sur l'automatisation d'entreprise avec n8n, Make et l'IA.",
+          "url": "https://hgoautomation.fr/blog",
+          "publisher": {
+            "@type": "Organization",
+            "name": "HGO Automation",
+            "url": "https://hgoautomation.fr",
+            "logo": { "@type": "ImageObject", "url": "https://hgoautomation.fr/hgo-logo.svg" }
+          }
+        })}</script>
       </Helmet>
       <SharedNav />
 

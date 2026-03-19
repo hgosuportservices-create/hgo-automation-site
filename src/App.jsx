@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useContact } from './context/ContactContext';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -709,6 +710,60 @@ function App() {
 
   return (
     <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30">
+      <Helmet>
+        <title>HGO Automation — Automatisation & IA pour PME françaises</title>
+        <meta name="description" content="HGO Automation déploie vos automatisations d'entreprise et agents IA en moins de 2 semaines. n8n, WhatsApp, CRM, dashboards. Devis gratuit sous 24h." />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:title" content="HGO Automation — Automatisation & IA pour PME françaises" />
+        <meta property="og:description" content="HGO Automation déploie vos automatisations d'entreprise et agents IA en moins de 2 semaines. Devis gratuit sous 24h." />
+        <meta property="og:url" content="https://hgoautomation.fr" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://hgoautomation.fr/og-cover.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="HGO Automation — Automatisation & IA pour PME françaises" />
+        <meta name="twitter:description" content="HGO Automation déploie vos automatisations d'entreprise et agents IA en moins de 2 semaines." />
+        <meta name="twitter:image" content="https://hgoautomation.fr/og-cover.png" />
+        <link rel="canonical" href="https://hgoautomation.fr" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "HGO Automation",
+          "description": "Agence d'automatisation d'entreprise et d'intelligence artificielle pour PME françaises. Déploiement de workflows n8n, agents IA, chatbots WhatsApp, CRM et dashboards.",
+          "url": "https://hgoautomation.fr",
+          "logo": "https://hgoautomation.fr/hgo-logo.svg",
+          "image": "https://hgoautomation.fr/og-cover.png",
+          "telephone": "+33783945296",
+          "email": "contact@hgoautomation.fr",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "FR",
+            "addressLocality": "France"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "46.2276",
+            "longitude": "2.2137"
+          },
+          "areaServed": { "@type": "Country", "name": "France" },
+          "priceRange": "€€",
+          "openingHours": "Mo-Fr 09:00-18:00",
+          "sameAs": [],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Services d'automatisation & IA",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation n8n", "url": "https://hgoautomation.fr/services/automatisation-n8n" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Agents IA", "url": "https://hgoautomation.fr/services/agent-ia" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation WhatsApp & Telegram", "url": "https://hgoautomation.fr/services/automatisation-whatsapp-telegram" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation Entreprise", "url": "https://hgoautomation.fr/services/automatisation-entreprise" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM sur mesure", "url": "https://hgoautomation.fr/services/automatisation-crm" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Applications & Dashboards", "url": "https://hgoautomation.fr/services/creation-applications-dashboards" } }
+            ]
+          }
+        })}</script>
+      </Helmet>
       <Navbar onOpenContact={openContact} />
       <Hero onOpenContact={openContact} />
 

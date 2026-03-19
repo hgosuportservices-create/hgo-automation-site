@@ -60,10 +60,39 @@ export default function ServicePage({ data }) {
           "description": data.metaDescription,
           "url": canonicalUrl,
           "provider": {
-            "@type": "ProfessionalService",
+            "@type": "LocalBusiness",
             "name": "HGO Automation",
-            "url": "https://hgoautomation.fr"
-          }
+            "url": "https://hgoautomation.fr",
+            "image": "https://hgoautomation.fr/og-cover.png",
+            "areaServed": { "@type": "Country", "name": "France" },
+            "priceRange": "€€"
+          },
+          "offers": data.pricing ? data.pricing.items.filter(p => !isNaN(parseInt(p.price))).map(p => ({
+            "@type": "Offer",
+            "name": p.label,
+            "description": p.desc,
+            "price": parseInt(p.price.replace(/\s/g, '')),
+            "priceCurrency": "EUR",
+            "url": canonicalUrl
+          })) : undefined
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": data.faq.items.map(item => ({
+            "@type": "Question",
+            "name": item.q,
+            "acceptedAnswer": { "@type": "Answer", "text": item.a }
+          }))
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://hgoautomation.fr" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://hgoautomation.fr/services" },
+            { "@type": "ListItem", "position": 3, "name": data.title, "item": canonicalUrl }
+          ]
         })}</script>
       </Helmet>
 
