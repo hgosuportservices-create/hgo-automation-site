@@ -449,9 +449,9 @@ const Philosophy = () => {
       <div className="max-w-6xl mx-auto flex flex-col gap-10 md:gap-12">
         <div className="reveal-text">
           <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">Manifeste</p>
-          <h4 className="text-xl md:text-3xl font-light text-ghost/40 leading-relaxed max-w-3xl">
+          <p className="text-xl md:text-3xl font-light text-ghost/40 leading-relaxed max-w-3xl">
             La plupart des automatisations se contentent de scripts basiques. Nous concevons des écosystèmes performants.
-          </h4>
+          </p>
         </div>
 
         <div className="reveal-text">

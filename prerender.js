@@ -64,6 +64,7 @@ const ROUTES = [
   '/blog/agent-ia-service-client-entreprise-2026',
   '/blog/tableau-de-bord-no-code-kpi-entreprise',
   '/blog/automatiser-facturation-devis-pme-2026',
+  '/blog/5-workflows-n8n-indispensables-pme-2026',
   '/services/automatisation-whatsapp-telegram',
   '/services/agent-ia',
   '/services/automatisation-n8n',

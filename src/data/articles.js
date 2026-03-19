@@ -906,5 +906,157 @@ export const articles = [
         text: "Vous voulez automatiser votre cycle de facturation ? HGO Automation analyse votre situation en appel gratuit de 30 min et déploie les workflows adaptés à votre logiciel existant. Résultat garanti ou remboursé."
       }
     ]
+  },
+  {
+    slug: "5-workflows-n8n-indispensables-pme-2026",
+    title: "5 workflows n8n indispensables pour toute PME en 2026",
+    metaDescription: "Découvrez les 5 workflows n8n les plus rentables pour une PME française : relances clients, synchronisation CRM, rapports automatiques, onboarding et qualification de leads.",
+    category: "Tutoriel",
+    readTime: "10 min",
+    date: "18 mars 2026",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1400&auto=format&fit=crop",
+    excerpt: "n8n est l'outil d'automatisation préféré des PME qui veulent aller vite sans exploser leur budget. Voici les 5 workflows que nous déployons systématiquement chez nos clients — et pourquoi ils changent tout.",
+    content: [
+      {
+        type: "intro",
+        text: "En 2026, une PME qui n'automatise pas au moins ses processus les plus répétitifs est structurellement désavantagée face à ses concurrents. n8n, l'outil d'automatisation open-source self-hosted, permet de connecter vos outils et d'automatiser vos processus sans coût de licence. Voici les 5 workflows que nous déployons chez tous nos clients — classés par retour sur investissement."
+      },
+      {
+        type: "h2",
+        text: "Workflow #1 : la relance automatique des prospects inactifs"
+      },
+      {
+        type: "paragraph",
+        text: "C'est le workflow le plus rentable, sans exception. Chaque PME a des dizaines de prospects qui ont répondu une fois puis sont devenus silencieux. Sans relance systématique, ces deals meurent. Avec n8n, vous déclenchez automatiquement une séquence de relances personnalisées (email + WhatsApp) dès qu'un prospect n'a pas répondu depuis X jours."
+      },
+      {
+        type: "list",
+        title: "Comment ça marche :",
+        items: [
+          "n8n interroge votre CRM (HubSpot, Notion, Airtable) chaque matin",
+          "Il identifie les prospects sans activité depuis 3, 7 ou 14 jours selon votre cycle de vente",
+          "Il envoie un email personnalisé via Gmail ou Brevo avec le prénom du prospect et le contexte de votre échange",
+          "Si pas de réponse sous 48h, il déclenche un message WhatsApp via l'API Business",
+          "Toute l'activité est enregistrée dans votre CRM"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Résultat observé chez nos clients : +25 à +40% de deals relancés avec succès. Un workflow qui se rembourse en moins d'un mois."
+      },
+      {
+        type: "h2",
+        text: "Workflow #2 : la synchronisation CRM → facturation en temps réel"
+      },
+      {
+        type: "paragraph",
+        text: "Combien de temps votre équipe passe-t-elle à copier des informations d'un outil à l'autre ? Un deal gagné dans HubSpot → créer manuellement la facture dans Pennylane ou QuickBooks → mettre à jour le tableau de bord → informer le chef de projet. Ce workflow n8n supprime toutes ces étapes."
+      },
+      {
+        type: "list",
+        title: "Le flux automatique :",
+        items: [
+          "Deal marqué 'Gagné' dans le CRM → n8n se déclenche en temps réel",
+          "Création automatique du devis ou de la facture dans votre logiciel comptable",
+          "Notification Slack ou Teams à l'équipe concernée",
+          "Création automatique du projet dans Notion, Asana ou ClickUp",
+          "Email de bienvenue envoyé au client avec les prochaines étapes"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Ce workflow économise en moyenne 45 minutes par deal. Pour une PME qui signe 20 deals par mois, c'est 15 heures récupérées — soit un demi-temps plein sur l'année."
+      },
+      {
+        type: "h2",
+        text: "Workflow #3 : le rapport hebdomadaire automatique"
+      },
+      {
+        type: "paragraph",
+        text: "Chaque lundi matin à 8h, votre direction reçoit un email avec le chiffre d'affaires de la semaine écoulée, les deals en cours, les tickets SAV ouverts et les KPIs opérationnels. Sans que personne n'ait passé du temps à consolider des données. Ce workflow est particulièrement apprécié des dirigeants de PME qui veulent garder le contrôle sans être dans l'opérationnel."
+      },
+      {
+        type: "list",
+        title: "Sources de données agrégées automatiquement :",
+        items: [
+          "CRM (pipeline commercial, taux de conversion, valeur du pipeline)",
+          "Logiciel comptable (CA encaissé, devis en attente, impayés)",
+          "Support client (tickets ouverts, temps de réponse moyen, NPS)",
+          "Google Analytics ou Plausible (trafic web, conversions)",
+          "Tout agrégé dans un email HTML ou un Google Slides mis à jour"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Workflow #4 : l'onboarding client entièrement automatisé"
+      },
+      {
+        type: "paragraph",
+        text: "Chaque nouveau client mérite une expérience d'onboarding parfaite. Mais créer manuellement les accès, envoyer les bons documents, planifier les appels de suivi et former le client prend des heures. Avec n8n, l'onboarding complet se déclenche en un clic dès la signature du contrat."
+      },
+      {
+        type: "list",
+        title: "Séquence d'onboarding automatique :",
+        items: [
+          "Contrat signé via DocuSign ou HelloSign → déclenchement immédiat",
+          "Email de bienvenue personnalisé avec accès à l'espace client Notion",
+          "Invitation automatique aux outils partagés (Slack, Google Drive, etc.)",
+          "Création de la fiche client dans le CRM avec toutes les informations",
+          "Planning des 3 premiers appels de suivi envoyé via Calendly",
+          "Rappel automatique J+7 pour vérifier que tout fonctionne"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Un onboarding automatisé réduit le risque de churn en début de relation : le client se sent pris en charge immédiatement. C'est aussi un signal fort de professionnalisme."
+      },
+      {
+        type: "h2",
+        text: "Workflow #5 : la qualification automatique des leads entrants"
+      },
+      {
+        type: "paragraph",
+        text: "Chaque lead qui remplit votre formulaire de contact ne vaut pas le même temps. Certains sont prêts à signer, d'autres cherchent juste des informations. Sans qualification automatique, votre équipe commerciale passe autant de temps sur les mauvais leads que sur les bons. Ce workflow change tout."
+      },
+      {
+        type: "list",
+        title: "Le processus de qualification :",
+        items: [
+          "Lead reçu via formulaire web, LinkedIn ou autre source → enregistré dans n8n",
+          "Enrichissement automatique : n8n interroge Clearbit ou Hunter.io pour compléter les données (secteur, taille d'entreprise, CA)",
+          "Score attribué selon vos critères (budget estimé, taille, secteur, urgence)",
+          "Lead A (chaud) → notification immédiate commerciale + appel sous 5 minutes",
+          "Lead B (tiède) → séquence email automatique sur 7 jours",
+          "Lead C (froid) → ajout à la newsletter mensuelle"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Nos clients constatent que leur équipe commerciale passe 60% de son temps sur les bons leads après mise en place de ce workflow, contre 30% avant. Le taux de conversion augmente mécaniquement."
+      },
+      {
+        type: "h2",
+        text: "Par où commencer ?"
+      },
+      {
+        type: "table",
+        headers: ["Workflow", "Temps de déploiement", "ROI estimé", "Difficulté"],
+        rows: [
+          ["Relances prospects", "2-3 jours", "+25-40% deals récupérés", "Facile"],
+          ["Synchro CRM → facturation", "3-4 jours", "45 min/deal économisées", "Moyenne"],
+          ["Rapport hebdomadaire", "1-2 jours", "4-8h/semaine récupérées", "Facile"],
+          ["Onboarding client", "3-5 jours", "-40% churn précoce", "Moyenne"],
+          ["Qualification leads", "4-7 jours", "+30% taux de conversion", "Avancée"]
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "La règle d'or : commencez par le workflow qui vous fait le plus souffrir. Si les relances vous prennent une heure par jour, commencez par là. Si l'administratif post-signature est votre calvaire, attaquez par la synchro CRM. n8n permet de déployer chacun de ces workflows en quelques jours — sans perturber votre activité."
+      },
+      {
+        type: "cta",
+        text: "Vous voulez déployer un de ces 5 workflows dans votre entreprise ? HGO Automation configure n8n, construit vos workflows sur mesure et forme votre équipe en moins d'une semaine. Appel découverte gratuit, sans engagement."
+      }
+    ]
   }
 ];

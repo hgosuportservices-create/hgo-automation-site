@@ -108,6 +108,13 @@
     <priority>0.80</priority>
   </url>
 
+  <url>
+    <loc>https://hgoautomation.fr/blog/5-workflows-n8n-indispensables-pme-2026</loc>
+    <lastmod>2026-03-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
   <!-- Pages légales -->
   <url>
     <loc>https://hgoautomation.fr/mentions-legales</loc>
