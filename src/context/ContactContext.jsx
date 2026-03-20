@@ -4,8 +4,15 @@ const ContactContext = createContext(null);
 
 export function ContactProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [defaultTab, setDefaultTab] = useState('form');
+
+  const open = (tab = 'form') => {
+    setDefaultTab(tab);
+    setIsOpen(true);
+  };
+
   return (
-    <ContactContext.Provider value={{ isOpen, open: () => setIsOpen(true), close: () => setIsOpen(false) }}>
+    <ContactContext.Provider value={{ isOpen, defaultTab, open, close: () => setIsOpen(false) }}>
       {children}
     </ContactContext.Provider>
   );

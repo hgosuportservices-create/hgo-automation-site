@@ -8,6 +8,16 @@
   --blue: #0066FF;
   --ghost: #F0EFF4;
   --graphite: #18181B;
+  /* Aurora color variables */
+  --black: #0A0A14;
+  --transparent: transparent;
+  --blue-500: #00D1FF;
+  --blue-400: #0066FF;
+  --blue-300: #38bdf8;
+  --indigo-300: #818cf8;
+  --violet-200: #c4b5fd;
+  --cyan-400: #22d3ee;
+  --teal-300: #5eead4;
 }
 
 @layer base {
@@ -81,12 +91,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Fix background-attachment: fixed sur iOS Safari */
-@media (max-width: 768px) {
-  body {
-    background-attachment: scroll;
-  }
-}
 
 @keyframes float {
 
@@ -114,4 +118,67 @@ html {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* ── Glow Buttons ── */
+.glow-btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.75rem;
+  border-radius: 9999px;
+  background: var(--cyan);
+  color: var(--void);
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 0 18px rgba(0, 209, 255, 0.45),
+    0 0 40px rgba(0, 209, 255, 0.2),
+    0 4px 15px rgba(0, 209, 255, 0.3);
+}
+
+.glow-btn-primary:hover {
+  transform: scale(1.04);
+  box-shadow:
+    0 0 28px rgba(0, 209, 255, 0.65),
+    0 0 60px rgba(0, 209, 255, 0.35),
+    0 6px 20px rgba(0, 209, 255, 0.4);
+}
+
+.glow-btn-primary:active,
+.glow-btn-primary[data-state="clicked"] {
+  transform: scale(0.97);
+  box-shadow:
+    0 0 12px rgba(0, 209, 255, 0.5),
+    0 0 25px rgba(0, 209, 255, 0.2);
+}
+
+.glow-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.75rem;
+  border-radius: 9999px;
+  background: transparent;
+  color: rgba(240, 239, 244, 0.65);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid rgba(240, 239, 244, 0.18);
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.3s ease;
+}
+
+.glow-btn-outline:hover {
+  border-color: rgba(0, 209, 255, 0.5);
+  color: var(--ghost);
+  box-shadow: 0 0 14px rgba(0, 209, 255, 0.15);
 }
