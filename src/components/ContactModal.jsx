@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { CheckCircle2, Zap, ArrowUpRight, Activity, Box, ChevronRight, Calendar } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -21,7 +21,7 @@ function CalendlyWidget() {
   }, []);
 
   return (
-    <div className="relative" style={{ height: '600px' }}>
+    <div className="relative" style={{ height: 'min(600px, calc(100dvh - 140px))' }}>
       {loading && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-[#0d0d1a]">
           <div className="w-9 h-9 rounded-full border-2 border-cyan/20 border-t-cyan animate-spin" />
@@ -31,7 +31,7 @@ function CalendlyWidget() {
       <div
         className="calendly-inline-widget w-full h-full"
         data-url={url}
-        style={{ minWidth: '320px', height: '600px' }}
+        style={{ minWidth: '320px', height: '100%' }}
       />
     </div>
   );
@@ -215,7 +215,7 @@ export default function ContactModal() {
                     <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40 rotate-90 pointer-events-none" />
                   </div>
                   {formData.type && {
-                    whatsapp: <p className="text-[10px] text-cyan/60 ml-2 mt-1">À partir de 990€ — Déployé en 3-5 jours</p>,
+                    whatsapp: <p className="text-[10px] text-cyan/60 ml-2 mt-1">À partir de 990€ — Déployé en 2 semaines</p>,
                     ia: <p className="text-[10px] text-cyan/60 ml-2 mt-1">À partir de 1 500€ — Agent IA en 2 semaines</p>,
                     n8n: <p className="text-[10px] text-cyan/60 ml-2 mt-1">À partir de 490€ — Hébergement self-hosted inclus</p>,
                     entreprise: <p className="text-[10px] text-cyan/60 ml-2 mt-1">À partir de 800€ — Diagnostic gratuit de 30 min</p>,

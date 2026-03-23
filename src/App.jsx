@@ -19,7 +19,6 @@ import {
   Box,
   Monitor,
   Database,
-  Search,
   MessageSquare,
   Package,
   LayoutDashboard,
@@ -377,7 +376,7 @@ const Hero = ({ onOpenContact }) => {
 
         {/* Stats */}
         <motion.div
-          className="flex items-center gap-8 text-sm text-ghost/40"
+          className="flex flex-wrap items-center justify-center gap-6 md:gap-8 text-sm text-ghost/40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
@@ -385,7 +384,7 @@ const Hero = ({ onOpenContact }) => {
           {[
             { value: '50+', label: 'Clients accompagnés' },
             { value: '500+', label: 'Workflows automatisés' },
-            { value: '5 jours', label: 'Délai de livraison' },
+            { value: '2 semaines', label: 'Délai de livraison' },
           ].map((stat, i, arr) => (
             <React.Fragment key={i}>
               <div className="flex flex-col items-center gap-0.5">
