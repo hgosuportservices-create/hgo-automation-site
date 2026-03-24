@@ -84,7 +84,7 @@ async function prerender() {
 
   for (const url of ROUTES) {
     try {
-      const { html, helmet } = render(url);
+      const { html } = render(url);
       let output = template;
 
       // react-helmet-async v3 + React 19 rend les Helmet tags INLINE au début du HTML.
@@ -103,10 +103,17 @@ async function prerender() {
           .replace(/<meta\s+property="og:[^"]*"[^>]*\/?>/gi, '')
           .replace(/<meta\s+name="twitter:[^"]*"[^>]*\/?>/gi, '')
           .replace(/<meta\s+property="twitter:[^"]*"[^>]*\/?>/gi, '')
+          .replace(/<meta\s+name="description"[^>]*\/?>/gi, '')
           .replace(/<link\s+rel="canonical"[^>]*\/?>/gi, '')
           .replace(/<script\s+type="application\/ld\+json"[\s\S]*?<\/script>/gi, '');
+        // Ajouter data-rh="true" aux tags SSR pour que react-helmet-async client
+        // les reconnaisse et les remplace sans créer de doublons à l'hydratation
+        const taggedHeadTags = headTags
+          .replace(/<meta\s/g, '<meta data-rh="true" ')
+          .replace(/<link\s(?!rel="preload")/g, '<link data-rh="true" ')
+          .replace(/<title>/g, '<title data-rh="true">');
         // Injecter les tags Helmet dans <head>
-        output = output.replace('</head>', `  ${headTags}\n</head>`);
+        output = output.replace('</head>', `  ${taggedHeadTags}\n</head>`);
       }
 
       // Injecter le HTML du corps dans #root
