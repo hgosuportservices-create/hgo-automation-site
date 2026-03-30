@@ -1,4 +1,7 @@
 # Redirections 301 vers les bonnes URLs
 /blog/make-vs-n8n-2026 /blog/make-vs-n8n-2026-lequel-choisir 301
+/blog/make-vs-n8n-2026/ /blog/make-vs-n8n-2026-lequel-choisir 301
+/n8n-vs-zapier-comparatif-2026 /blog/n8n-vs-zapier-comparatif-2026 301
+/n8n-vs-zapier-comparatif-2026/ /blog/n8n-vs-zapier-comparatif-2026 301
 
 /* /index.html 200
