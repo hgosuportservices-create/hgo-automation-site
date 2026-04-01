@@ -12,15 +12,31 @@ function toISO(frDate) {
 }
 
 const Logo = () => (
-  <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-cyan shadow-xl shadow-cyan/20 overflow-hidden">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white">
-      <path d="M12 2L4 7v10l8 5 8-5V7l-8-5z" fill="white" fillOpacity="0.1" />
-      <path d="M12 2L4 7l8 5 8-5-8-5z" fill="white" fillOpacity="0.2" />
-      <path d="M12 2L4 7v10l8 5 8-5V7l-8-5z" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M12 22V12" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M4 7l8 5 8-5" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="12" cy="12" r="1.5" fill="white" />
+  <div className="flex items-center gap-0 leading-none select-none">
+    <svg width="34" height="51" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+      <line x1="32" y1="4" x2="32" y2="56" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
+      <line x1="32" y1="10" x2="6" y2="10" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.45" />
+      <circle cx="5" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
+      <line x1="32" y1="18" x2="14" y2="18" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
+      <line x1="14" y1="18" x2="14" y2="23" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
+      <circle cx="14" cy="24" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
+      <line x1="32" y1="26" x2="2" y2="26" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
+      <circle cx="2" cy="26" r="1.5" fill="#00E5FF" fillOpacity="0.7" />
+      <line x1="32" y1="34" x2="20" y2="34" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
+      <line x1="20" y1="34" x2="20" y2="38" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
+      <circle cx="20" cy="39" r="1.2" fill="#00E5FF" fillOpacity="0.45" />
+      <line x1="32" y1="42" x2="8" y2="42" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
+      <circle cx="7" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.55" />
+      <line x1="32" y1="50" x2="16" y2="50" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.3" />
+      <circle cx="15" cy="50" r="1.2" fill="#00E5FF" fillOpacity="0.4" />
+      <circle cx="32" cy="26" r="2" fill="#00E5FF" fillOpacity="0.8" />
+      <circle cx="32" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
+      <circle cx="32" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
     </svg>
+    <div className="flex flex-col items-start leading-none">
+      <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.04em', lineHeight: 1, color: '#00E5FF', fontWeight: 800, fontSize: '1.45rem', textShadow: '0 0 24px rgba(0,229,255,0.45), 0 0 6px rgba(0,229,255,0.3)' }}>HGO</span>
+      <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '0.25em', lineHeight: 1.2, color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: '0.38rem', textTransform: 'uppercase', marginTop: '2px' }}>AUTOMATION</span>
+    </div>
   </div>
 );
 
@@ -184,9 +200,8 @@ export default function ArticlePage() {
         })}</script>
       </Helmet>
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-8 py-3 px-8 rounded-full border border-ghost/10 bg-void/60 backdrop-blur-xl w-[90%] max-w-4xl">
-        <Link to="/" className="text-xl font-bold tracking-tighter flex items-center gap-3">
+        <Link to="/" className="flex items-center">
           <Logo />
-          <span className="font-sans uppercase tracking-widest text-sm md:text-base">HGOAutomation</span>
         </Link>
         <div className="hidden md:flex items-center gap-6 ml-auto">
           <Link to="/" className="text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors">Accueil</Link>

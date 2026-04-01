@@ -34,35 +34,62 @@ if (typeof window !== 'undefined') {
 }
 
 // --- Brand Logo Component ---
-const Logo = ({ className }) => (
-  <div className={cn("relative flex items-center justify-center w-12 h-12 rounded-xl bg-cyan shadow-xl shadow-cyan/20 group overflow-hidden", className)}>
-    {/* Glass Shine */}
-    <div className="absolute top-0 left-0 w-full h-[50%] bg-white/20 -skew-y-12 translate-y-[-50%] group-hover:translate-y-[150%] transition-transform duration-1000" />
+const CircuitLines = ({ scale = 1 }) => (
+  <svg
+    width={40 * scale} height={60 * scale}
+    viewBox="0 0 40 60"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ flexShrink: 0 }}
+  >
+    {/* Ligne verticale principale */}
+    <line x1="32" y1="4" x2="32" y2="56" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
+    {/* Branches horizontales gauche avec dots */}
+    <line x1="32" y1="10" x2="6" y2="10" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.45" />
+    <circle cx="5" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
 
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
-    >
-      {/* 3D Volumetric Cube */}
-      <path d="M12 2L4 7v10l8 5 8-5V7l-8-5z" fill="white" fillOpacity="0.1" />
-      <path d="M12 2L4 7l8 5 8-5-8-5z" fill="white" fillOpacity="0.2" /> {/* Top Face */}
-      <path d="M12 22V12l8-5v10l-8 5z" fill="white" fillOpacity="0.05" /> {/* Right Face */}
+    <line x1="32" y1="18" x2="14" y2="18" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
+    <line x1="14" y1="18" x2="14" y2="23" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
+    <circle cx="14" cy="24" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
 
-      {/* Wireframe edges for definition */}
-      <path d="M12 2L4 7v10l8 5 8-5V7l-8-5z" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M12 22V12" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M4 7l8 5 8-5" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
+    <line x1="32" y1="26" x2="2" y2="26" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
+    <circle cx="2" cy="26" r="1.5" fill="#00E5FF" fillOpacity="0.7" />
 
-      {/* Glowing Core */}
-      <circle cx="12" cy="12" r="1.5" fill="white" className="animate-pulse" />
-      <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="0.5" strokeDasharray="1 1" opacity="0.5" />
-    </svg>
+    <line x1="32" y1="34" x2="20" y2="34" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
+    <line x1="20" y1="34" x2="20" y2="38" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
+    <circle cx="20" cy="39" r="1.2" fill="#00E5FF" fillOpacity="0.45" />
 
-    <div className="absolute inset-0 rounded-xl border border-white/30" />
-  </div>
+    <line x1="32" y1="42" x2="8" y2="42" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
+    <circle cx="7" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.55" />
+
+    <line x1="32" y1="50" x2="16" y2="50" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.3" />
+    <circle cx="15" cy="50" r="1.2" fill="#00E5FF" fillOpacity="0.4" />
+
+    {/* Dot sur la ligne principale */}
+    <circle cx="32" cy="26" r="2" fill="#00E5FF" fillOpacity="0.8" />
+    <circle cx="32" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
+    <circle cx="32" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
+  </svg>
 );
+
+const Logo = ({ className, size = 'md' }) => {
+  const scale = size === 'xl' ? 1.8 : size === 'lg' ? 1.2 : size === 'sm' ? 0.65 : 0.85;
+  const fontSize = size === 'xl' ? '2.8rem' : size === 'lg' ? '1.8rem' : size === 'sm' ? '1.1rem' : '1.45rem';
+  const subSize = size === 'xl' ? '0.62rem' : size === 'lg' ? '0.42rem' : size === 'sm' ? '0.32rem' : '0.38rem';
+  return (
+    <div className={cn("flex items-center gap-0 leading-none select-none", className)}>
+      <CircuitLines scale={scale} />
+      <div className="flex flex-col items-start leading-none">
+        <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.04em', lineHeight: 1, color: '#00E5FF', fontWeight: 800, fontSize, textShadow: '0 0 24px rgba(0,229,255,0.45), 0 0 6px rgba(0,229,255,0.3)' }}>
+          HGO
+        </span>
+        <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '0.25em', lineHeight: 1.2, color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: subSize, textTransform: 'uppercase', marginTop: '2px' }}>
+          AUTOMATION
+        </span>
+      </div>
+    </div>
+  );
+};
 
 // --- Components ---
 
@@ -113,9 +140,8 @@ const Navbar = ({ onOpenContact }) => {
       {/* Desktop — tubelight pill centré */}
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-2">
         {/* Logo */}
-        <div className="flex items-center gap-2 bg-void/40 backdrop-blur-xl border border-ghost/10 rounded-full py-2 px-4 mr-2">
-          <Logo className="w-7 h-7 rounded-lg" />
-          <span className="font-sans uppercase tracking-widest text-xs font-bold">HGOAutomation</span>
+        <div className="flex items-center bg-void/40 backdrop-blur-xl border border-ghost/10 rounded-full py-2 px-4 mr-2">
+          <Logo size="md" />
         </div>
 
         {/* Tubelight pill */}
@@ -214,9 +240,8 @@ const Navbar = ({ onOpenContact }) => {
 
       {/* Mobile — barre du haut compacte */}
       <nav className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4 py-3 bg-void/80 backdrop-blur-xl border-b border-ghost/10">
-        <div className="flex items-center gap-2">
-          <Logo className="w-7 h-7 rounded-lg" />
-          <span className="font-sans uppercase tracking-widest text-xs font-bold">HGO</span>
+        <div className="flex items-center">
+          <Logo size="md" />
         </div>
         <button
           onClick={() => setMenuOpen(v => !v)}
@@ -862,9 +887,8 @@ const Footer = () => {
     <footer className="bg-graphite/40 backdrop-blur-sm pt-16 md:pt-32 pb-12 px-6 md:px-24 rounded-t-[2rem] md:rounded-t-[4rem]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-16 md:mb-24">
         <div className="col-span-2">
-          <div className="text-3xl font-bold tracking-tighter flex items-center gap-3 mb-6">
-            <Logo className="w-10 h-10" />
-            <span className="font-sans uppercase">HGOAutomation</span>
+          <div className="flex items-center mb-6">
+            <Logo size="xl" />
           </div>
           <p className="text-ghost/40 max-w-sm font-light leading-relaxed">
             Redéfinir les frontières de l'efficacité opérationnelle par l'automatisation intelligente. L'avenir appartient aux systèmes qui apprennent.
