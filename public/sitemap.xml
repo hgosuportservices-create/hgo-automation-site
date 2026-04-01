@@ -114,6 +114,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
+  <url>
+    <loc>https://hgoautomation.fr/blog/5-goulots-etranglement-pme-automatisation-2026</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
 
   <!-- Pages légales exclues du sitemap (noindex) -->
 </urlset>
