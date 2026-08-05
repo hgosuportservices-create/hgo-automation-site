@@ -4,7 +4,7 @@ export const articles = [
     title: "Make vs n8n en 2026 : lequel choisir pour votre entreprise ?",
     metaDescription: "Comparatif complet Make (Integromat) vs n8n en 2026 : prix, fonctionnalités, cas d'usage. Découvrez quel outil d'automatisation convient le mieux à votre PME.",
     category: "Comparatif",
-    readTime: "8 min",
+    readTime: "13 min",
     date: "10 mars 2026",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1400&auto=format&fit=crop",
     excerpt: "Make et n8n sont les deux outils d'automatisation les plus populaires du marché français. Mais lequel choisir pour votre entreprise en 2026 ? Comparatif complet, honnête et sans langue de bois.",
@@ -90,6 +90,78 @@ export const articles = [
       },
       {
         type: "h2",
+        text: "Comment fonctionne réellement chaque outil au quotidien"
+      },
+      {
+        type: "paragraph",
+        text: "Sur Make, tout se pense en \"scénarios\" : un déclencheur (nouvel email, nouvelle ligne Google Sheets, webhook...) suivi d'une chaîne de modules qui traitent la donnée. L'interface affiche chaque étape sous forme de bulle reliée à la suivante, avec un aperçu du JSON qui circule à chaque point — pratique pour déboguer sans être développeur. Les scénarios s'exécutent soit en temps réel (webhook), soit sur une planification (toutes les 15 minutes minimum sur les plans standards)."
+      },
+      {
+        type: "paragraph",
+        text: "Sur n8n, la logique est similaire dans l'esprit (nœuds reliés par des lignes) mais l'outil pousse plus loin la programmabilité : chaque nœud peut contenir du JavaScript ou du Python directement, les workflows peuvent s'appeler entre eux, et il existe un mode \"queue\" pour absorber de gros volumes sans perdre d'exécutions en cas de pic. C'est aussi ce qui explique la courbe d'apprentissage plus raide au départ : la flexibilité a un coût en complexité initiale."
+      },
+      {
+        type: "h2",
+        text: "Cas d'usage concrets : quand chaque outil prend l'avantage"
+      },
+      {
+        type: "list",
+        title: "Make prend l'avantage quand :",
+        items: [
+          "Vous testez une idée d'automatisation rapidement, sans passer par une équipe technique",
+          "Vous connectez des outils grand public (Shopify, Gmail, Google Sheets, Slack) avec peu de logique conditionnelle",
+          "Votre volume mensuel reste sous 50 000-100 000 opérations",
+          "Vous voulez qu'un collaborateur non-technique puisse modifier le scénario plus tard"
+        ]
+      },
+      {
+        type: "list",
+        title: "n8n prend l'avantage quand :",
+        items: [
+          "Vous dépassez plusieurs centaines de milliers d'opérations par mois (le coût par opération de Make devient prohibitif)",
+          "Vous traitez des données sensibles (santé, juridique, RH) et devez garder l'hébergement en Europe, voire sur vos propres serveurs",
+          "Vos workflows ont besoin de logique complexe : boucles, conditions imbriquées, appels API personnalisés",
+          "Vous voulez éviter une dépendance totale à un éditeur SaaS et garder la main sur votre infrastructure"
+        ]
+      },
+      {
+        type: "h2",
+        text: "RGPD et hébergement des données : ce qu'il faut vraiment savoir"
+      },
+      {
+        type: "paragraph",
+        text: "Make héberge ses serveurs principalement aux États-Unis, avec une option Union Européenne disponible mais qui doit être sélectionnée explicitement à la création du compte — beaucoup d'utilisateurs ne le savent pas et se retrouvent avec des données transitant hors UE sans l'avoir décidé. Pour un cabinet médical, un cabinet d'avocats ou une entreprise financière, ça peut poser un vrai problème de conformité, même si Make propose des clauses contractuelles types (SCC) pour encadrer les transferts."
+      },
+      {
+        type: "paragraph",
+        text: "n8n en self-hosted règle la question à la racine : vous choisissez vous-même où vit le serveur (un VPS en France ou en Allemagne, par exemple), donc les données ne quittent jamais le territoire que vous avez choisi. C'est la raison principale pour laquelle les secteurs réglementés se tournent vers n8n plutôt que Make, même si ça demande une prestation d'hébergement et de maintenance en plus."
+      },
+      {
+        type: "h2",
+        text: "Migrer d'un outil à l'autre : ce que ça implique"
+      },
+      {
+        type: "paragraph",
+        text: "Il n'existe pas d'export/import automatique entre Make et n8n : chaque scénario Make doit être reconstruit manuellement en workflow n8n (et inversement). Pour une automatisation simple (2-3 étapes), ça prend quelques heures. Pour un scénario complexe avec beaucoup de logique conditionnelle, ça peut prendre plusieurs jours. La bonne nouvelle : c'est aussi l'occasion de nettoyer et d'optimiser des workflows qui, avec le temps, ont souvent accumulé des étapes redondantes."
+      },
+      {
+        type: "h2",
+        text: "Questions fréquentes"
+      },
+      {
+        type: "paragraph",
+        text: "Peut-on utiliser Make et n8n en même temps ? Oui, et c'est même courant : certaines équipes gardent Make pour des automatisations marketing simples gérées par des non-techniques, et n8n pour les workflows métier critiques à fort volume. Les deux outils peuvent d'ailleurs s'appeler mutuellement via webhook."
+      },
+      {
+        type: "paragraph",
+        text: "Make ou n8n, lequel est le plus rapide à mettre en place ? Make, dans la grande majorité des cas — c'est justement sa force. n8n demande une phase de configuration de l'hébergement en amont, ce qui rallonge le délai de mise en route initial, même si l'outil lui-même n'est pas plus lent à utiliser une fois en place."
+      },
+      {
+        type: "paragraph",
+        text: "Faut-il être développeur pour utiliser n8n ? Non, l'interface reste visuelle et no-code pour la majorité des cas d'usage. Mais avoir des notions de JavaScript aide clairement dès que les workflows se complexifient — c'est là que Make reste plus accessible aux profils 100% non-techniques."
+      },
+      {
+        type: "h2",
         text: "Notre recommandation selon votre profil"
       },
       {
@@ -99,6 +171,12 @@ export const articles = [
       {
         type: "paragraph",
         text: "Choisissez n8n si vous avez un volume élevé, des contraintes RGPD strictes (secteur médical, juridique, financier), ou si vous souhaitez une solution pérenne sans dépendance à un éditeur tiers."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-n8n",
+        label: "Automatisation n8n",
+        text: "Vous penchez pour n8n ? On le configure, l'héberge et le maintient pour vous."
       },
       {
         type: "cta",
@@ -202,6 +280,12 @@ export const articles = [
         text: "Chez l'un de nos clients (cabinet de conseil RH, 15 salariés), ce workflow génère 45 rendez-vous qualifiés par mois pour un commercial, contre 8 en prospection manuelle. Le temps libéré est réalloué à la préparation des rendez-vous et à la relation client."
       },
       {
+        type: "serviceLink",
+        href: "/services/automatisation-n8n",
+        label: "Automatisation n8n",
+        text: "Envie d'automatiser votre prospection sans tout construire vous-même ?"
+      },
+      {
         type: "cta",
         text: "Vous voulez ce système opérationnel pour votre équipe commerciale ? HGO Automation déploie ce type de workflow en 5 à 10 jours ouvrés. Discutons de votre cas."
       }
@@ -212,7 +296,7 @@ export const articles = [
     title: "Chatbot WhatsApp pour PME : guide complet 2026",
     metaDescription: "Comment créer un chatbot WhatsApp pour votre PME en 2026 : outils, coût, cas d'usage. WhatsApp Business API, n8n, Make — tout ce qu'il faut savoir avant de se lancer.",
     category: "Guide",
-    readTime: "10 min",
+    readTime: "16 min",
     date: "24 février 2026",
     image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=1400&auto=format&fit=crop",
     excerpt: "WhatsApp, c'est 2 milliards d'utilisateurs et un taux d'ouverture de 98%. Les PME qui automatisent leur service client sur WhatsApp réduisent de 60% le temps de réponse et augmentent leur satisfaction client. Voici comment faire.",
@@ -295,6 +379,146 @@ export const articles = [
       },
       {
         type: "h2",
+        text: "Obtenir l'accès à l'API WhatsApp Business : le processus étape par étape"
+      },
+      {
+        type: "paragraph",
+        text: "L'accès à l'API WhatsApp Business ne se fait pas directement via WhatsApp — il passe obligatoirement par un Business Service Provider (BSP) agréé par Meta. Voici le processus réel que nos clients traversent :"
+      },
+      {
+        type: "list",
+        title: "Processus d'obtention de l'accès API :",
+        items: [
+          "Créer un compte Meta Business Manager (gratuit, 30 minutes)",
+          "Vérifier votre entreprise auprès de Meta (document officiel requis : kbis, extrait Infogreffe) — délai 2-5 jours ouvrés",
+          "Choisir et créer un compte chez un BSP agréé (360dialog, Twilio, WATI, etc.)",
+          "Soumettre votre numéro de téléphone dédié (ne peut pas être utilisé sur WhatsApp standard ensuite)",
+          "Créer et faire valider vos premiers templates de message par Meta (délai 24-48h)",
+          "Configurer le webhook pour recevoir les messages entrants sur votre serveur"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Le délai total, de zéro à premier message reçu, est généralement de 7 à 14 jours. L'essentiel du temps est passé en attentes administratives (vérification Meta, validation des templates). La configuration technique en elle-même prend 2 à 3 jours maximum."
+      },
+      {
+        type: "h2",
+        text: "Quel BSP choisir ? Comparatif des Business Service Providers"
+      },
+      {
+        type: "paragraph",
+        text: "Le BSP est l'intermédiaire entre votre solution technique et l'infrastructure WhatsApp de Meta. Son choix influence le prix, la fiabilité et les fonctionnalités disponibles."
+      },
+      {
+        type: "table",
+        headers: ["BSP", "Prix messages", "Interface", "Idéal pour", "Hébergement"],
+        rows: [
+          ["360dialog", "0,005-0,05€/msg", "Technique", "Développeurs / intégrateurs", "EU (Allemagne)"],
+          ["Twilio", "0,005-0,08€/msg", "Riche", "Entreprises, volume élevé", "USA / EU"],
+          ["WATI", "0,02-0,05€/msg + abonnement", "No-code", "PME sans technique", "Cloud"],
+          ["Vonage", "0,01-0,06€/msg", "API", "Intégrateurs API avancés", "EU"]
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Pour les PME françaises avec des contraintes RGPD, nous recommandons 360dialog dont les serveurs sont hébergés en Allemagne (UE) et qui propose la meilleure intégration avec n8n. Le pricing est transparent et prévisible — vous payez par conversation de 24h, pas par message individuel. Une session de service client = une conversation = un coût fixe peu importe le nombre d'échanges."
+      },
+      {
+        type: "h2",
+        text: "Exemples réels de conversations automatisées"
+      },
+      {
+        type: "paragraph",
+        text: "Voici trois scénarios complets que nous avons déployés pour des clients réels — les textes sont fictifs mais les logiques sont exactes."
+      },
+      {
+        type: "h2",
+        text: "Exemple 1 — Agence immobilière : qualification de visiteurs"
+      },
+      {
+        type: "paragraph",
+        text: "Contexte : un prospect scanne un QR code sur une vitrine et envoie 'Bonjour' sur WhatsApp. Le chatbot démarre automatiquement."
+      },
+      {
+        type: "list",
+        title: "Déroulé de la conversation :",
+        items: [
+          "Bot : 'Bonjour 👋 Je suis l'assistant de l'Agence Martin. Vous êtes intéressé par : (1) Achat (2) Location (3) Estimation ?'",
+          "Client : '1'",
+          "Bot : 'Parfait ! Quel est votre budget d'achat ? (1) Moins de 200 000€ (2) 200-350 000€ (3) 350 000€+ ?'",
+          "Client : '2'",
+          "Bot : 'Dans quelle ville recherchez-vous ? [texte libre]'",
+          "Client : 'Lyon 6e ou 7e'",
+          "Bot : 'Merci ! Je vous envoie nos 3 biens correspondant à votre recherche dans les minutes qui suivent. Notre conseiller Thomas vous contacte demain matin pour un appel de 15 minutes. Confirmez-vous ce créneau ?'"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "En parallèle, dès que le prospect a répondu à la première question, une fiche est créée dans le CRM de l'agence avec le numéro, le budget et la localisation. Le conseiller Thomas reçoit une notification sur son téléphone. Résultat mesuré chez notre client : taux de qualification des contacts entrants passé de 40% (quand traité manuellement, souvent le soir ou le weekend) à 95% (chatbot disponible 24h/24)."
+      },
+      {
+        type: "h2",
+        text: "Exemple 2 — Cabinet médical : rappels de rendez-vous et annulations"
+      },
+      {
+        type: "paragraph",
+        text: "Le chatbot envoie automatiquement un message J-2 et H-2 avant chaque rendez-vous. Le patient peut confirmer ou annuler en répondant un simple chiffre. Si annulation : le créneau est automatiquement remis en disponibilité dans l'agenda Doctolib et un autre patient en liste d'attente est notifié. Le cabinet a réduit son taux de no-show de 18% à 4% en 3 mois."
+      },
+      {
+        type: "h2",
+        text: "Exemple 3 — E-commerce : suivi de commande proactif"
+      },
+      {
+        type: "paragraph",
+        text: "Dès qu'une commande est expédiée sur Shopify, le client reçoit un WhatsApp avec le numéro de suivi et un lien direct vers le transporteur. J+1 après livraison estimée, le chatbot demande si le colis a bien été reçu. Si non → création automatique d'un ticket SAV et escalade à l'équipe. Si oui → invitation à laisser un avis Google avec lien direct. Taux de collecte d'avis Google : ×4 par rapport aux emails."
+      },
+      {
+        type: "h2",
+        text: "RGPD et WhatsApp : ce que votre juriste doit savoir"
+      },
+      {
+        type: "paragraph",
+        text: "WhatsApp est une entreprise du groupe Meta, dont les serveurs sont principalement aux États-Unis. L'utilisation de l'API WhatsApp Business implique des transferts de données vers des serveurs Meta. Voici les points clés à connaître :"
+      },
+      {
+        type: "list",
+        title: "Points de vigilance RGPD :",
+        items: [
+          "Consentement explicite requis : vous ne pouvez contacter un utilisateur en message sortant que s'il a d'abord envoyé un message à votre numéro dans les 24h précédentes, OU si vous avez son consentement opt-in préalable documenté",
+          "Messages templates : les messages sortants hors fenêtre 24h doivent être des templates pré-approuvés par Meta — impossible d'envoyer du contenu libre",
+          "Droit à l'oubli : documentez votre processus de suppression des données collectées dans la conversation",
+          "Mentions légales : votre premier message doit indiquer qu'il s'agit d'un service automatisé et mentionner votre politique de traitement des données",
+          "DPA avec Meta : signer le Data Processing Agreement disponible dans Meta Business Manager"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "En pratique, pour les secteurs non réglementés (commerce, services, immobilier), ces contraintes sont gérables. Pour les secteurs médicaux et financiers, consultez votre DPO avant déploiement — des solutions alternatives comme Telegram (hébergement EU possible) peuvent être préférables."
+      },
+      {
+        type: "h2",
+        text: "Mesurer le ROI de votre chatbot WhatsApp"
+      },
+      {
+        type: "paragraph",
+        text: "Le ROI d'un chatbot WhatsApp se mesure sur 4 axes. Combinez-les pour calculer le gain réel par rapport à l'investissement de mise en place."
+      },
+      {
+        type: "table",
+        headers: ["Axe", "Indicateur", "Gain typique observé"],
+        rows: [
+          ["Temps équipe", "Heures/semaine de traitement manuel des messages", "-60 à -80%"],
+          ["Taux de conversion", "Leads qualifiés / contacts entrants", "+20 à +40%"],
+          ["Satisfaction client", "NPS ou CSAT post-interaction", "+10 à +25 points"],
+          ["Taux de no-show", "RDV annulés sans préavis (secteur médical/services)", "-50 à -80%"]
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Pour une PME qui passe 15h/semaine à gérer des messages WhatsApp manuellement (à 25€/h de coût chargé) → 375€/semaine → 1 500€/mois de temps humain. Un chatbot à 50-80€/mois d'infrastructure se rembourse en moins d'une semaine. L'investissement de setup (prestation unique) est généralement récupéré en 1 à 2 mois."
+      },
+      {
+        type: "h2",
         text: "Les erreurs à éviter absolument"
       },
       {
@@ -307,6 +531,48 @@ export const articles = [
           "Ne pas avoir de message de bienvenue clair indiquant qu'il s'agit d'un bot",
           "Envoyer des messages non sollicités (spam = bannissement immédiat de l'API)"
         ]
+      },
+      {
+        type: "h2",
+        text: "FAQ — Chatbot WhatsApp pour PME"
+      },
+      {
+        type: "h2",
+        text: "Peut-on utiliser mon numéro WhatsApp personnel ou professionnel existant ?"
+      },
+      {
+        type: "paragraph",
+        text: "Non. Le numéro que vous enregistrez sur l'API WhatsApp Business ne peut plus être utilisé sur l'application WhatsApp classique. Il faut un numéro dédié — un numéro virtuel (VOIP) fonctionne parfaitement, comptez 2 à 5€/mois. C'est une contrainte mineure : vos clients envoient leurs messages sur ce numéro comme n'importe quel autre."
+      },
+      {
+        type: "h2",
+        text: "Combien de messages peut-on envoyer par jour ?"
+      },
+      {
+        type: "paragraph",
+        text: "Les limites d'envoi évoluent selon votre niveau de confiance Meta : 1 000 conversations/jour au démarrage, puis 10 000, puis 100 000 après vérification et historique de bon comportement. Pour une PME, le niveau 1 000/jour est largement suffisant. Si vous avez besoin de volumes plus élevés (campagnes marketing, notifications de masse), prévoyez 4 à 6 semaines pour monter en tier."
+      },
+      {
+        type: "h2",
+        text: "Le chatbot peut-il gérer plusieurs langues ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui, avec une logique appropriée dans n8n ou Make. La détection de langue peut se faire via l'API de Google ou d'un modèle de langage (GPT-4, Claude) — le workflow envoie ensuite la réponse dans la langue détectée. Pour les PME avec une clientèle internationale, c'est un atout majeur. En pratique, français + anglais couvrent 90%+ des besoins de nos clients."
+      },
+      {
+        type: "h2",
+        text: "WhatsApp ou Telegram : lequel choisir ?"
+      },
+      {
+        type: "paragraph",
+        text: "WhatsApp pour les clients grand public français (85% d'adoption). Telegram pour les besoins RGPD stricts (hébergement EU possible), les communautés professionnelles tech, ou les cas d'usage nécessitant des fichiers volumineux (Telegram accepte jusqu'à 2 Go par fichier, WhatsApp est limité à 100 Mo). Dans 90% des cas, WhatsApp est le bon choix pour une PME B2C française."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-whatsapp-telegram",
+        label: "WhatsApp & Telegram",
+        text: "Un chatbot WhatsApp opérationnel en quelques jours, sans le construire vous-même."
       },
       {
         type: "cta",
@@ -421,6 +687,12 @@ export const articles = [
         caption: "Un workflow de confirmation : formulaire → email client → notification interne → CRM. Tout cela en moins d'une seconde, sans intervention humaine."
       },
       {
+        type: "serviceLink",
+        href: "/services/automatisation-entreprise",
+        label: "Automatisation Entreprise",
+        text: "On automatise ces emails pour vous, sans que vous ayez à coder quoi que ce soit."
+      },
+      {
         type: "cta",
         text: "Hugo Fonseca (HGO Automation) déploie ce type de workflow en 2 semaines, connecté à vos outils existants. Résultat : vous ne touchez plus jamais à ces emails manuellement. Planifiez un appel gratuit de 30 min."
       }
@@ -431,7 +703,7 @@ export const articles = [
     title: "n8n vs Zapier en 2026 : lequel choisir pour automatiser votre entreprise ?",
     metaDescription: "Comparatif n8n vs Zapier 2026 : prix, fonctionnalités, RGPD, facilité d'utilisation. Quel outil d'automatisation choisir pour votre PME ? Guide honnête et sans langue de bois.",
     category: "Comparatif",
-    readTime: "9 min",
+    readTime: "15 min",
     date: "9 mars 2026",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1400&auto=format&fit=crop",
     excerpt: "Zapier est l'outil d'automatisation le plus connu au monde. n8n est son challenger open-source qui gagne du terrain en Europe. Lequel choisir pour votre entreprise en 2026 ? Comparatif complet, chiffres et recommandations par profil.",
@@ -522,6 +794,162 @@ export const articles = [
       },
       {
         type: "h2",
+        text: "n8n vs Zapier en pratique : 3 scénarios comparés"
+      },
+      {
+        type: "paragraph",
+        text: "Les benchmarks abstraits ne racontent pas tout. Voici trois scénarios réels que nous rencontrons régulièrement chez nos clients PME, et comment chaque outil les gère."
+      },
+      {
+        type: "h2",
+        text: "Scénario 1 — Synchronisation CRM + email (usage basique)"
+      },
+      {
+        type: "paragraph",
+        text: "Un prospect remplit un formulaire HubSpot → le contact est créé dans le CRM → un email de bienvenue est envoyé → une notification arrive dans Slack. Ce workflow simple à 4 étapes est parfaitement géré par les deux outils. Sur Zapier, il se configure en 15 minutes sans connaissance technique. Sur n8n, il faut compter 25 à 30 minutes mais le résultat est identique. À ce niveau de complexité, Zapier gagne sur la rapidité de mise en place."
+      },
+      {
+        type: "h2",
+        text: "Scénario 2 — Traitement de données avec conditions multiples"
+      },
+      {
+        type: "paragraph",
+        text: "Un client passe une commande sur votre site → selon le montant (< 100€, 100-500€, > 500€), les actions diffèrent : bon de livraison simple, email de suivi personnalisé, ou appel de votre commercial déclenché automatiquement. Ce workflow conditionnel met Zapier en difficulté : les 'Paths' (bifurcations) existent mais sont limités et complexes à maintenir. Sur n8n, les conditions, boucles et variables intermédiaires sont natives. Ce type de logique métier, que nous déployons régulièrement, s'implémente 3x plus rapidement sur n8n."
+      },
+      {
+        type: "h2",
+        text: "Scénario 3 — Traitement en masse avec API propriétaire"
+      },
+      {
+        type: "paragraph",
+        text: "Chaque nuit, votre ERP exporte un fichier CSV avec 500 nouvelles lignes. Il faut les traiter, dédupliquer les contacts, enrichir les données depuis une API externe, puis mettre à jour votre CRM. Sur Zapier, chaque ligne = une tâche = un coût supplémentaire. 500 lignes × 30 jours = 15 000 tâches/mois, soit ~450€/mois sur le plan Zapier Professional. Sur n8n self-hosted, ce workflow tourne pour 15-20€/mois de serveur, sans limite de volume. La différence est structurelle : Zapier facture à l'opération, n8n facture l'infrastructure."
+      },
+      {
+        type: "h2",
+        text: "La question RGPD : un facteur décisif pour les PME européennes"
+      },
+      {
+        type: "paragraph",
+        text: "Zapier est une entreprise américaine dont les serveurs sont hébergés sur AWS us-east-1 (Virginie, USA). Depuis le Privacy Shield invalidé par la Cour de Justice de l'UE en 2020 (arrêt Schrems II), transférer des données personnelles de clients européens vers des serveurs américains sans mécanismes supplémentaires est légalement risqué. Les clauses contractuelles types (CCT) existent mais ne constituent pas une garantie absolue — plusieurs autorités européennes (CNIL, DSB autrichien, Datatilsynet danois) ont déjà sanctionné des transferts similaires."
+      },
+      {
+        type: "list",
+        title: "Données typiquement traitées dans vos automatisations :",
+        items: [
+          "Noms, prénoms, emails et téléphones de vos clients (données personnelles)",
+          "Historique de commandes et de paiements",
+          "Données de santé (secteur médical) — catégorie sensible",
+          "Données RH et fiches employés (secteur juridique, cabinet comptable)",
+          "Coordonnées bancaires et IBAN dans certains workflows financiers"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Avec n8n self-hosted sur un VPS OVHcloud ou Scaleway en France, aucune donnée ne quitte votre infrastructure. Vous maîtrisez intégralement où vos données résident, qui y accède, et combien de temps elles sont conservées. C'est un argument décisif pour les secteurs médicaux, juridiques, comptables et financiers — et de plus en plus pour les PME qui font de la conformité un avantage concurrentiel vis-à-vis de leurs clients."
+      },
+      {
+        type: "h2",
+        text: "Analyse des coûts réels sur 12 mois"
+      },
+      {
+        type: "paragraph",
+        text: "Le prix affiché sur la page tarifaire Zapier ne reflète pas la réalité. En pratique, les PME qui automatisent sérieusement dépassent rapidement le plan de base. Voici un calcul sur 12 mois pour une PME avec des volumes représentatifs."
+      },
+      {
+        type: "table",
+        headers: ["Profil PME", "Tâches/mois", "Coût Zapier (an)", "Coût n8n self-hosted (an)", "Économie n8n"],
+        rows: [
+          ["Débutant", "2 000", "348€", "180€", "168€"],
+          ["PME active", "15 000", "1 188€", "180€", "1 008€"],
+          ["PME avancée", "50 000", "2 988€", "240€", "2 748€"],
+          ["Volume élevé", "150 000", "5 988€", "360€", "5 628€"]
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Ces chiffres intègrent le coût d'hébergement n8n (VPS entre 15 et 30€/mois selon les ressources) mais pas le coût de configuration initiale. Si vous confiez le déploiement à un prestataire comme HGO Automation, comptez une prestation ponctuelle de setup (récupérée en quelques mois d'économies) puis zéro coût récurrent lié au volume."
+      },
+      {
+        type: "h2",
+        text: "Migrer de Zapier vers n8n : ce que ça implique"
+      },
+      {
+        type: "paragraph",
+        text: "La migration depuis Zapier n'est pas automatique — n8n ne peut pas importer vos Zaps directement. Chaque workflow doit être recréé dans n8n. En pratique, c'est souvent l'occasion de les simplifier et de les améliorer : les clients qui migrent rapportent systématiquement que leurs workflows n8n sont plus lisibles, plus robustes et plus faciles à déboguer que leurs Zaps d'origine."
+      },
+      {
+        type: "list",
+        title: "Comment migrer sans interruption de service :",
+        items: [
+          "Étape 1 : Inventorier tous vos Zaps actifs et les classer par criticité",
+          "Étape 2 : Déployer n8n en parallèle (sans éteindre Zapier)",
+          "Étape 3 : Recréer les workflows un par un, en commençant par les moins critiques",
+          "Étape 4 : Tester chaque workflow en production pendant 48h avant de désactiver le Zap correspondant",
+          "Étape 5 : Résilier Zapier une fois 100% des workflows validés"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Une migration complète pour une PME avec 15-20 Zaps actifs prend généralement 5 à 10 jours ouvrés. HGO Automation propose un service de migration clé en main : nous reprenons vos Zaps, les optimisons dans n8n, et assurons la continuité de service pendant toute la transition."
+      },
+      {
+        type: "h2",
+        text: "Zapier vs n8n : le tableau de bord décisionnel"
+      },
+      {
+        type: "table",
+        headers: ["Critère", "Zapier gagne", "n8n gagne"],
+        rows: [
+          ["Facilité de prise en main", "✓", ""],
+          ["Prix à faible volume (< 2 000 tâches/mois)", "✓", ""],
+          ["Prix à volume élevé (> 10 000 tâches/mois)", "", "✓"],
+          ["Conformité RGPD / données en Europe", "", "✓"],
+          ["Logique conditionnelle avancée", "", "✓"],
+          ["Nombre d'intégrations natives", "✓", ""],
+          ["Flexibilité (code JavaScript custom)", "", "✓"],
+          ["Indépendance technologique", "", "✓"],
+          ["Support et documentation", "✓", ""],
+          ["Secteurs réglementés (médical, juridique, finance)", "", "✓"]
+        ]
+      },
+      {
+        type: "h2",
+        text: "FAQ — Questions fréquentes"
+      },
+      {
+        type: "h2",
+        text: "Est-ce qu'on peut utiliser n8n sans compétences techniques ?"
+      },
+      {
+        type: "paragraph",
+        text: "En auto-hébergé pur, non — il faut configurer un serveur, gérer les certificats SSL et les mises à jour. Mais avec n8n Cloud (la version SaaS de n8n), ou avec un prestataire qui gère l'infrastructure à votre place, vous utilisez n8n exactement comme Zapier, depuis une interface web, sans toucher à une ligne de commande. C'est notre approche chez HGO Automation : nous gérons l'infrastructure, vous gérez vos workflows."
+      },
+      {
+        type: "h2",
+        text: "n8n est-il fiable pour une utilisation en production ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui. n8n est utilisé en production par des entreprises comme Adidas, Sony, Vodafone et de nombreuses PME européennes. La version communautaire est stable, avec des releases régulières. En self-hosted, la fiabilité dépend de votre hébergement : un VPS avec redémarrage automatique, sauvegardes quotidiennes et monitoring est indispensable. Avec ce setup, nous observons des taux de disponibilité > 99,5% sur les déploiements que nous maintenons."
+      },
+      {
+        type: "h2",
+        text: "Peut-on connecter des APIs qui ne sont pas dans la liste d'intégrations ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui, et c'est l'un des avantages majeurs de n8n. Le nœud HTTP Request permet de se connecter à n'importe quelle API REST — logiciels métier, ERP sur mesure, APIs gouvernementales — sans attendre qu'une intégration officielle soit développée. Sur Zapier, cette flexibilité existe via les 'Webhooks' mais avec des limitations sur les plans inférieurs."
+      },
+      {
+        type: "h2",
+        text: "Que se passe-t-il si n8n disparaît ou arrête son développement ?"
+      },
+      {
+        type: "paragraph",
+        text: "C'est la beauté de l'open-source : le code est public sur GitHub (43 000+ étoiles). Si n8n Inc. venait à cesser son activité (hypothèse peu probable), le code resterait disponible, forkable et maintenable par la communauté. Votre instance continue de fonctionner indéfiniment. C'est exactement l'inverse de Zapier : si Zapier ferme, vos automatisations s'arrêtent immédiatement."
+      },
+      {
+        type: "h2",
         text: "Notre recommandation selon votre profil"
       },
       {
@@ -531,6 +959,12 @@ export const articles = [
       {
         type: "paragraph",
         text: "Choisissez n8n si vous avez des contraintes RGPD (secteur médical, juridique, financier), des volumes élevés, des logiques complexes, ou si vous souhaitez une solution pérenne sans dépendance à un éditeur tiers. Le surcoût d'installation est récupéré en quelques mois sur la facture mensuelle."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-n8n",
+        label: "Automatisation n8n",
+        text: "On héberge et configure n8n pour vous, de bout en bout."
       },
       {
         type: "cta",
@@ -619,6 +1053,12 @@ export const articles = [
       {
         type: "paragraph",
         text: "Que vous choisissiez Notion ou Airtable, le vrai ROI d'un CRM sur mesure vient de ses connexions. Avec n8n ou Make, votre CRM peut recevoir automatiquement les leads depuis votre formulaire web, envoyer des séquences d'emails de relance, notifier votre équipe sur Slack quand un deal change de statut, générer et envoyer les devis PDF, et synchroniser avec votre logiciel de facturation."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-crm",
+        label: "CRM sur mesure",
+        text: "Envie qu'on le construise pour vous, connecté à votre process de vente réel ?"
       },
       {
         type: "cta",
@@ -721,6 +1161,12 @@ export const articles = [
         text: "Le calcul est simple. Si votre service client reçoit 200 demandes par semaine et qu'un collaborateur traite 40 demandes par jour à 35 000€/an (coût entreprise ~50 000€), chaque heure économisée vaut environ 24€. Un agent qui traite 70% des demandes de manière autonome libère l'équivalent de 140 demandes/semaine — soit environ 3,5h de travail qualifié par jour. En 12 mois, c'est plus de 20 000€ de valeur récupérée sur une mise en place à 3 500€."
       },
       {
+        type: "serviceLink",
+        href: "/services/agent-ia",
+        label: "Agents IA",
+        text: "On conçoit et déploie votre agent IA en moins de deux semaines."
+      },
+      {
         type: "cta",
         text: "HGO Automation déploie des agents IA service client pour les PME françaises. Appel de découverte gratuit de 30 min pour évaluer votre cas, vos volumes et la solution adaptée à votre budget."
       }
@@ -816,6 +1262,12 @@ export const articles = [
         text: "Un beau dashboard sans données fraîches ne sert à rien. La vraie valeur vient de la connexion automatique de vos sources : votre logiciel de facturation, votre CRM, votre boutique e-commerce, votre ERP. C'est là qu'intervient n8n : il peut synchroniser toutes vos données vers Airtable ou votre base de données Retool en temps réel ou selon un planning défini."
       },
       {
+        type: "serviceLink",
+        href: "/services/creation-applications-dashboards",
+        label: "Applications & Dashboards",
+        text: "On peut construire ce dashboard pour vous, connecté à vos données réelles."
+      },
+      {
         type: "cta",
         text: "HGO Automation crée des dashboards et applications métier no-code connectés à vos outils existants. Maquette livrée en 48h, application opérationnelle en 5-10 jours. Discutons de vos KPIs."
       }
@@ -900,6 +1352,12 @@ export const articles = [
       {
         type: "paragraph",
         text: "La meilleure approche est de commencer par la tâche la plus douloureuse. Pour la plupart de nos clients, c'est soit les relances impayés (stress + temps), soit la génération de devis (délai qui ralentit les ventes). On met en place le premier workflow en 2-3 jours, on mesure l'impact, puis on étend progressivement."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-entreprise",
+        label: "Automatisation Entreprise",
+        text: "On automatise votre facturation et vos devis de bout en bout."
       },
       {
         type: "cta",
@@ -1052,6 +1510,12 @@ export const articles = [
       {
         type: "paragraph",
         text: "La règle d'or : commencez par le workflow qui vous fait le plus souffrir. Si les relances vous prennent une heure par jour, commencez par là. Si l'administratif post-signature est votre calvaire, attaquez par la synchro CRM. n8n permet de déployer chacun de ces workflows en quelques jours — sans perturber votre activité."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-n8n",
+        label: "Automatisation n8n",
+        text: "On déploie ces workflows pour vous, prêts à l'emploi."
       },
       {
         type: "cta",
@@ -1235,6 +1699,12 @@ export const articles = [
           ["Réactivation CRM", "15-30 opportunités/campagne", "3-5 jours", "Faible"],
           ["Reporting automatique", "3-5h/semaine récupérées", "3-5 jours", "Faible"]
         ]
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-entreprise",
+        label: "Automatisation Entreprise",
+        text: "On identifie et automatise vos goulots d'étranglement en deux semaines."
       },
       {
         type: "cta",

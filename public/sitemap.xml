@@ -3,7 +3,7 @@
   <!-- Pages principales -->
   <url>
     <loc>https://hgoautomation.fr/</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,112 +11,120 @@
   <!-- Pages services -->
   <url>
     <loc>https://hgoautomation.fr/services/automatisation-whatsapp-telegram</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/services/agent-ia</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/services/automatisation-n8n</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/services/automatisation-entreprise</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/services/automatisation-crm</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/services/creation-applications-dashboards</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
+  </url>
+
+  <!-- Cas clients -->
+  <url>
+    <loc>https://hgoautomation.fr/cas-client/groupe-rousso</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- Blog -->
   <url>
     <loc>https://hgoautomation.fr/blog</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/automatiser-emails-confirmation-entreprise-2026</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/make-vs-n8n-2026-lequel-choisir</loc>
-    <lastmod>2026-03-10</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/n8n-vs-zapier-comparatif-2026</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/crm-notion-airtable-pme-2026</loc>
-    <lastmod>2026-03-07</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/agent-ia-service-client-entreprise-2026</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/tableau-de-bord-no-code-kpi-entreprise</loc>
-    <lastmod>2026-03-04</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/automatiser-prospection-commerciale-n8n</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/automatiser-facturation-devis-pme-2026</loc>
-    <lastmod>2026-03-01</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/chatbot-whatsapp-pme-guide-complet-2026</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://hgoautomation.fr/blog/5-workflows-n8n-indispensables-pme-2026</loc>
-    <lastmod>2026-03-18</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://hgoautomation.fr/blog/5-goulots-etranglement-pme-automatisation-2026</loc>
-    <lastmod>2026-04-01</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>

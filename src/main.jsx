@@ -5,8 +5,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import { ContactProvider } from './context/ContactContext.jsx'
 import ContactModal from './components/ContactModal.jsx'
 import './index.css'
-import App from './App.jsx'
 
+const App = lazy(() => import('./App.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 const BlogPage = lazy(() => import('./pages/BlogPage.jsx'))
 const ArticlePage = lazy(() => import('./pages/ArticlePage.jsx'))
@@ -18,6 +18,7 @@ const AutomatisationN8n = lazy(() => import('./pages/services/AutomatisationN8n.
 const AutomatisationEntreprise = lazy(() => import('./pages/services/AutomatisationEntreprise.jsx'))
 const AutomatisationCRM = lazy(() => import('./pages/services/AutomatisationCRM.jsx'))
 const CreationApplications = lazy(() => import('./pages/services/CreationApplications.jsx'))
+const CasClientGroupeRousso = lazy(() => import('./pages/CasClientGroupeRousso.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
           <Suspense fallback={<div className="min-h-screen bg-void" />}>
             <Routes>
               <Route path="/" element={<App />} />
+              <Route path="/cas-client/groupe-rousso" element={<CasClientGroupeRousso />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<ArticlePage />} />
               <Route path="/services/automatisation-whatsapp-telegram" element={<AutomatisationWhatsAppTelegram />} />

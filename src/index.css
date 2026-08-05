@@ -182,3 +182,70 @@ html {
   color: var(--ghost);
   box-shadow: 0 0 14px rgba(0, 209, 255, 0.15);
 }
+
+/* ── Premium micro-animations ── */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float-soft {
+  animation: float-soft 9s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-slow {
+  0%, 100% { box-shadow: 0 0 20px -4px rgba(0, 209, 255, 0.25); }
+  50% { box-shadow: 0 0 40px -4px rgba(0, 209, 255, 0.5); }
+}
+
+.animate-pulse-glow-slow {
+  animation: pulse-glow-slow 4.5s ease-in-out infinite;
+}
+
+@keyframes cta-pulse {
+  0%, 92%, 100% { box-shadow: 0 0 0px 0px rgba(0, 209, 255, 0); }
+  96% { box-shadow: 0 0 30px 4px rgba(0, 209, 255, 0.35); }
+}
+
+.animate-cta-pulse {
+  animation: cta-pulse 5s ease-in-out infinite;
+}
+
+.premium-card {
+  transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 12px 40px -12px rgba(0, 209, 255, 0.25);
+}
+
+.premium-icon {
+  transition: transform 250ms ease;
+}
+
+.group:hover .premium-icon {
+  transform: rotate(4deg) scale(1.08);
+}
+
+.premium-btn {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.premium-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -8px rgba(0, 209, 255, 0.45);
+}
+
+.premium-btn:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useContact } from './context/ContactContext';
@@ -26,8 +26,14 @@ import {
   X,
   ArrowRight,
   Sparkles,
+  BrainCircuit,
+  Network,
+  RefreshCw,
+  Send,
+  User,
 } from 'lucide-react';
 import { cn } from './lib/utils';
+import BackgroundVideo from './components/BackgroundVideo';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -696,100 +702,225 @@ const ProtocolSection = () => {
   );
 };
 
-const SERVICES_LIST = [
-  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare, desc: 'Chatbot, prise de RDV, relances automatiques sur les deux plateformes.' },
-  { label: 'Agents IA', href: '/services/agent-ia', icon: Cpu, desc: 'Un assistant intelligent formé sur vos données, disponible 24h/24.' },
-  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Zap, desc: 'Workflows sur mesure hébergés chez vous. 400+ intégrations natives.' },
-  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise', icon: Activity, desc: 'Connectez vos outils, éliminez les saisies manuelles, scalez sans embaucher.' },
-  { label: 'Automatisation & Création CRM', href: '/services/automatisation-crm', icon: Database, desc: 'CRM 100% adapté à votre process de vente. Livré en 5-10 jours.' },
-  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard, desc: 'Outils internes, portails clients, dashboards KPIs — livrés rapidement.' },
-];
-
-const TESTIMONIALS = [
-  {
-    name: 'Romain C.',
-    role: 'Directeur, Agence Immo Castelli — Paris',
-    initials: 'RC',
-    text: "Hugo a connecté notre formulaire de demande de visite à un workflow complet : confirmation automatique au prospect, notification à notre équipe, création de la fiche dans le CRM. On ne perd plus aucune demande, même le week-end. Mis en place en 3 jours.",
-    result: '+40% de RDV qualifiés',
-  },
-  {
-    name: 'Sarah B.',
-    role: 'Coach indépendante — Lyon',
-    initials: 'SB',
-    text: "Avant, j'envoyais les confirmations de séance à la main. Hugo a automatisé toute la chaîne : confirmation immédiate après réservation, rappel J-1, lien de la session Google Meet. J'économise 2h par semaine et mes clients adorent la réactivité.",
-    result: '2h économisées / semaine',
-  },
-  {
-    name: 'Marc L.',
-    role: 'Gérant, Société de services B2B — Bordeaux',
-    initials: 'ML',
-    text: "Notre processus de devis était chaotique : formulaire web → Excel → email manuel → oubli de relance. Hugo a tout automatisé avec n8n. Aujourd'hui le client reçoit une confirmation en 30 secondes, notre équipe est notifiée, et les relances partent automatiquement.",
-    result: '0 demande perdue depuis',
-  },
-];
-
-const TestimonialCard = ({ t }) => (
-  <div className="glass rounded-premium p-7 flex flex-col gap-5 w-[340px] md:w-[400px] flex-shrink-0 hover:border-cyan/30 transition-colors duration-300">
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-cyan/20 border border-cyan/30 flex items-center justify-center flex-shrink-0">
-        <span className="text-xs font-bold text-cyan">{t.initials}</span>
-      </div>
-      <div>
-        <p className="font-bold text-ghost text-sm">{t.name}</p>
-        <p className="text-ghost/40 text-xs">{t.role}</p>
-      </div>
+const WhatsAppMockup = () => (
+  <div className="flex flex-col gap-1.5 w-full">
+    <div className="self-start bg-ghost/10 text-ghost/70 text-[10px] rounded-xl rounded-bl-sm px-2.5 py-1.5 max-w-[75%]">Bonjour, un devis pour...</div>
+    <div className="self-end bg-cyan/20 text-cyan text-[10px] rounded-xl rounded-br-sm px-2.5 py-1.5 max-w-[75%] flex items-center gap-1">
+      RDV confirmé <CheckCircle2 className="w-2.5 h-2.5" />
     </div>
-    <p className="text-ghost/60 text-sm leading-relaxed flex-grow">"{t.text}"</p>
-    <div className="flex items-center gap-2 pt-4 border-t border-ghost/10">
-      <CheckCircle2 className="w-4 h-4 text-cyan flex-shrink-0" />
-      <span className="text-xs font-bold text-cyan">{t.result}</span>
+    <div className="self-start bg-ghost/10 text-ghost/70 text-[10px] rounded-xl rounded-bl-sm px-2.5 py-1.5 max-w-[75%]">Parfait, merci !</div>
+  </div>
+);
+
+const AgentIAMockup = () => (
+  <div className="flex items-center gap-2 w-full">
+    <div className="w-6 h-6 rounded-full bg-cyan/20 border border-cyan/30 flex items-center justify-center flex-shrink-0">
+      <Cpu className="w-3 h-3 text-cyan" />
+    </div>
+    <div className="flex gap-1 items-center bg-ghost/10 rounded-xl px-3 py-2">
+      <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
+      <span className="w-1.5 h-1.5 rounded-full bg-cyan/60 animate-pulse [animation-delay:150ms]" />
+      <span className="w-1.5 h-1.5 rounded-full bg-cyan/30 animate-pulse [animation-delay:300ms]" />
     </div>
   </div>
 );
 
-const Testimonials = () => {
-  const doubled = [...TESTIMONIALS, ...TESTIMONIALS];
-  return (
-    <section className="py-20 md:py-32 bg-graphite/20 overflow-hidden">
-      <div className="px-6 md:px-24 max-w-7xl mx-auto mb-10 md:mb-16">
-        <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">// Ils nous font confiance</p>
-        <h2 className="text-3xl md:text-6xl font-bold uppercase tracking-tighter">
-          Ce que disent<br /><span className="text-cyan font-serif italic">nos clients.</span>
-        </h2>
-      </div>
-      <div className="relative">
-        <div
-          className="flex gap-6 animate-marquee"
-          style={{ '--duration': '30s', '--gap': '1.5rem' }}
-        >
-          {doubled.map((t, i) => (
-            <TestimonialCard key={i} t={t} />
-          ))}
+const WorkflowMockup = () => (
+  <svg viewBox="0 0 200 50" className="w-full h-12">
+    <line x1="20" y1="25" x2="90" y2="25" stroke="currentColor" className="text-cyan/40" strokeWidth="1.5" />
+    <line x1="90" y1="25" x2="160" y2="25" stroke="currentColor" className="text-cyan/40" strokeWidth="1.5" />
+    <circle cx="20" cy="25" r="7" className="fill-void stroke-cyan" strokeWidth="1.5" />
+    <circle cx="90" cy="25" r="7" className="fill-cyan" />
+    <circle cx="160" cy="25" r="7" className="fill-void stroke-cyan" strokeWidth="1.5" />
+  </svg>
+);
+
+const EntrepriseMockup = () => (
+  <div className="flex items-center justify-center gap-3 w-full">
+    {[MessageSquare, Database, Calendar].map((I, i) => (
+      <React.Fragment key={i}>
+        <div className="w-7 h-7 rounded-lg bg-ghost/10 flex items-center justify-center">
+          <I className="w-3.5 h-3.5 text-cyan/70" />
         </div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-graphite/20 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-graphite/20 to-transparent z-10" />
+        {i < 2 && <div className="w-4 h-px bg-cyan/30" />}
+      </React.Fragment>
+    ))}
+  </div>
+);
+
+const CRMMockup = () => (
+  <div className="flex flex-col gap-1.5 w-full">
+    {[['Jean D.', 'bg-cyan/60'], ['Marie L.', 'bg-cyan/30'], ['Paul R.', 'bg-cyan/60']].map(([name, color]) => (
+      <div key={name} className="flex items-center justify-between bg-ghost/5 rounded-lg px-2.5 py-1.5">
+        <span className="text-[10px] text-ghost/60">{name}</span>
+        <span className={cn('w-2 h-2 rounded-full', color)} />
+      </div>
+    ))}
+  </div>
+);
+
+const DashboardMockup = () => (
+  <div className="flex items-end gap-1.5 w-full h-12">
+    {[0.4, 0.7, 0.5, 0.9, 0.6, 0.8].map((h, i) => (
+      <div key={i} className="flex-1 bg-cyan/40 rounded-t-sm" style={{ height: `${h * 100}%` }} />
+    ))}
+  </div>
+);
+
+const SERVICES_LIST = [
+  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare, icon2: Send, desc: 'Chatbot, prise de RDV, relances automatiques sur les deux plateformes.', Visual: WhatsAppMockup },
+  { label: 'Agents IA', href: '/services/agent-ia', icon: BrainCircuit, desc: 'Un assistant intelligent formé sur vos données, disponible 24h/24.', Visual: AgentIAMockup },
+  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Network, desc: 'Workflows sur mesure hébergés chez vous. 400+ intégrations natives.', Visual: WorkflowMockup },
+  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise', icon: RefreshCw, desc: 'Connectez vos outils, éliminez les saisies manuelles, scalez sans embaucher.', Visual: EntrepriseMockup },
+  { label: 'Automatisation & Création CRM', href: '/services/automatisation-crm', icon: Database, icon2: User, desc: 'CRM 100% adapté à votre process de vente. Livré en 5-10 jours.', Visual: CRMMockup },
+  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard, desc: 'Outils internes, portails clients, dashboards KPIs — livrés rapidement.', Visual: DashboardMockup },
+];
+
+const FOUNDER = {
+  name: 'Hugo Fonseca',
+  role: "Fondateur d'HGO Automation",
+  photo: '/hugo-fonseca.jpeg',
+  bio: "Avant de me consacrer à l'automatisation, j'ai une expérience terrain dans le secteur du CVC. C'est ce qui m'a poussé à créer des outils pensés pour ce métier plutôt que des solutions génériques — j'accompagne aujourd'hui les entreprises de chauffage, ventilation et climatisation dans l'automatisation de leur prise de rendez-vous et de leur suivi client. Je conçois aussi des agents IA et des automatisations sur mesure pour d'autres secteurs d'activité.",
+};
+
+const FounderSection = () => (
+  <section className="py-20 md:py-32 px-6 md:px-24">
+    <div className="max-w-5xl mx-auto glass rounded-premium p-10 md:p-16 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+      <img
+        src={FOUNDER.photo}
+        alt={FOUNDER.name}
+        className="w-40 h-40 md:w-56 md:h-56 rounded-full object-cover border-2 border-cyan/30 flex-shrink-0"
+      />
+      <div>
+        <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-3">// Fondateur</p>
+        <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-1">{FOUNDER.name}</h2>
+        <p className="text-ghost/40 text-sm mb-6">{FOUNDER.role}</p>
+        <p className="text-ghost/60 text-base md:text-lg font-light leading-relaxed">{FOUNDER.bio}</p>
+      </div>
+    </div>
+  </section>
+);
+
+const CAS_CLIENTS = [
+  {
+    logo: '/groupe-rousso-logo.webp',
+    name: 'Groupe Rousso',
+    role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
+    desc: "CRM sur mesure, relances client automatisées, devis générés et envoyés par email automatiquement, connecté à leur système de planification.",
+    stats: [
+      { value: '26 751 $', label: 'CA généré (2 mois)' },
+      { value: '70', label: 'Devis convertis / mois' },
+      { value: '67,3 %', label: 'Taux de conversion' },
+    ],
+    cta: { internal: true, to: '/cas-client/groupe-rousso', label: 'Voir le cas complet' },
+  },
+  {
+    logo: '/lesinstallateurs-logo.png',
+    name: 'LesInstallateurs.fr',
+    role: 'Installateur RGE — pompes à chaleur, climatisation, ventilation, bornes IRVE — Île-de-France & Oise',
+    desc: 'Refonte complète du site vitrine.',
+    stats: [],
+    cta: { internal: false, href: 'https://www.lesinstallateurs.fr/', label: 'Voir le site' },
+  },
+];
+
+function CaseCardContent({ c }) {
+  return (
+    <div className="glass rounded-premium p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
+      <div className="w-32 h-32 md:w-36 md:h-36 flex-shrink-0 flex items-center justify-center">
+        <img src={c.logo} alt={c.name} className="max-w-full max-h-full object-contain" />
+      </div>
+      <div className="flex-1">
+        <h3 className="text-2xl font-bold text-ghost mb-1">{c.name}</h3>
+        <p className="text-ghost/40 text-sm mb-4">{c.role}</p>
+        <p className="text-ghost/60 leading-relaxed mb-6">{c.desc}</p>
+        {c.stats.length > 0 && (
+          <div className="flex flex-wrap gap-8 mb-6">
+            {c.stats.map((s) => (
+              <div key={s.label}>
+                <p className="text-2xl font-bold text-cyan">{s.value}</p>
+                <p className="text-xs text-ghost/40 uppercase tracking-widest">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {c.cta.internal
+          ? <Link to={c.cta.to} className="inline-flex items-center gap-2 text-cyan text-sm font-bold uppercase tracking-widest hover:underline">
+              {c.cta.label} <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          : <a href={c.cta.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-cyan text-sm font-bold uppercase tracking-widest hover:underline">
+              {c.cta.label} <ArrowUpRight className="w-4 h-4" />
+            </a>
+        }
+      </div>
+    </div>
+  );
+}
+
+function RoussoCaseSection() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] });
+
+  // Card 2 monte depuis le bas et passe par-dessus card 1
+  const card2Y    = useTransform(scrollYProgress, [0.3, 0.7], ['105%', '0%']);
+  // Card 1 se réduit légèrement quand card 2 arrive
+  const card1Scale = useTransform(scrollYProgress, [0.3, 0.7], [1, 0.92]);
+
+  return (
+    <section ref={sectionRef} className="bg-graphite/20" style={{ height: '280vh' }}>
+      {/* Panneau sticky qui occupe 100vh pendant tout le scroll */}
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-6 md:px-24">
+        <div className="max-w-5xl mx-auto w-full">
+          <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">// Cas client</p>
+          <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-10">
+            Un vrai client.<br /><span className="text-cyan">Des vrais chiffres.</span>
+          </h2>
+
+          {/* Zone des cartes empilées */}
+          <div className="relative overflow-hidden rounded-premium">
+            {/* Card 1 — reste en place, se réduit légèrement */}
+            <motion.div style={{ scale: card1Scale, transformOrigin: 'top center', zIndex: 1, position: 'relative' }}>
+              <CaseCardContent c={CAS_CLIENTS[0]} />
+            </motion.div>
+
+            {/* Card 2 — monte depuis le bas par-dessus card 1, couvre toute la hauteur */}
+            <motion.div style={{ y: card2Y, position: 'absolute', inset: 0, zIndex: 2 }} className="bg-void">
+              <CaseCardContent c={CAS_CLIENTS[1]} />
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
-};
+}
+
 
 const ServicesSection = ({ onOpenContact, onOpenCalendly }) => (
-  <section className="py-20 md:py-32 px-6 md:px-24" id="services">
+  <section className="relative py-20 md:py-32 px-6 md:px-24 overflow-hidden" id="services">
+    <div className="absolute inset-0 -z-10">
+      <BackgroundVideo src="/earth-night-bg.mp4" className="w-full h-full object-cover opacity-70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-void via-void/30 to-void" />
+    </div>
     <div className="max-w-7xl mx-auto">
       <div className="mb-10 md:mb-16 text-center md:text-left">
         <h2 className="text-4xl md:text-7xl font-bold uppercase tracking-tighter mb-4 md:mb-6">Nos <br /><span className="text-cyan">Services.</span></h2>
         <p className="text-ghost/60 max-w-xl text-base md:text-lg font-light">6 expertises pour automatiser chaque dimension de votre activité.</p>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {SERVICES_LIST.map(({ label, href, icon: Icon, desc }) => (
-          <Link key={href} to={href} className="group glass p-8 rounded-premium border-transparent hover:border-cyan/30 flex flex-col gap-4 transition-all duration-300 hover:shadow-lg hover:shadow-cyan/10">
-            <div className="w-12 h-12 rounded-2xl bg-cyan/10 border border-cyan/20 flex items-center justify-center group-hover:bg-cyan/20 transition-colors">
-              <Icon className="w-5 h-5 text-cyan" />
+        {SERVICES_LIST.map(({ label, href, icon: Icon, icon2: Icon2, desc, Visual }) => (
+          <Link key={href} to={href} className="group glass p-8 rounded-premium border-transparent hover:border-cyan/30 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-lg hover:shadow-cyan/10">
+            <div className="relative w-20 h-20 rounded-full border border-cyan/30 bg-cyan/5 flex items-center justify-center shadow-[0_0_25px_-5px_rgba(0,209,255,0.5)] group-hover:shadow-[0_0_35px_-5px_rgba(0,209,255,0.8)] group-hover:border-cyan/60 transition-all duration-300">
+              <Icon className="w-8 h-8 text-cyan drop-shadow-[0_0_6px_rgba(0,209,255,0.6)]" strokeWidth={1.5} />
+              {Icon2 && (
+                <Icon2 className="w-4 h-4 text-cyan absolute bottom-3 right-3 drop-shadow-[0_0_6px_rgba(0,209,255,0.6)]" strokeWidth={1.5} />
+              )}
             </div>
             <div>
               <h3 className="font-bold text-ghost uppercase tracking-tight text-lg mb-2">{label}</h3>
               <p className="text-ghost/50 text-sm leading-relaxed">{desc}</p>
+            </div>
+            <div className="flex items-center justify-center min-h-[56px] p-3 border border-ghost/5 rounded-2xl bg-void/40">
+              <Visual />
             </div>
             <div className="mt-auto flex items-center gap-2 text-cyan text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
               Découvrir <ArrowUpRight className="w-3 h-3" />
@@ -886,7 +1017,7 @@ const Footer = () => {
   return (
     <footer className="bg-graphite/40 backdrop-blur-sm pt-16 md:pt-32 pb-12 px-6 md:px-24 rounded-t-[2rem] md:rounded-t-[4rem]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-16 md:mb-24">
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <div className="flex items-center mb-6">
             <Logo size="xl" />
           </div>
@@ -909,7 +1040,7 @@ const Footer = () => {
           <h4 className="text-xs uppercase font-bold tracking-widest mb-6 opacity-40">Contact</h4>
           <ul className="space-y-4 text-ghost/60">
             <li><SocialLinks socials={FOOTER_SOCIALS} className="justify-start" /></li>
-            <li><a href="mailto:hgosuportservices@gmail.com" className="hover:text-cyan transition-colors text-cyan font-bold underline underline-offset-4">hgosuportservices@gmail.com</a></li>
+            <li><a href="mailto:hugo@hgoautomation.fr" className="hover:text-cyan transition-colors text-cyan font-bold underline underline-offset-4">hugo@hgoautomation.fr</a></li>
           </ul>
         </div>
       </div>
@@ -1024,7 +1155,8 @@ function App() {
 
       <Philosophy />
       <ProtocolSection />
-      <Testimonials />
+      <FounderSection />
+      <RoussoCaseSection />
       <ServicesSection onOpenContact={openContact} onOpenCalendly={openCalendly} />
       <Footer />
     </main>

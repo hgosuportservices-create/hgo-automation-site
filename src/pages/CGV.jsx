@@ -12,7 +12,7 @@ const articles = [
         <p><strong className="text-ghost">Hugo Fonseca</strong>, exerçant sous le nom commercial <strong className="text-ghost">HGO Automation</strong></p>
         <p>Siège social : 94250 Gentilly, France</p>
         <p>SIRET : 908 443 120 00021</p>
-        <p>Email : hgosuportservices@gmail.com</p>
+        <p>Email : hugo@hgoautomation.fr</p>
         <p className="text-xs mt-2 opacity-60 italic">Non assujetti à la TVA — Article 293B du CGI</p>
       </div>
     ),
@@ -128,7 +128,7 @@ export default function CGV() {
           </div>
 
           <div className="mt-12 p-4 rounded-2xl bg-void/40 border border-ghost/8 text-xs text-ghost/40 italic">
-            Pour toute question relative à ces CGV : <a href="mailto:hgosuportservices@gmail.com" className="text-cyan hover:text-white transition-colors">hgosuportservices@gmail.com</a>
+            Pour toute question relative à ces CGV : <a href="mailto:hugo@hgoautomation.fr" className="text-cyan hover:text-white transition-colors">hugo@hgoautomation.fr</a>
           </div>
 
           <div className="mt-8 pt-8 border-t border-ghost/10 flex gap-6 text-xs font-mono opacity-40">

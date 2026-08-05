@@ -37,7 +37,7 @@ export default function MentionsLegales() {
                 <p>Entrepreneur individuel (Auto-entrepreneur)</p>
                 <p>94250 Gentilly, France</p>
                 <p className="mt-2">SIRET : <strong className="text-ghost">908 443 120 00021</strong></p>
-                <p>Email : <a href="mailto:hgosuportservices@gmail.com" className="text-cyan underline hover:text-white transition-colors">hgosuportservices@gmail.com</a></p>
+                <p>Email : <a href="mailto:hugo@hgoautomation.fr" className="text-cyan underline hover:text-white transition-colors">hugo@hgoautomation.fr</a></p>
                 <p className="text-xs mt-3 opacity-60 italic">Non assujetti à la TVA — Article 293B du CGI</p>
               </div>
             </section>
