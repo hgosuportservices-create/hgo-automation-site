@@ -19,6 +19,7 @@ const AutomatisationEntreprise = lazy(() => import('./pages/services/Automatisat
 const AutomatisationCRM = lazy(() => import('./pages/services/AutomatisationCRM.jsx'))
 const CreationApplications = lazy(() => import('./pages/services/CreationApplications.jsx'))
 const CasClientGroupeRousso = lazy(() => import('./pages/CasClientGroupeRousso.jsx'))
+const CasClientLesInstallateurs = lazy(() => import('./pages/CasClientLesInstallateurs.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -30,6 +31,7 @@ createRoot(document.getElementById('root')).render(
             <Routes>
               <Route path="/" element={<App />} />
               <Route path="/cas-client/groupe-rousso" element={<CasClientGroupeRousso />} />
+              <Route path="/cas-client/lesinstallateurs" element={<CasClientLesInstallateurs />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<ArticlePage />} />
               <Route path="/services/automatisation-whatsapp-telegram" element={<AutomatisationWhatsAppTelegram />} />

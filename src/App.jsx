@@ -818,9 +818,13 @@ const CAS_CLIENTS = [
     logo: '/lesinstallateurs-logo.png',
     name: 'LesInstallateurs.fr',
     role: 'Installateur RGE — pompes à chaleur, climatisation, ventilation, bornes IRVE — Île-de-France & Oise',
-    desc: 'Refonte complète du site vitrine.',
-    stats: [],
-    cta: { internal: false, href: 'https://www.lesinstallateurs.fr/', label: 'Voir le site' },
+    desc: 'Refonte site vitrine + formulaire connecté à Interfast. 13 600 impressions Google en 3 mois.',
+    stats: [
+      { value: '13 600', label: 'Impressions Google' },
+      { value: '138',    label: 'Clics organiques' },
+      { value: '8,6',   label: 'Position moyenne' },
+    ],
+    cta: { internal: true, to: '/cas-client/lesinstallateurs', label: 'Voir le cas complet' },
   },
 ];
 

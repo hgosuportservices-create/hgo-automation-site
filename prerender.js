@@ -55,6 +55,7 @@ function extractHeadTags(html) {
 const ROUTES = [
   '/',
   '/cas-client/groupe-rousso',
+  '/cas-client/lesinstallateurs',
   '/blog',
   '/blog/make-vs-n8n-2026-lequel-choisir',
   '/blog/automatiser-prospection-commerciale-n8n',
