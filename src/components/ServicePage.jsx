@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { ArrowUpRight, CheckCircle2, ChevronRight, MessageSquare, Cpu, Zap, Activity, Database, LayoutDashboard } from 'lucide-react';
+import { ArrowUpRight, Calendar, CheckCircle2, ChevronRight, MessageSquare, Cpu, Zap, Activity, Database, LayoutDashboard } from 'lucide-react';
 import { useContact } from '../context/ContactContext';
 import SharedNav from './SharedNav';
 import { motion, CountUp, Reveal, MaskedTitle } from '../lib/motion';
@@ -219,12 +219,12 @@ export default function ServicePage({ data }) {
               transition={{ duration: 0.6, delay: 0.25 }}
               className="flex flex-wrap gap-4 mb-12"
             >
-              <button onClick={open} className="premium-btn group relative overflow-hidden bg-cyan text-void px-8 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest transition-transform hover:scale-[1.03] active:scale-100">
+              <button onClick={() => open('form')} className="premium-btn group relative overflow-hidden bg-cyan text-void px-8 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest transition-transform hover:scale-[1.03] active:scale-100">
                 <span className="relative z-10 flex items-center gap-2">Obtenir un devis gratuit <ArrowUpRight className="w-4 h-4" /></span>
                 <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
               </button>
-              <button onClick={open} className="premium-btn px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan transition-colors flex items-center gap-2">
-                Appel découverte gratuit <ChevronRight className="w-4 h-4" />
+              <button onClick={() => open('calendly')} className="premium-btn px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan transition-colors flex items-center gap-2">
+                <Calendar className="w-4 h-4" /> Planifier un appel gratuit
               </button>
             </motion.div>
             <motion.div
@@ -502,10 +502,10 @@ export default function ServicePage({ data }) {
             Appel de découverte gratuit de 30 minutes. On analyse votre situation et on vous propose une architecture adaptée à votre budget.
           </p>
           <button
-            onClick={open}
+            onClick={() => open('calendly')}
             className="premium-btn animate-cta-pulse inline-flex items-center gap-2 bg-cyan text-void px-8 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest hover:bg-white transition-colors"
           >
-            Planifier l'appel gratuit <ArrowUpRight className="w-5 h-5" />
+            <Calendar className="w-5 h-5" /> Planifier l'appel gratuit
           </button>
         </Reveal>
       </section>

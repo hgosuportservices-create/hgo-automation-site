@@ -6,7 +6,7 @@ import { useContact } from '../context/ContactContext';
 
 function CalendlyWidget() {
   const [loading, setLoading] = useState(true);
-  const url = 'https://calendly.com/hgosuportservices/hgo-automation?background_color=0d0d1a&text_color=F0EFF4&primary_color=00D1FF&hide_gdpr_banner=1';
+  const url = 'https://calendly.com/hgosuportservices/appel-decouverte-gratuit?background_color=0d0d1a&text_color=F0EFF4&primary_color=00D1FF&hide_gdpr_banner=1';
 
   useEffect(() => {
     if (!document.querySelector('script[src*="calendly"]')) {

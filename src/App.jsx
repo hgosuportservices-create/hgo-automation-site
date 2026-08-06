@@ -397,7 +397,7 @@ const Hero = ({ onOpenContact }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <GlowOutlineBtn onClick={onOpenContact}>
+          <GlowOutlineBtn onClick={() => onOpenContact('calendly')}>
             <Calendar className="w-4 h-4" /> Planifier un appel
           </GlowOutlineBtn>
           <GlowPrimaryBtn onClick={onOpenContact}>
