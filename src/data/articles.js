@@ -1,5 +1,731 @@
 export const articles = [
   {
+    slug: "automatiser-whatsapp-n8n-tutoriel-2026",
+    title: "Automatiser WhatsApp avec n8n : tutoriel complet 2026",
+    metaDescription: "Tutoriel complet pour connecter WhatsApp Business API à n8n en 2026 : configuration 360dialog, webhook, réponses automatiques, connexion CRM. Guide pas à pas pour PME françaises.",
+    category: "Tutoriel",
+    readTime: "18 min",
+    date: "6 août 2026",
+    image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=1400&auto=format&fit=crop",
+    excerpt: "Vous voulez créer un chatbot WhatsApp sans payer 200€/mois de SaaS ? Ce tutoriel vous montre comment connecter l'API WhatsApp Business à n8n, de la configuration 360dialog à la première réponse automatique, étape par étape.",
+    content: [
+      {
+        type: "intro",
+        text: "La plupart des tutoriels WhatsApp + n8n disponibles en ligne sont en anglais, incomplets ou basés sur des outils qui ont changé leur interface depuis. Ce guide est basé sur ce que nous déployons en production pour nos clients PME françaises en 2026 : API WhatsApp via 360dialog, n8n self-hosted sur VPS OVHcloud, et workflows testés en conditions réelles."
+      },
+      {
+        type: "h2",
+        text: "Ce que vous allez construire"
+      },
+      {
+        type: "paragraph",
+        text: "À la fin de ce tutoriel, vous aurez un système capable de : recevoir des messages WhatsApp entrants dans n8n, analyser le contenu du message, envoyer une réponse automatique personnalisée, et créer une fiche contact dans votre CRM si le client est nouveau. Tout ça sans intervention humaine, 24h/24."
+      },
+      {
+        type: "list",
+        title: "Prérequis avant de commencer :",
+        items: [
+          "Un compte Meta Business Manager vérifié (document légal : kbis ou extrait Infogreffe)",
+          "Un numéro de téléphone dédié (mobile, fixe ou virtuel VOIP — pas votre numéro WhatsApp actuel)",
+          "Une instance n8n accessible depuis internet (self-hosted sur VPS ou n8n Cloud)",
+          "Un compte 360dialog (BSP recommandé pour l'UE — hébergement Allemagne)",
+          "Comptez 1 à 2 heures pour la configuration complète"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Étape 1 — Configurer votre compte 360dialog et obtenir l'accès API"
+      },
+      {
+        type: "paragraph",
+        text: "360dialog est un Business Service Provider (BSP) agréé par Meta. Il fait le pont entre votre numéro WhatsApp et l'API officielle. C'est l'option la plus économique pour les volumes faibles et moyens, avec des serveurs en UE (Allemagne)."
+      },
+      {
+        type: "list",
+        title: "Procédure d'inscription 360dialog :",
+        items: [
+          "Créez un compte sur 360dialog.com avec votre email professionnel",
+          "Dans le tableau de bord, cliquez 'Add Channel' → 'WhatsApp'",
+          "Connectez votre Meta Business Manager via le bouton Facebook (autorisation OAuth)",
+          "Entrez votre numéro de téléphone dédié et choisissez la méthode de vérification (SMS ou appel vocal)",
+          "Entrez le code de vérification reçu — votre numéro est maintenant lié à l'API",
+          "Copiez votre API Key depuis 360dialog Dashboard → Settings → API Keys"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Important : une fois un numéro enregistré sur l'API WhatsApp Business, il ne peut plus recevoir de messages sur l'application WhatsApp standard. Utilisez toujours un numéro dédié. Un numéro virtuel VOIP (Zadarma, Twilio, OVH Telecom) coûte 2-5€/mois et fonctionne parfaitement."
+      },
+      {
+        type: "h2",
+        text: "Étape 2 — Configurer n8n pour recevoir les webhooks WhatsApp"
+      },
+      {
+        type: "paragraph",
+        text: "n8n reçoit les messages WhatsApp via un webhook : 360dialog envoie une requête HTTP POST vers votre URL n8n dès qu'un message arrive. Votre workflow n8n est déclenché, traite le message, et répond via l'API 360dialog."
+      },
+      {
+        type: "list",
+        title: "Configuration du webhook dans n8n :",
+        items: [
+          "Dans n8n, créez un nouveau workflow et ajoutez un nœud 'Webhook' en trigger",
+          "Sélectionnez la méthode POST et notez l'URL générée (ex: https://votre-n8n.com/webhook/whatsapp-entrant)",
+          "Dans 360dialog Dashboard → Settings → Webhooks, entrez cette URL et cochez 'Message received'",
+          "Enregistrez — 360dialog va envoyer un message de test immédiatement",
+          "Dans n8n, activez votre workflow (toggle en haut à droite) pour commencer à recevoir les webhooks",
+          "Testez en envoyant un message WhatsApp sur votre numéro dédié — vous devriez voir l'événement apparaître dans n8n"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Le corps JSON reçu par n8n depuis 360dialog a cette structure : un objet 'messages' contenant le texte, l'ID du contact, le timestamp et le type (text, image, audio...). Retenez ces champs : messages[0].from (numéro expéditeur), messages[0].text.body (texte), messages[0].id (ID unique du message)."
+      },
+      {
+        type: "h2",
+        text: "Étape 3 — Envoyer votre première réponse automatique"
+      },
+      {
+        type: "paragraph",
+        text: "La réponse se fait via un appel à l'API 360dialog. Dans n8n, ajoutez un nœud 'HTTP Request' après le webhook."
+      },
+      {
+        type: "list",
+        title: "Configuration du nœud HTTP Request pour répondre :",
+        items: [
+          "Méthode : POST",
+          "URL : https://waba.360dialog.io/v1/messages",
+          "Headers : D360-API-KEY = votre_api_key_360dialog, Content-Type = application/json",
+          "Body (JSON) : { \"to\": \"{{ $json.messages[0].from }}\", \"type\": \"text\", \"text\": { \"body\": \"Bonjour ! Merci pour votre message. Notre équipe revient vers vous sous 24h.\" } }",
+          "Testez le nœud — vous devriez recevoir la réponse sur votre téléphone WhatsApp"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "L'expression {{ $json.messages[0].from }} est la syntaxe n8n pour accéder aux données du nœud précédent. Elle injecte dynamiquement le numéro de l'expéditeur pour que la réponse parte au bon contact."
+      },
+      {
+        type: "h2",
+        text: "Étape 4 — Ajouter de la logique conditionnelle"
+      },
+      {
+        type: "paragraph",
+        text: "Un bot qui répond toujours la même chose n'est pas très utile. Ajoutez un nœud 'IF' ou 'Switch' pour analyser le message et router vers des branches différentes."
+      },
+      {
+        type: "list",
+        title: "Exemple de logique Switch sur le contenu du message :",
+        items: [
+          "Ajoutez un nœud 'Switch' après le webhook",
+          "Valeur à évaluer : {{ $json.messages[0].text.body.toLowerCase() }}",
+          "Règle 1 : contient 'prix' ou 'tarif' → branche Tarification",
+          "Règle 2 : contient 'rdv' ou 'rendez-vous' ou 'disponibilité' → branche Prise de RDV",
+          "Règle 3 : contient 'urgence' ou 'urgent' → branche Escalade humaine",
+          "Règle Default : message non reconnu → réponse menu général"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Pour une logique plus sophistiquée (compréhension du langage naturel), ajoutez un nœud OpenAI avant le Switch : envoyez le message à GPT-4o avec un prompt demandant de catégoriser l'intention (PRIX, RDV, URGENCE, AUTRE) — utilisez ensuite cette catégorie dans votre Switch. La précision passe de ~70% (matching par mots-clés) à ~95% (LLM)."
+      },
+      {
+        type: "h2",
+        text: "Étape 5 — Connexion CRM : créer une fiche contact automatiquement"
+      },
+      {
+        type: "paragraph",
+        text: "Quand un nouveau contact envoie un message, créez automatiquement une fiche dans votre CRM. Voici l'exemple avec HubSpot, mais la logique est identique pour Notion, Airtable, Salesforce ou tout CRM avec une API REST."
+      },
+      {
+        type: "list",
+        title: "Workflow complet pour un nouveau contact :",
+        items: [
+          "Nœud 1 : Webhook → reçoit le message WhatsApp",
+          "Nœud 2 : HubSpot → 'Search Contact' avec le numéro de téléphone comme critère",
+          "Nœud 3 : IF → contact trouvé ? OUI → passer au traitement normal, NON → créer la fiche",
+          "Nœud 4 (branche NON) : HubSpot → 'Create Contact' avec phone = {{ $json.messages[0].from }}",
+          "Nœud 5 : Slack → notification interne 'Nouveau contact WhatsApp : +33XXXXXXXXX'",
+          "Nœud 6 : HTTP Request → réponse de bienvenue personnalisée au client"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Étape 6 — Gérer les messages non-texte (images, vocaux, documents)"
+      },
+      {
+        type: "paragraph",
+        text: "WhatsApp permet d'envoyer des photos, des messages vocaux, des PDF. Le webhook 360dialog indique le type dans messages[0].type (text, image, audio, document). Ajoutez une branche dans votre Switch pour chaque type."
+      },
+      {
+        type: "list",
+        title: "Exemples de gestion des types de messages :",
+        items: [
+          "type = 'image' → télécharger l'image via l'API 360dialog, l'envoyer à GPT-4o Vision pour analyse, répondre selon le contenu",
+          "type = 'audio' → télécharger le fichier audio, l'envoyer à Whisper (OpenAI) pour transcription, traiter le texte transcrit",
+          "type = 'document' → télécharger le PDF, extraire le texte, traiter comme un message texte",
+          "type = 'location' → récupérer les coordonnées GPS, utiliser dans un workflow de dispatch terrain",
+          "type non géré → répondre 'Je gère uniquement les messages texte pour l'instant'"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Étape 7 — Mettre en place l'escalade humaine"
+      },
+      {
+        type: "paragraph",
+        text: "Un bot ne peut pas tout gérer. L'escalade humaine est indispensable pour les cas complexes ou sensibles. La bonne pratique : stocker le statut de chaque conversation dans une base de données (PostgreSQL, SQLite ou même un Google Sheet) et basculer en mode 'humain' quand le client le demande ou quand le bot ne trouve pas de réponse adaptée."
+      },
+      {
+        type: "list",
+        title: "Logique d'escalade recommandée :",
+        items: [
+          "Si le message contient 'humain', 'agent', 'parler à quelqu'un' → stocker status='escalade' pour ce numéro",
+          "Si status='escalade' → ne pas répondre automatiquement, envoyer une notification Slack/email à votre équipe avec le message du client",
+          "Le collaborateur répond depuis WhatsApp Business App (ou depuis votre interface) et met status='résolu'",
+          "Si pas de réponse humaine sous 4h → bot envoie 'Nous revenons vers vous au plus vite' automatiquement",
+          "Reset automatique du status='normal' après résolution ou après 24h d'inactivité"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Créer vos premiers templates de messages (messages sortants)"
+      },
+      {
+        type: "paragraph",
+        text: "Les messages que vous envoyez en dehors d'une fenêtre de 24h (après la dernière interaction du client) doivent obligatoirement utiliser des templates pré-approuvés par Meta. Les messages libres (sans template) ne fonctionnent que dans les 24h suivant le dernier message du client."
+      },
+      {
+        type: "list",
+        title: "Procédure de création et validation d'un template :",
+        items: [
+          "Dans 360dialog Dashboard → Templates → Create Template",
+          "Choisissez une catégorie : MARKETING, UTILITY ou AUTHENTICATION",
+          "Rédigez votre template en français avec des variables entre doubles accolades : 'Bonjour {{1}}, votre rendez-vous du {{2}} à {{3}} est confirmé.'",
+          "Soumettez pour validation — délai Meta : 24 à 72h",
+          "Une fois approuvé, appelez-le depuis n8n avec les valeurs de substitution dans le corps JSON",
+          "Catégorie UTILITY (confirmation RDV, suivi commande) → validation plus rapide et moins de restrictions"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Erreurs fréquentes et comment les résoudre"
+      },
+      {
+        type: "list",
+        title: "Problèmes courants :",
+        items: [
+          "Webhook non déclenché : vérifiez que votre workflow n8n est bien activé (toggle vert) et que l'URL webhook est correctement saisie dans 360dialog. n8n doit être accessible depuis internet (pas depuis localhost).",
+          "Erreur 401 sur l'API 360dialog : votre API Key est incorrecte ou expirée. Régénérez-la dans 360dialog Dashboard → Settings → API Keys.",
+          "Message non reçu côté client : le numéro destinataire doit avoir WhatsApp installé. Testez avec votre propre numéro personnel d'abord.",
+          "Template rejeté par Meta : les templates marketing avec des offres promotionnelles sont plus souvent rejetés. Reformulez en UTILITY (information transactionnelle) si possible.",
+          "Boucle infinie (le bot répond à ses propres messages) : filtrez les messages entrants — ignorez si messages[0].from === votre_numero_api."
+        ]
+      },
+      {
+        type: "h2",
+        text: "FAQ — n8n + WhatsApp"
+      },
+      {
+        type: "h2",
+        text: "Combien coûte cette configuration par mois ?"
+      },
+      {
+        type: "paragraph",
+        text: "Pour une PME avec 200 conversations/mois : VPS n8n ~15€ + 360dialog ~10€ de conversations (0,05€/conversation) + numéro virtuel ~3€ = environ 28€/mois. Comparez à 100-200€/mois pour un SaaS clé en main. L'économie est significative à partir de 50 conversations/mois."
+      },
+      {
+        type: "h2",
+        text: "Peut-on utiliser n8n Cloud à la place d'un VPS ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui. n8n Cloud (cloud.n8n.io) propose un plan Starter à 20€/mois qui inclut l'hébergement et la gestion des mises à jour. L'URL webhook est fournie directement. C'est l'option recommandée si vous ne voulez pas gérer l'infrastructure. Le plan Starter suffit pour la plupart des PME (5 000 exécutions/mois)."
+      },
+      {
+        type: "h2",
+        text: "Est-ce que ce tutoriel fonctionne avec Twilio à la place de 360dialog ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui, la logique est identique. Twilio a des headers d'authentification différents et ses propres endpoints API, mais le principe webhook → n8n → réponse est le même. n8n dispose même d'un nœud Twilio natif qui simplifie la configuration. 360dialog reste notre recommandation pour les PME françaises (serveurs UE, tarification prévisible, bonne documentation)."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-whatsapp-telegram",
+        label: "WhatsApp & Telegram",
+        text: "Vous préférez qu'on le configure pour vous ? On livre un chatbot fonctionnel en 2 semaines."
+      },
+      {
+        type: "cta",
+        text: "Ce tutoriel vous a montré la mécanique. Si vous voulez un chatbot WhatsApp opérationnel sans passer 2 jours à le configurer, HGO Automation le fait pour vous — clé en main, connecté à votre CRM, livré en 2 semaines."
+      }
+    ]
+  },
+  {
+    slug: "n8n-hebergement-france-rgpd-guide-2026",
+    title: "Héberger n8n en France : guide RGPD complet 2026",
+    metaDescription: "Comment héberger n8n sur un serveur français en 2026 : OVHcloud, Scaleway, configuration SSL, sauvegardes, conformité RGPD. Guide technique complet pour PME européennes.",
+    category: "Guide",
+    readTime: "14 min",
+    date: "6 août 2026",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1400&auto=format&fit=crop",
+    excerpt: "Héberger n8n sur un VPS français, c'est la garantie que vos données métier ne quittent jamais le territoire européen. Voici le guide complet : choix du VPS, configuration Docker, HTTPS, sauvegardes et conformité RGPD — tout ce qu'il faut pour une instance n8n production-ready.",
+    content: [
+      {
+        type: "intro",
+        text: "Quand vous automatisez vos processus avec n8n, vous manipulez des données sensibles : coordonnées clients, données de facturation, informations RH, données de santé. L'avantage fondamental de n8n open-source est de pouvoir choisir où ces données résident. Ce guide vous montre comment déployer n8n sur un VPS français — OVHcloud ou Scaleway — avec une configuration conforme RGPD et adaptée à la production."
+      },
+      {
+        type: "h2",
+        text: "Pourquoi héberger n8n en France plutôt qu'aux États-Unis ?"
+      },
+      {
+        type: "paragraph",
+        text: "Depuis l'arrêt Schrems II de la Cour de Justice de l'UE (juillet 2020), les transferts de données personnelles vers les États-Unis sont soumis à des conditions strictes. Les hébergeurs américains comme AWS, Google Cloud ou Azure US ont des serveurs qui tombent sous juridiction du Cloud Act américain — le gouvernement US peut théoriquement accéder aux données sans notification préalable. En hébergeant n8n sur OVHcloud Roubaix ou Scaleway Paris, vos données restent en France, sous droit français et européen, point."
+      },
+      {
+        type: "list",
+        title: "Avantages concrets d'un hébergement français :",
+        items: [
+          "Données sous juridiction RGPD stricte — aucun Cloud Act américain applicable",
+          "Mention 'hébergé en France' valorisable auprès de vos clients (secteurs médical, juridique, financier)",
+          "Latence réduite pour vos workflows (serveur proche = exécutions plus rapides)",
+          "OVHcloud et Scaleway certifiés ISO 27001 et qualifiés SecNumCloud (la certification ANSSI)",
+          "Support client francophone disponible"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Quel hébergeur choisir ? OVHcloud vs Scaleway vs Hetzner"
+      },
+      {
+        type: "table",
+        headers: ["Hébergeur", "Localisation", "VPS entrée de gamme", "Certifications", "Idéal pour"],
+        rows: [
+          ["OVHcloud", "Roubaix / Strasbourg / Paris", "4€/mois (2 vCPU, 4 Go RAM)", "ISO 27001, HDS (médical)", "Toutes PME, secteur médical"],
+          ["Scaleway", "Paris / Amsterdam", "3,99€/mois (2 vCPU, 4 Go RAM)", "ISO 27001, HDS", "Startups, tech, e-commerce"],
+          ["Hetzner", "Nuremberg / Helsinki", "3,29€/mois (2 vCPU, 4 Go RAM)", "ISO 27001", "Budget, pas de contrainte FR stricte"],
+          ["Infomaniak", "Genève (CH)", "6€/mois (2 vCPU, 4 Go RAM)", "ISO 27001, Swiss Privacy Shield", "Confidentialité maximale"]
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Pour la plupart des PME françaises, OVHcloud VPS Starter (8€/mois en 2 vCPU / 4 Go RAM / 40 Go SSD) est le choix optimal : prix compétitif, datacenter en France, support francophone, et certification HDS pour les données de santé. Scaleway est une excellente alternative avec une interface plus moderne."
+      },
+      {
+        type: "h2",
+        text: "Configuration serveur recommandée selon votre usage"
+      },
+      {
+        type: "table",
+        headers: ["Profil", "vCPU", "RAM", "Stockage", "Prix OVH/mois", "Convient pour"],
+        rows: [
+          ["Démarrage", "2", "4 Go", "40 Go SSD", "8€", "< 15 workflows, < 1 000 exéc/jour"],
+          ["PME active", "4", "8 Go", "80 Go SSD", "18€", "15-50 workflows, < 5 000 exéc/jour"],
+          ["PME avancée", "4", "16 Go", "160 Go SSD", "35€", "50+ workflows, fichiers lourds, IA"],
+          ["Volume élevé", "8", "32 Go", "320 Go SSD", "65€", "100+ workflows, agents IA actifs"]
+        ]
+      },
+      {
+        type: "h2",
+        text: "Installation n8n avec Docker : la méthode recommandée"
+      },
+      {
+        type: "paragraph",
+        text: "Docker est la méthode de déploiement recommandée pour n8n en production. Elle isole l'application, facilite les mises à jour et permet de redémarrer proprement en cas de problème. Voici la procédure complète depuis une instance Ubuntu 22.04 fraîche."
+      },
+      {
+        type: "list",
+        title: "Installation pas à pas :",
+        items: [
+          "1. Mettre à jour le système : sudo apt update && sudo apt upgrade -y",
+          "2. Installer Docker : curl -fsSL https://get.docker.com | sh && sudo usermod -aG docker $USER",
+          "3. Installer Docker Compose : sudo apt install docker-compose-plugin -y",
+          "4. Créer le répertoire n8n : mkdir -p ~/n8n && cd ~/n8n",
+          "5. Créer le fichier docker-compose.yml (voir ci-dessous)",
+          "6. Lancer n8n : docker compose up -d",
+          "7. Vérifier que n8n tourne : docker compose logs -f n8n"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Le fichier docker-compose.yml minimal pour n8n self-hosted : version + service n8n avec image n8nio/n8n:latest, redémarrage automatique (restart: unless-stopped), le port 5678, et les variables d'environnement N8N_HOST, N8N_PORT, WEBHOOK_URL, N8N_PROTOCOL, DB_TYPE (sqlite pour commencer), et le volume ./n8n_data:/home/node/.n8n pour la persistance des données."
+      },
+      {
+        type: "h2",
+        text: "Configurer HTTPS avec Caddy (plus simple que Nginx + Certbot)"
+      },
+      {
+        type: "paragraph",
+        text: "n8n nécessite HTTPS pour que les webhooks fonctionnent correctement. Caddy est un serveur web qui gère automatiquement les certificats SSL via Let's Encrypt — zéro configuration manuelle, renouvellement automatique. C'est la solution que nous utilisons systématiquement en production."
+      },
+      {
+        type: "list",
+        title: "Configuration Caddy pour n8n :",
+        items: [
+          "Installez Caddy : sudo apt install caddy -y",
+          "Pointez votre nom de domaine vers l'IP de votre VPS (enregistrement A dans votre registrar, ex: n8n.votrenom.fr → 51.XX.XX.XX)",
+          "Créez /etc/caddy/Caddyfile avec le contenu : n8n.votrenom.fr { reverse_proxy localhost:5678 }",
+          "Relancez Caddy : sudo systemctl reload caddy",
+          "Caddy obtient automatiquement un certificat SSL Let's Encrypt — votre n8n est accessible en HTTPS",
+          "Mettez à jour WEBHOOK_URL dans docker-compose.yml avec https://n8n.votrenom.fr et relancez n8n"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Passer à PostgreSQL pour la production (fortement recommandé)"
+      },
+      {
+        type: "paragraph",
+        text: "n8n utilise SQLite par défaut — acceptable pour tester, problématique en production avec plusieurs workflows actifs. SQLite est une base de données fichier : les accès concurrents peuvent créer des corruptions. En production, utilisez PostgreSQL, plus robuste et mieux adapté aux charges élevées."
+      },
+      {
+        type: "list",
+        title: "Migration vers PostgreSQL :",
+        items: [
+          "Ajoutez un service PostgreSQL dans votre docker-compose.yml : image postgres:15, variables POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, et un volume pour la persistance",
+          "Mettez à jour les variables n8n : DB_TYPE=postgresdb, DB_POSTGRESDB_HOST=postgres, DB_POSTGRESDB_DATABASE=n8n, DB_POSTGRESDB_USER=n8n, DB_POSTGRESDB_PASSWORD=votre_mot_de_passe_fort",
+          "Ajoutez depends_on: postgres dans la configuration du service n8n",
+          "Relancez : docker compose down && docker compose up -d",
+          "Vérifiez les logs : les premières lignes indiquent 'Using PostgreSQL as database'"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Sauvegardes automatiques : protéger vos workflows"
+      },
+      {
+        type: "paragraph",
+        text: "Une instance n8n sans sauvegarde automatique est un risque majeur. Si votre VPS tombe ou si vous supprimez accidentellement un workflow, tout est perdu. Configurez des sauvegardes quotidiennes dès le premier jour."
+      },
+      {
+        type: "list",
+        title: "Stratégie de sauvegarde recommandée :",
+        items: [
+          "Sauvegarde PostgreSQL quotidienne : pg_dump lancé via cron à 3h du matin → fichier .sql.gz horodaté",
+          "Copie vers Object Storage (OVH Public Cloud Storage ou Scaleway Object Storage) : ~0,01€/Go/mois",
+          "Rétention : 7 jours quotidiens + 4 semaines hebdomadaires + 3 mois mensuels",
+          "Sauvegarde des credentials n8n séparément : ils ne sont pas dans PostgreSQL mais dans le fichier .n8n/config",
+          "Test de restauration mensuel : vérifiez que vos backups sont exploitables"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Script cron de sauvegarde PostgreSQL simple : 0 3 * * * docker exec n8n-postgres pg_dump -U n8n n8n | gzip > /backup/n8n_$(date +%Y%m%d).sql.gz && rclone copy /backup/ ovh:mon-bucket-n8n/backups/ --min-age 24h. rclone est un outil open-source qui synchronise vers n'importe quel Object Storage compatible S3."
+      },
+      {
+        type: "h2",
+        text: "Monitoring : savoir quand votre n8n est en panne"
+      },
+      {
+        type: "paragraph",
+        text: "Vos workflows tournent en tâche de fond. Si n8n s'arrête (redémarrage serveur, crash Docker, saturation disque), vous n'en savez rien... jusqu'à ce qu'un client se plaigne. Mettez en place un monitoring minimal dès le départ."
+      },
+      {
+        type: "list",
+        title: "Solutions de monitoring recommandées (gratuites ou quasi-gratuites) :",
+        items: [
+          "UptimeRobot (gratuit) : surveille l'URL de votre n8n toutes les 5 minutes, envoie un email ou SMS si le site est down",
+          "n8n Error Workflow : configurez un workflow dédié aux erreurs (Settings → Error Workflow) qui envoie une notification Slack ou email si un autre workflow échoue",
+          "Netdata (auto-hébergé, gratuit) : dashboard CPU/RAM/disque en temps réel — alerte quand le disque dépasse 80% (cause fréquente de crash n8n)",
+          "Prometheus + Grafana : solution avancée pour les environnements qui traitent des volumes importants, avec métriques détaillées des exécutions n8n"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Checklist RGPD pour votre instance n8n"
+      },
+      {
+        type: "list",
+        title: "À configurer pour la conformité RGPD :",
+        items: [
+          "✓ Hébergement dans un datacenter UE (France, Allemagne, Pays-Bas) — documentation à conserver",
+          "✓ Chiffrement des données au repos : activé par défaut sur OVHcloud et Scaleway",
+          "✓ Chiffrement en transit : HTTPS configuré, connexions DB chiffrées",
+          "✓ Accès restreint : n8n protégé par identifiants forts, 2FA activé (disponible en n8n Enterprise ou via reverse proxy)",
+          "✓ Logs des accès conservés 12 mois minimum (configurable dans Caddy ou Nginx)",
+          "✓ Durée de rétention des exécutions n8n limitée : dans Settings → Execution Data Retention → réduire à 30 jours max",
+          "✓ Mentions dans votre politique de confidentialité : 'Vos données peuvent être traitées par notre outil d'automatisation n8n, hébergé sur serveurs OVHcloud France'",
+          "✓ DPA signé avec OVHcloud (disponible dans votre espace client)"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Mise à jour de n8n : la procédure sans interruption"
+      },
+      {
+        type: "paragraph",
+        text: "n8n sort une nouvelle version environ toutes les 2 semaines. Rester à jour est important pour la sécurité et pour accéder aux nouvelles fonctionnalités. Avec Docker, la mise à jour prend moins de 2 minutes et n'entraîne qu'une interruption de quelques secondes."
+      },
+      {
+        type: "list",
+        title: "Procédure de mise à jour :",
+        items: [
+          "Vérifiez les release notes sur github.com/n8n-io/n8n/releases (changements breaking ?)",
+          "Sauvegarde manuelle avant la mise à jour : docker exec n8n-postgres pg_dump -U n8n n8n > backup_avant_maj.sql",
+          "Téléchargez la nouvelle image : docker compose pull",
+          "Relancez les conteneurs : docker compose up -d --force-recreate",
+          "Vérifiez les logs : docker compose logs -f n8n (cherchez 'n8n ready' sans erreur)",
+          "Testez un workflow critique pour valider la mise à jour"
+        ]
+      },
+      {
+        type: "h2",
+        text: "FAQ — Hébergement n8n France"
+      },
+      {
+        type: "h2",
+        text: "Faut-il des compétences Linux pour gérer un VPS n8n ?"
+      },
+      {
+        type: "paragraph",
+        text: "Des compétences de base suffisent : se connecter en SSH, copier-coller des commandes, éditer un fichier texte. Nous avons des clients non-développeurs qui gèrent leur instance n8n après une formation de 2h. Si vous préférez ne pas gérer l'infrastructure du tout, n8n Cloud ou une solution gérée par HGO Automation sont des alternatives viables."
+      },
+      {
+        type: "h2",
+        text: "n8n self-hosted est-il aussi stable que n8n Cloud ?"
+      },
+      {
+        type: "paragraph",
+        text: "Avec une configuration correcte (Docker, PostgreSQL, restart automatique, monitoring), oui. Nos instances self-hosted sur OVHcloud maintiennent des taux de disponibilité supérieurs à 99,7% sur les 12 derniers mois. La seule différence : les mises à jour sont à votre charge, et les incidents serveur (rares) nécessitent votre intervention ou celle de votre prestataire."
+      },
+      {
+        type: "h2",
+        text: "Peut-on migrer de n8n Cloud vers self-hosted (ou inversement) ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui. n8n propose un export de tous vos workflows au format JSON depuis l'interface. Les credentials doivent être reconfigurés manuellement (pour des raisons de sécurité, ils ne sont pas inclus dans l'export). Une migration typique prend 2 à 4h selon le nombre de workflows et d'intégrations."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-n8n",
+        label: "Automatisation n8n",
+        text: "On déploie et maintient votre instance n8n en France — infrastructure incluse."
+      },
+      {
+        type: "cta",
+        text: "HGO Automation déploie des instances n8n sur serveurs français pour des PME qui ont besoin de conformité RGPD et de performances stables. Setup initial + formation + monitoring inclus. Discutons de votre configuration."
+      }
+    ]
+  },
+  {
+    slug: "pennylane-n8n-integration-automatisation-comptabilite",
+    title: "Pennylane + n8n : automatiser sa comptabilité en 2026",
+    metaDescription: "Comment connecter Pennylane à n8n pour automatiser votre comptabilité en 2026 : import factures, rapprochement bancaire automatique, alertes trésorerie, synchronisation CRM. Guide complet pour PME.",
+    category: "Tutoriel",
+    readTime: "12 min",
+    date: "6 août 2026",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1400&auto=format&fit=crop",
+    excerpt: "Pennylane est le logiciel comptable préféré des PME françaises en 2026. Connecté à n8n, il devient un hub financier automatisé : factures importées sans ressaisie, trésorerie surveillée en temps réel, données synchro avec votre CRM. Voici comment.",
+    content: [
+      {
+        type: "intro",
+        text: "Pennylane a conquis des dizaines de milliers de PME françaises avec son interface moderne et sa connexion directe avec les banques françaises. Mais la plupart des utilisateurs n'exploitent qu'une fraction de son potentiel : ils saisissent encore manuellement certaines factures, exportent des tableaux Excel, et décalent leurs données d'un outil à l'autre. Avec l'API Pennylane connectée à n8n, tout ce travail répétitif disparaît."
+      },
+      {
+        type: "h2",
+        text: "Ce qu'on peut automatiser avec l'API Pennylane"
+      },
+      {
+        type: "paragraph",
+        text: "Pennylane dispose d'une API REST documentée qui expose la quasi-totalité des fonctionnalités du produit. Depuis n8n, vous pouvez lire et écrire des données Pennylane via le nœud HTTP Request — sans développement, sans code, avec la logique visuelle de n8n."
+      },
+      {
+        type: "list",
+        title: "Actions disponibles via l'API Pennylane :",
+        items: [
+          "Créer des factures de vente et des avoirs automatiquement depuis votre CRM ou votre e-commerce",
+          "Récupérer la liste des factures impayées pour déclencher des relances automatiques",
+          "Créer des fournisseurs et des clients sans ressaisie",
+          "Lire les transactions bancaires rapprochées pour alimenter des tableaux de bord",
+          "Déclencher des alertes de trésorerie quand le solde passe sous un seuil défini",
+          "Synchroniser les contacts Pennylane avec votre CRM (HubSpot, Notion, Airtable...)",
+          "Exporter des données comptables vers un Google Sheet ou une base de données"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Obtenir et configurer l'accès API Pennylane"
+      },
+      {
+        type: "paragraph",
+        text: "L'API Pennylane est accessible à tous les abonnés à partir du plan Pro. L'authentification se fait via un token Bearer généré depuis votre espace Pennylane."
+      },
+      {
+        type: "list",
+        title: "Procédure d'obtention du token API :",
+        items: [
+          "Connectez-vous à votre compte Pennylane (app.pennylane.com)",
+          "Allez dans Paramètres → Intégrations → API",
+          "Créez un nouveau token avec un nom descriptif ('n8n-automatisation')",
+          "Copiez le token généré — il ne sera affiché qu'une seule fois",
+          "Dans n8n, créez une credential de type 'Header Auth' avec le nom 'Authorization' et la valeur 'Bearer VOTRE_TOKEN'",
+          "Toutes vos requêtes n8n vers api.pennylane.com incluront automatiquement cette authentification"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Workflow 1 — Créer automatiquement une facture depuis HubSpot"
+      },
+      {
+        type: "paragraph",
+        text: "Scénario : un deal HubSpot passe au stade 'Gagné'. n8n détecte le changement de stade, récupère les informations du deal (client, montant, services), et crée automatiquement une facture dans Pennylane. Le commercial n'a rien à faire — la facture est créée en quelques secondes."
+      },
+      {
+        type: "list",
+        title: "Détail du workflow :",
+        items: [
+          "Trigger : HubSpot Trigger → événement 'Deal Stage Changed' → filtrer sur stage = 'closedwon'",
+          "Nœud 2 : HubSpot → Get Deal → récupérer les propriétés du deal (nom client, montant, services)",
+          "Nœud 3 : HTTP Request → GET api.pennylane.com/api/external/v1/customers → chercher si le client existe déjà dans Pennylane par email",
+          "Nœud 4 : IF → client trouvé ? OUI → récupérer son ID Pennylane, NON → POST /customers pour le créer",
+          "Nœud 5 : HTTP Request → POST api.pennylane.com/api/external/v1/customer_invoices → créer la facture avec les lignes de service et le montant",
+          "Nœud 6 : HubSpot → Update Deal → ajouter le numéro de facture Pennylane comme propriété du deal"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Workflow 2 — Relances automatiques des factures impayées"
+      },
+      {
+        type: "paragraph",
+        text: "Les factures impayées coûtent du temps et de l'argent. Ce workflow vérifie quotidiennement l'état des factures dans Pennylane et envoie des relances automatiques — par email, WhatsApp ou les deux — selon l'ancienneté du retard."
+      },
+      {
+        type: "list",
+        title: "Logique de relance progressive :",
+        items: [
+          "Trigger : Schedule → tous les matins à 9h",
+          "Nœud 2 : HTTP Request → GET /customer_invoices → filtrer status='late' (en retard)",
+          "Nœud 3 : Code → calculer le nombre de jours de retard pour chaque facture",
+          "Branche J+1 à J+7 : email de relance courtois ('Nous souhaitons vous rappeler...')",
+          "Branche J+8 à J+14 : second email plus ferme + notification Slack à votre équipe financière",
+          "Branche J+15 à J+30 : email final + création automatique d'une tâche dans votre CRM pour appel téléphonique",
+          "Branche J+30+ : alerte urgente dans Slack + création d'une note sur le dossier client"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Workflow 3 — Alerte trésorerie en temps réel"
+      },
+      {
+        type: "paragraph",
+        text: "La trésorerie est le nerf de la guerre pour les PME. Ce workflow surveille votre solde bancaire dans Pennylane et vous alerte quand il passe sous un seuil critique — avant que vous le découvriez en consultant votre relevé."
+      },
+      {
+        type: "list",
+        title: "Mise en place de l'alerte trésorerie :",
+        items: [
+          "Trigger : Schedule → toutes les heures en journée (8h-20h, jours ouvrés)",
+          "Nœud 2 : HTTP Request → GET /bank_accounts → liste des comptes bancaires connectés à Pennylane",
+          "Nœud 3 : Code → calculer le solde total consolidé de tous les comptes",
+          "Nœud 4 : IF → solde < 10 000€ (votre seuil) → déclencher l'alerte",
+          "Nœud 5 (si alerte) : Slack → message urgent dans votre canal #finance avec le solde actuel et les factures en attente de paiement",
+          "Nœud 6 : Google Sheets → logger le solde horaire pour traçabilité et reporting mensuel"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Workflow 4 — Synchronisation Pennylane ↔ CRM"
+      },
+      {
+        type: "paragraph",
+        text: "Vos équipes commerciales voient les clients dans HubSpot. Votre comptable voit les clients dans Pennylane. Quand un client change d'adresse ou de contact dans le CRM, Pennylane n'est pas mis à jour — et vice versa. Ce workflow maintient les deux en sync."
+      },
+      {
+        type: "list",
+        title: "Logique de synchronisation bidirectionnelle :",
+        items: [
+          "Trigger Pennylane → Webhook : quand un client est créé ou modifié dans Pennylane → mettre à jour dans HubSpot",
+          "Trigger HubSpot → Deal fermé ou contact modifié → mettre à jour dans Pennylane",
+          "Champs synchronisés : nom, email, téléphone, adresse, SIRET, code TVA intracommunautaire",
+          "Gestion des conflits : la source qui a été modifiée le plus récemment (timestamp) gagne",
+          "Log des synchronisations dans Google Sheets pour audit"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Workflow 5 — Tableau de bord financier automatique dans Google Sheets"
+      },
+      {
+        type: "paragraph",
+        text: "Chaque semaine, n8n récupère les données clés de Pennylane et alimente un Google Sheets que vous partagez avec votre expert-comptable ou vos associés : chiffre d'affaires de la semaine, factures émises vs encaissées, retards de paiement, prévisions de trésorerie à 30 jours."
+      },
+      {
+        type: "list",
+        title: "Données extraites de Pennylane pour le reporting :",
+        items: [
+          "CA de la semaine : somme des factures émises avec date_of_sale dans les 7 derniers jours",
+          "Encaissements : factures au statut 'paid' avec date de paiement dans la semaine",
+          "Impayés > 30 jours : factures status='late' avec retard > 30 jours — montant total et liste",
+          "Prévisions : factures status='draft' ou 'outstanding' dont la date d'échéance est dans les 30 prochains jours",
+          "Solde de trésorerie actuel consolidé (tous comptes bancaires connectés)"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Limites actuelles de l'API Pennylane"
+      },
+      {
+        type: "paragraph",
+        text: "L'API Pennylane est en amélioration continue mais certaines fonctionnalités restent non disponibles en 2026 :"
+      },
+      {
+        type: "list",
+        title: "Ce qui n'est pas encore accessible via API :",
+        items: [
+          "Les déclarations TVA (lecture uniquement, pas de soumission automatique)",
+          "Les documents d'achat importés par OCR (seuls les documents créés via API sont accessibles)",
+          "La gestion des notes de frais",
+          "Les devis (seulement les factures de vente sont disponibles via API actuellement)",
+          "Les rapprochements bancaires manuels (le rapprochement automatique fonctionne, pas le manuel)"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Pour ces fonctionnalités non disponibles en API, une alternative existe : Pennylane dispose d'intégrations natives avec Zapier et Make — et ces intégrations Zapier/Make peuvent être déclenchées depuis n8n via un webhook. C'est un contournement indirect mais efficace pour les cas non couverts par l'API directe."
+      },
+      {
+        type: "h2",
+        text: "FAQ — Pennylane + n8n"
+      },
+      {
+        type: "h2",
+        text: "L'API Pennylane est-elle disponible sur tous les plans ?"
+      },
+      {
+        type: "paragraph",
+        text: "L'accès API est disponible à partir du plan Pro de Pennylane (environ 49€/mois). Les plans Essentiel et Starter n'ont pas accès à l'API. Si vous êtes sur un plan inférieur, vérifiez si une mise à niveau est rentable au regard des gains d'automatisation — généralement oui dès qu'il y a plus de 20 factures/mois à traiter."
+      },
+      {
+        type: "h2",
+        text: "Faut-il un expert-comptable pour utiliser ces automatisations ?"
+      },
+      {
+        type: "paragraph",
+        text: "Non pour la mise en place technique — les workflows n8n sont configurés par votre prestataire automation ou votre équipe. Oui pour la validation comptable : assurez-vous que les factures générées automatiquement respectent les mentions obligatoires (numéro séquentiel, mentions TVA, identité du client) en concertation avec votre expert-comptable. La mécanique comptable reste sous sa responsabilité."
+      },
+      {
+        type: "h2",
+        text: "Ces automatisations fonctionnent-elles avec Sellsy ou Axonaut ?"
+      },
+      {
+        type: "paragraph",
+        text: "Oui, avec des adaptations mineures. Sellsy et Axonaut disposent tous les deux d'APIs REST documentées. La logique des workflows est identique — seuls les endpoints et la structure JSON changent. Axonaut dispose même d'une intégration native dans n8n. Si vous utilisez Sellsy ou Axonaut, contactez-nous — nous avons déjà mis en place ces intégrations pour des clients."
+      },
+      {
+        type: "serviceLink",
+        href: "/services/automatisation-n8n",
+        label: "Automatisation n8n",
+        text: "On connecte Pennylane à votre CRM et vos outils métier — configuration clé en main."
+      },
+      {
+        type: "cta",
+        text: "Vous utilisez Pennylane et vous saisissez encore des données manuellement d'un outil à l'autre ? HGO Automation connecte vos outils en quelques jours. Devis gratuit, résultat mesurable dès le premier mois."
+      }
+    ]
+  },
+  {
     slug: "make-vs-n8n-2026-lequel-choisir",
     title: "Make vs n8n en 2026 : lequel choisir pour votre entreprise ?",
     metaDescription: "Comparatif complet Make (Integromat) vs n8n en 2026 : prix, fonctionnalités, cas d'usage. Découvrez quel outil d'automatisation convient le mieux à votre PME.",
