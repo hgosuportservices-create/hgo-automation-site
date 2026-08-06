@@ -296,7 +296,7 @@ export const articles = [
     title: "Chatbot WhatsApp pour PME : guide complet 2026",
     metaDescription: "Comment créer un chatbot WhatsApp pour votre PME en 2026 : outils, coût, cas d'usage. WhatsApp Business API, n8n, Make — tout ce qu'il faut savoir avant de se lancer.",
     category: "Guide",
-    readTime: "16 min",
+    readTime: "22 min",
     date: "24 février 2026",
     image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=1400&auto=format&fit=crop",
     excerpt: "WhatsApp, c'est 2 milliards d'utilisateurs et un taux d'ouverture de 98%. Les PME qui automatisent leur service client sur WhatsApp réduisent de 60% le temps de réponse et augmentent leur satisfaction client. Voici comment faire.",
@@ -569,6 +569,131 @@ export const articles = [
         text: "WhatsApp pour les clients grand public français (85% d'adoption). Telegram pour les besoins RGPD stricts (hébergement EU possible), les communautés professionnelles tech, ou les cas d'usage nécessitant des fichiers volumineux (Telegram accepte jusqu'à 2 Go par fichier, WhatsApp est limité à 100 Mo). Dans 90% des cas, WhatsApp est le bon choix pour une PME B2C française."
       },
       {
+        type: "h2",
+        text: "Construire un agent IA WhatsApp avec GPT-4o : au-delà du chatbot à arbre de décision"
+      },
+      {
+        type: "paragraph",
+        text: "Un chatbot à arbre de décision répond aux menus prédéfinis. Un agent IA comprend le langage naturel : 'j'ai une fuite sous mon évier, c'est urgent' déclenche la même action que 'dépannage plomberie urgent'. C'est une différence fondamentale en termes d'expérience client."
+      },
+      {
+        type: "list",
+        title: "Comment fonctionne un agent IA WhatsApp avec n8n + OpenAI :",
+        items: [
+          "Le message du client arrive via webhook 360dialog vers n8n",
+          "n8n envoie le message à GPT-4o avec un 'system prompt' décrivant votre entreprise, vos services et les règles de réponse",
+          "GPT-4o génère une réponse naturelle ET peut appeler des outils (functions) : vérifier la disponibilité d'un créneau, chercher dans votre base de connaissances, créer une fiche CRM",
+          "n8n exécute l'action demandée par le LLM et renvoie le résultat",
+          "GPT-4o formule la réponse finale et n8n l'envoie au client via l'API WhatsApp",
+          "L'historique de la conversation est stocké (en session ou en base de données) pour maintenir le contexte sur plusieurs échanges"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Le coût d'un tel agent IA est surprenamment faible. GPT-4o coûte environ 0,005$ par conversation de 10-15 messages — soit moins de 1€ pour 100 conversations. Ajouté au coût WhatsApp (0,05-0,08€ par conversation), le coût total par interaction client automatisée tourne autour de 0,10-0,15€. Pour une PME qui passe 5 minutes par demande traitée manuellement (à 25€/h), chaque automatisation représente une économie de 2€."
+      },
+      {
+        type: "h2",
+        text: "Chatbot WhatsApp par secteur : cas d'usage spécifiques"
+      },
+      {
+        type: "table",
+        headers: ["Secteur", "Automatisation principale", "Résultat typique"],
+        rows: [
+          ["Plomberie / BTP", "Qualification urgence → dispatcheur → devis auto", "Temps de réponse : 3 min vs 45 min"],
+          ["Restauration", "Réservation + préférences + confirmation SMS", "Taux no-show : -65%"],
+          ["Coiffeur / Esthétique", "Prise de RDV, rappels, relance si annulation", "Carnet rempli 3 semaines d'avance"],
+          ["E-commerce", "Suivi colis + SAV + collecte avis post-livraison", "NPS : +18 points"],
+          ["Immobilier", "Qualification acheteur/vendeur + prise de RDV", "Taux de conversion leads : +35%"],
+          ["Cabinet conseil", "Qualification prospect + diagnostic initial + RDV", "Présélection 80% des leads non qualifiés"],
+          ["Santé / Para-médical", "Rappels RDV + questionnaire pré-consultation", "Taux d'annulation : -70%"]
+        ]
+      },
+      {
+        type: "h2",
+        text: "Obtenir le Green Tick WhatsApp (badge vérifié)"
+      },
+      {
+        type: "paragraph",
+        text: "Le badge vert ✓ à côté du nom de votre entreprise dans WhatsApp (le 'Green Tick') indique que votre compte est authentifié par Meta. Il renforce la confiance des clients et réduit le taux de signalements spam. C'est important pour la délivrabilité à long terme."
+      },
+      {
+        type: "list",
+        title: "Conditions pour obtenir le Green Tick :",
+        items: [
+          "Avoir votre compte Meta Business Manager vérifié (kbis ou document officiel)",
+          "Utiliser l'API WhatsApp Business via un BSP agréé (pas l'app WhatsApp Business standard)",
+          "Avoir un nom d'entreprise officiel qui correspond à votre entité légale",
+          "Avoir un score de qualité 'Vert' ou 'Jaune' sur votre numéro (éviter les signalements spam)",
+          "Soumettre une demande via le Business Support de Meta (traitement 2-5 semaines)",
+          "Avoir une présence web établie pour votre entreprise (site, LinkedIn)"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Le Green Tick n'est pas obligatoire pour utiliser l'API ou envoyer des messages — votre nom d'entreprise s'affiche de toute façon. Mais pour les entreprises avec un volume élevé de contacts sortants (campagnes marketing), il est très recommandé. Sans badge, votre numéro peut être marqué comme spam par des utilisateurs ce qui fait baisser votre score de qualité et réduit vos limites d'envoi."
+      },
+      {
+        type: "h2",
+        text: "Checklist avant de lancer votre chatbot WhatsApp"
+      },
+      {
+        type: "list",
+        title: "Technique :",
+        items: [
+          "✓ Compte Meta Business Manager vérifié",
+          "✓ Numéro de téléphone dédié (virtuel ou fixe, pas votre mobile personnel)",
+          "✓ Compte BSP créé et numéro migré (360dialog, Twilio, WATI...)",
+          "✓ Webhook configuré et testé (réception des messages entrants)",
+          "✓ Templates de messages approuvés par Meta",
+          "✓ Logique de conversation testée avec des cas limites (mauvaise réponse, emoji, message vocal)"
+        ]
+      },
+      {
+        type: "list",
+        title: "Légal & RGPD :",
+        items: [
+          "✓ Mention 'assistant automatisé' dans le premier message",
+          "✓ Lien vers politique de confidentialité accessible",
+          "✓ Data Processing Agreement signé avec Meta Business Manager",
+          "✓ Processus de suppression des données documenté",
+          "✓ Consentement opt-in documenté si vous initiez des conversations (hors réponse client)"
+        ]
+      },
+      {
+        type: "list",
+        title: "Opérationnel :",
+        items: [
+          "✓ Escalade humaine configurée (mot-clé 'humain' ou 'agent' = transfert vers un collaborateur)",
+          "✓ Plage horaire définie pour l'escalade humaine (hors horaires = message de relance automatique le lendemain matin)",
+          "✓ Dashboard de monitoring en place (volume de conversations, taux d'escalade, temps de résolution)",
+          "✓ Processus d'amélioration défini : qui révise les conversations non résolues chaque semaine ?"
+        ]
+      },
+      {
+        type: "h2",
+        text: "Optimiser votre chatbot WhatsApp dans le temps"
+      },
+      {
+        type: "paragraph",
+        text: "Un chatbot WhatsApp n'est pas un projet 'configure and forget'. La première semaine après le lancement est la plus riche en enseignements : quels messages déroulent les utilisateurs ? Où abandonnent-ils ? Quels termes utilisent-ils que le bot ne comprend pas ? Ces données permettent d'itérer rapidement."
+      },
+      {
+        type: "list",
+        title: "Métriques à suivre chaque semaine :",
+        items: [
+          "Taux de résolution automatique (conversations résolues sans escalade humaine) — cible : >70%",
+          "Taux de drop (abandon en cours de conversation) — cible : <20%",
+          "Taux d'escalade volontaire (client demande un humain) — révélateur de complexité non couverte",
+          "Temps moyen de résolution d'une conversation — indicateur d'efficacité du flow",
+          "Satisfaction post-conversation (si vous envoyez un CSAT rapide en fin d'échange)"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "La plupart de nos clients atteignent 75-85% de résolution automatique en moins de 2 mois, grâce à des cycles d'itération hebdomadaires. Les 15-25% restants sont les cas réellement complexes qui méritent l'attention d'un humain — et c'est exactement ce que vous voulez : ne mobiliser vos équipes que pour la valeur ajoutée."
+      },
+      {
         type: "serviceLink",
         href: "/services/automatisation-whatsapp-telegram",
         label: "WhatsApp & Telegram",
@@ -703,7 +828,7 @@ export const articles = [
     title: "n8n vs Zapier en 2026 : lequel choisir pour automatiser votre entreprise ?",
     metaDescription: "Comparatif n8n vs Zapier 2026 : prix, fonctionnalités, RGPD, facilité d'utilisation. Quel outil d'automatisation choisir pour votre PME ? Guide honnête et sans langue de bois.",
     category: "Comparatif",
-    readTime: "15 min",
+    readTime: "20 min",
     date: "9 mars 2026",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1400&auto=format&fit=crop",
     excerpt: "Zapier est l'outil d'automatisation le plus connu au monde. n8n est son challenger open-source qui gagne du terrain en Europe. Lequel choisir pour votre entreprise en 2026 ? Comparatif complet, chiffres et recommandations par profil.",
@@ -950,6 +1075,105 @@ export const articles = [
       },
       {
         type: "h2",
+        text: "n8n vs Zapier pour l'IA : un avantage structurel pour n8n en 2026"
+      },
+      {
+        type: "paragraph",
+        text: "2026 est l'année où l'IA générative entre dans les workflows métier des PME. Et sur ce terrain, n8n dispose d'un avantage structural que Zapier peine à combler. n8n intègre nativement des nœuds pour OpenAI, Anthropic, Google Gemini, Mistral et des dizaines de modèles open-source via Ollama — sans passer par des intégrations tierces payantes."
+      },
+      {
+        type: "list",
+        title: "Ce que vous pouvez faire avec n8n + IA que Zapier rend difficile ou coûteux :",
+        items: [
+          "Analyser automatiquement chaque email entrant et router selon le sentiment et l'intention",
+          "Résumer des appels clients (transcription Whisper + résumé GPT-4o) directement dans votre CRM",
+          "Générer des devis personnalisés à partir d'un formulaire + contexte client + catalogue produit",
+          "Créer un agent de support capable de répondre aux FAQ en consultant votre base de connaissances",
+          "Extraire des données structurées depuis des PDF, factures ou documents scannés (OCR + LLM)",
+          "Orchestrer plusieurs appels LLM en séquence avec gestion de la mémoire conversationnelle"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Sur Zapier, l'intégration OpenAI existe mais chaque appel LLM compte comme une tâche — et les appels s'enchaînent vite dans un agent multi-étapes. Un workflow qui combine extraction + analyse + rédaction + envoi peut consommer 5 à 8 tâches Zapier pour un seul document traité. Sur n8n, c'est un workflow unique, sans surcoût lié au volume d'appels internes."
+      },
+      {
+        type: "h2",
+        text: "Intégrations avec les logiciels métier français"
+      },
+      {
+        type: "paragraph",
+        text: "Un point rarement évoqué dans les comparatifs internationaux : les outils métier spécifiques au marché français. Pennylane, Sellsy, Axonaut, Interfast, Sage... Ces logiciels ne figurent pas nécessairement dans les 7 000 intégrations Zapier — et même quand ils y sont, les webhooks et les APIs REST permettent de tout connecter depuis n8n sans attendre."
+      },
+      {
+        type: "table",
+        headers: ["Logiciel FR", "Zapier (natif)", "n8n (via HTTP/Webhook)"],
+        rows: [
+          ["Pennylane", "Oui (limité)", "Oui (API complète)"],
+          ["Sellsy", "Oui", "Oui (API complète)"],
+          ["Axonaut", "Non", "Oui (via webhook)"],
+          ["Interfast", "Non", "Oui (via API REST)"],
+          ["Sage 50/100", "Non", "Oui (webhook export)"],
+          ["Indy", "Non", "Oui (webhook)"],
+          ["Dolibarr", "Non", "Oui (API native)"]
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Le nœud HTTP Request de n8n transforme n'importe quelle API documentée en source ou destination de données. Pour les logiciels sans API publique, n8n peut déclencher des automatisations via email parsing, scraping de portail ou webhooks entrants. Cette flexibilité est inexistante sur Zapier, qui exige une intégration officielle."
+      },
+      {
+        type: "h2",
+        text: "5 erreurs fréquentes lors d'une migration Zapier → n8n"
+      },
+      {
+        type: "paragraph",
+        text: "Nous accompagnons des dizaines de migrations chaque année. Voici les erreurs que nous voyons systématiquement — et comment les éviter."
+      },
+      {
+        type: "list",
+        title: "Erreurs à éviter :",
+        items: [
+          "Recréer les Zaps à l'identique sans les optimiser : la migration est l'occasion de simplifier. Des workflows qui passaient par 6 Zaps enchaînés sur Zapier peuvent souvent tenir en 1 seul workflow n8n.",
+          "Ignorer la gestion des erreurs : Zapier relance automatiquement les tâches en échec. En n8n, il faut configurer explicitement les retry policies et les alertes (email ou Slack sur erreur). Ne pas le faire = workflows silencieusement cassés.",
+          "Sous-dimensionner le VPS : avec 10 workflows actifs et des volumes moyens, un VPS 2 vCPU / 4 Go RAM suffit. Au-delà de 30 workflows ou avec des fichiers lourds, il faut monter.",
+          "Oublier les sauvegardes : n8n stocke vos workflows dans une base SQLite ou PostgreSQL. Sans backup automatique, un incident serveur efface tout. Planifiez des snapshots quotidiens dès le départ.",
+          "Migrer tous les Zaps en même temps : toujours migrer par lots, workflow par workflow, avec une période de test en parallèle avant d'éteindre chaque Zap."
+        ]
+      },
+      {
+        type: "h2",
+        text: "Zapier Tables et n8n : un nouveau terrain de comparaison"
+      },
+      {
+        type: "paragraph",
+        text: "Zapier a lancé en 2024 'Zapier Tables', une fonctionnalité de base de données intégrée qui permet de stocker et manipuler des données directement dans la plateforme. C'est une réponse à l'un des avantages de n8n, qui peut lire et écrire dans des bases PostgreSQL, MySQL, MongoDB ou SQLite nativement. Mais la comparaison reste défavorable à Zapier : Tables est inclus dans les plans payants avec des quotas de lignes et de stockage, et les requêtes avancées (JOINs, agrégations) ne sont pas supportées. Sur n8n, vous interrogez directement votre vraie base de données avec du SQL brut."
+      },
+      {
+        type: "h2",
+        text: "Quand garder Zapier malgré tout ?"
+      },
+      {
+        type: "paragraph",
+        text: "Ce guide ne cherche pas à vendre n8n à tout le monde. Il existe des situations où Zapier reste le bon choix — et nous le recommandons à certains de nos clients."
+      },
+      {
+        type: "list",
+        title: "Gardez Zapier si :",
+        items: [
+          "Vous n'avez pas de contrainte RGPD forte et vous automatisez uniquement des outils SaaS courants (Gmail, Slack, HubSpot, Notion)",
+          "Votre équipe doit gérer les workflows en totale autonomie, sans passer par un prestataire technique",
+          "Vous démarrez l'automatisation et vous voulez valider des cas d'usage avant d'investir dans une infrastructure",
+          "Vos volumes restent sous 3 000 tâches/mois et vos workflows sont simples (déclencheur → 1 ou 2 actions)",
+          "La vitesse de mise en place est votre priorité absolue (Zapier est opérationnel en minutes)"
+        ]
+      },
+      {
+        type: "paragraph",
+        text: "Dans ces cas, le surcoût de Zapier est justifié par la simplicité et la rapidité. Le piège est d'y rester quand les volumes explosent ou que les besoins deviennent plus complexes — là, la facture Zapier peut dépasser 500€/mois alors qu'une migration n8n aurait coûté moins en frais annuels."
+      },
+      {
+        type: "h2",
         text: "Notre recommandation selon votre profil"
       },
       {
@@ -958,7 +1182,7 @@ export const articles = [
       },
       {
         type: "paragraph",
-        text: "Choisissez n8n si vous avez des contraintes RGPD (secteur médical, juridique, financier), des volumes élevés, des logiques complexes, ou si vous souhaitez une solution pérenne sans dépendance à un éditeur tiers. Le surcoût d'installation est récupéré en quelques mois sur la facture mensuelle."
+        text: "Choisissez n8n si vous avez des contraintes RGPD (secteur médical, juridique, financier), des volumes élevés, des logiques complexes, si vous souhaitez intégrer de l'IA dans vos workflows, ou si vous voulez une solution pérenne sans dépendance à un éditeur tiers. Le surcoût d'installation est récupéré en quelques mois sur la facture mensuelle."
       },
       {
         type: "serviceLink",
