@@ -127,12 +127,12 @@ html {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 2.75rem;
-  padding: 0 1.75rem;
+  height: 3.25rem;
+  padding: 0 2.25rem;
   border-radius: 9999px;
   background: var(--cyan);
   color: var(--void);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
@@ -165,22 +165,23 @@ html {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 2.75rem;
-  padding: 0 1.75rem;
+  height: 3.25rem;
+  padding: 0 2.25rem;
   border-radius: 9999px;
-  background: transparent;
-  color: rgba(240, 239, 244, 0.65);
-  font-size: 0.875rem;
+  background: rgba(13, 13, 26, 0.4);
+  color: rgba(240, 239, 244, 0.8);
+  font-size: 0.9375rem;
   font-weight: 600;
-  border: 1px solid rgba(240, 239, 244, 0.18);
+  border: 1px solid rgba(240, 239, 244, 0.25);
   cursor: pointer;
-  transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.3s ease;
+  transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.3s ease, background 0.25s ease;
 }
 
 .glow-btn-outline:hover {
+  background: rgba(0, 209, 255, 0.08);
   border-color: rgba(0, 209, 255, 0.5);
   color: var(--ghost);
-  box-shadow: 0 0 14px rgba(0, 209, 255, 0.15);
+  box-shadow: 0 0 20px rgba(0, 209, 255, 0.2);
 }
 
 /* ── Premium micro-animations ── */

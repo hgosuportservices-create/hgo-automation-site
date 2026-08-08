@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ContactProvider } from './context/ContactContext.jsx'
 import ContactModal from './components/ContactModal.jsx'
+import CookieBanner from './components/CookieBanner.jsx'
 import './index.css'
 
 const App = lazy(() => import('./App.jsx'))
@@ -20,6 +21,7 @@ const AutomatisationCRM = lazy(() => import('./pages/services/AutomatisationCRM.
 const CreationApplications = lazy(() => import('./pages/services/CreationApplications.jsx'))
 const CasClientGroupeRousso = lazy(() => import('./pages/CasClientGroupeRousso.jsx'))
 const CasClientLesInstallateurs = lazy(() => import('./pages/CasClientLesInstallateurs.jsx'))
+const SectorCVC = lazy(() => import('./pages/sectors/SectorCVC.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -27,6 +29,7 @@ createRoot(document.getElementById('root')).render(
       <ContactProvider>
         <BrowserRouter>
           <ContactModal />
+          <CookieBanner />
           <Suspense fallback={<div className="min-h-screen bg-void" />}>
             <Routes>
               <Route path="/" element={<App />} />
@@ -40,6 +43,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/services/automatisation-entreprise" element={<AutomatisationEntreprise />} />
               <Route path="/services/automatisation-crm" element={<AutomatisationCRM />} />
               <Route path="/services/creation-applications-dashboards" element={<CreationApplications />} />
+              <Route path="/secteurs/automatisation-cvc-climatisation-chauffage" element={<SectorCVC />} />
               <Route path="/mentions-legales" element={<MentionsLegales />} />
               <Route path="/cgv" element={<CGV />} />
               <Route path="*" element={<NotFound />} />

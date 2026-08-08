@@ -17,6 +17,7 @@ import AutomatisationEntreprise from './pages/services/AutomatisationEntreprise.
 import AutomatisationCRM from './pages/services/AutomatisationCRM.jsx';
 import CreationApplications from './pages/services/CreationApplications.jsx';
 import CasClientGroupeRousso from './pages/CasClientGroupeRousso.jsx';
+import SectorCVC from './pages/sectors/SectorCVC.jsx';
 
 export function render(url) {
   const helmetContext = {};
@@ -35,6 +36,7 @@ export function render(url) {
             <Route path="/services/automatisation-entreprise" element={<AutomatisationEntreprise />} />
             <Route path="/services/automatisation-crm" element={<AutomatisationCRM />} />
             <Route path="/services/creation-applications-dashboards" element={<CreationApplications />} />
+            <Route path="/secteurs/automatisation-cvc-climatisation-chauffage" element={<SectorCVC />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/cgv" element={<CGV />} />
             <Route path="*" element={<NotFound />} />

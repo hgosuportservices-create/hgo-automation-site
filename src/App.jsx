@@ -31,6 +31,7 @@ import {
   RefreshCw,
   Send,
   User,
+  Download,
 } from 'lucide-react';
 import { cn } from './lib/utils';
 import BackgroundVideo from './components/BackgroundVideo';
@@ -111,7 +112,6 @@ const NAV_SERVICES = [
 const NAV_ITEMS = [
   { name: 'Expertise', url: '#expertise', icon: Layers },
   { name: 'Processus', url: '#processus', icon: Activity },
-  { name: 'Services', url: '#services', icon: Box },
   { name: 'Blog', url: '/blog', icon: Terminal },
 ];
 
@@ -198,7 +198,7 @@ const Navbar = ({ onOpenContact }) => {
               )}
             >
               <Package className="w-3 h-3 mr-1" />
-              Offres
+              Services
               <ChevronRight className={cn("w-3 h-3 transition-transform duration-200", servicesOpen ? "rotate-90" : "")} />
             </button>
             {servicesOpen && (
@@ -330,14 +330,16 @@ const Hero = ({ onOpenContact }) => {
         <img
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
           alt="Technologie"
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-60"
           loading="eager"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/60 to-void/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/85 to-void/50" />
+        <div className="absolute inset-0 bg-void/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_var(--void)_70%)]" />
       </div>
 
-      <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col max-w-4xl w-full">
+      <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col max-w-4xl w-full relative z-10">
 
         {/* Badge */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -362,20 +364,21 @@ const Hero = ({ onOpenContact }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
         >
-          <h1 className="text-5xl md:text-7xl max-w-3xl tracking-tighter text-center font-bold">
+          <h1 className="text-5xl md:text-7xl max-w-3xl tracking-tighter text-center font-bold drop-shadow-2xl">
             <span className="text-ghost">Votre entreprise,</span>
-            <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1" style={{ minHeight: '1.15em' }}>
+            <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1" style={{ minHeight: '1.2em' }}>
               &nbsp;
               {titles.map((title, index) => (
                 <motion.span
                   key={index}
                   className="absolute font-serif italic text-cyan"
-                  initial={{ opacity: 0, y: -100 }}
-                  transition={{ type: "spring", stiffness: 50 }}
+                  style={{ textShadow: '0 0 40px rgba(0,229,255,0.35), 0 4px 20px rgba(0,0,0,0.5)' }}
+                  initial={{ opacity: 0, y: -100, filter: 'blur(8px)' }}
+                  transition={{ type: "spring", stiffness: 60, damping: 20 }}
                   animate={
                     titleNumber === index
-                      ? { y: 0, opacity: 1 }
-                      : { y: titleNumber > index ? -150 : 150, opacity: 0 }
+                      ? { y: 0, opacity: 1, filter: 'blur(0px)' }
+                      : { y: titleNumber > index ? -120 : 120, opacity: 0, filter: 'blur(8px)' }
                   }
                 >
                   {title}.
@@ -384,7 +387,7 @@ const Hero = ({ onOpenContact }) => {
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl leading-relaxed text-ghost/50 max-w-2xl text-center font-light">
+          <p className="text-lg md:text-xl leading-relaxed text-ghost/70 max-w-2xl text-center font-light drop-shadow-lg">
             HGO Automation conçoit vos CRM sur mesure, agents IA, workflows n8n et automatisations WhatsApp.
             Des solutions concrètes, livrées en moins d'une semaine.
           </p>
@@ -392,17 +395,20 @@ const Hero = ({ onOpenContact }) => {
 
         {/* CTA Buttons */}
         <motion.div
-          className="flex flex-wrap justify-center gap-3"
+          className="flex flex-wrap justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <GlowOutlineBtn onClick={() => onOpenContact('calendly')}>
-            <Calendar className="w-4 h-4" /> Planifier un appel
+            <Calendar className="w-5 h-5" /> Planifier un appel
           </GlowOutlineBtn>
           <GlowPrimaryBtn onClick={onOpenContact}>
-            Démarrer mon projet <ArrowRight className="w-4 h-4" />
+            Démarrer mon projet <ArrowRight className="w-5 h-5" />
           </GlowPrimaryBtn>
+          <GlowOutlineBtn onClick={() => onOpenContact('leadmagnet')}>
+            <Download className="w-5 h-5" /> Guide gratuit CVC
+          </GlowOutlineBtn>
         </motion.div>
 
         {/* Stats */}
@@ -620,11 +626,14 @@ const ProtocolSection = () => {
       title: "Diagnostic Architectural",
       desc: "Analyse profonde de vos flux et identification des goulots d'étranglement structurels.",
       Animation: () => (
-        <svg viewBox="0 0 100 100" className="w-32 h-32 animate-[spin_10s_linear_infinite]">
-          <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-cyan/40" />
-          <path d="M50 10 L50 90 M10 50 L90 50" stroke="currentColor" strokeWidth="1" className="text-cyan" />
-          <rect x="45" y="45" width="10" height="10" fill="currentColor" className="text-cyan" />
-        </svg>
+        <div className="relative w-40 h-40 flex items-center justify-center">
+          <div className="absolute inset-0 bg-cyan/10 rounded-full blur-2xl" />
+          <svg viewBox="0 0 100 100" className="w-36 h-36 animate-[spin_12s_linear_infinite] drop-shadow-[0_0_15px_rgba(0,209,255,0.4)]">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="4 4" className="text-cyan/50" />
+            <path d="M50 10 L50 90 M10 50 L90 50" stroke="currentColor" strokeWidth="1.5" className="text-cyan" />
+            <rect x="43" y="43" width="14" height="14" fill="currentColor" className="text-cyan" />
+          </svg>
+        </div>
       )
     },
     {
@@ -632,9 +641,9 @@ const ProtocolSection = () => {
       title: "Immersion Technologique",
       desc: "Déploiement de protocoles IA et routages automatisés scalables en temps réel.",
       Animation: () => (
-        <div className="relative w-32 h-32 flex items-center justify-center overflow-hidden border border-cyan/20 rounded-xl">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan/20 to-transparent w-[200%] animate-[translateX_3s_linear_infinite] ml-[-100%]" />
-          <Monitor className="w-12 h-12 text-cyan" />
+        <div className="relative w-40 h-40 flex items-center justify-center overflow-hidden border border-cyan/30 rounded-2xl bg-cyan/5 shadow-[0_0_30px_rgba(0,209,255,0.15)]">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan/25 to-transparent w-[200%] animate-[translateX_3s_linear_infinite] ml-[-100%]" />
+          <Monitor className="w-14 h-14 text-cyan drop-shadow-[0_0_12px_rgba(0,209,255,0.5)]" />
         </div>
       )
     },
@@ -643,12 +652,13 @@ const ProtocolSection = () => {
       title: "Optimisation de Flux",
       desc: "Monitoring et ajustement continu pour maintenir un avantage compétitif absolu.",
       Animation: () => (
-        <div className="w-32 h-12 flex items-end gap-[2px]">
+        <div className="relative w-40 h-28 flex items-end gap-1 p-3 rounded-2xl border border-cyan/20 bg-cyan/5 shadow-[0_0_30px_rgba(0,209,255,0.15)]">
+          <div className="absolute inset-0 bg-gradient-to-t from-cyan/10 to-transparent rounded-2xl" />
           {[0.2, 0.4, 0.8, 0.5, 0.9, 1, 0.6, 0.4, 0.7].map((h, i) => (
             <div
               key={i}
-              className="flex-1 bg-cyan/40 rounded-t-sm animate-[pulse_2s_ease-in-out_infinite]"
-              style={{ height: `${h * 100}%`, animationDelay: `${i * 0.1}s` }}
+              className="flex-1 bg-gradient-to-t from-cyan to-cyan/40 rounded-t-md animate-[pulse_2s_ease-in-out_infinite] relative z-10"
+              style={{ height: `${h * 80}%`, animationDelay: `${i * 0.1}s` }}
             />
           ))}
         </div>
@@ -686,7 +696,7 @@ const ProtocolSection = () => {
     <div ref={container} className="bg-transparent" id="processus">
       {steps.map((step, i) => (
         <div key={i} className="stacking-card px-4 md:px-24">
-          <div className="glass w-full max-w-5xl p-6 sm:p-12 md:p-24 rounded-premium flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+          <div className="glass w-full max-w-5xl p-6 sm:p-12 md:p-24 rounded-premium flex flex-col md:flex-row gap-8 md:gap-12 items-center border border-ghost/10 shadow-2xl shadow-cyan/5">
             <div className="flex-1 flex flex-col gap-4 md:gap-6">
               <span className="font-mono text-cyan text-xl md:text-2xl">{step.num}</span>
               <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-tight leading-none">{step.title}</h2>

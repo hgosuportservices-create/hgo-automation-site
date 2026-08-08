@@ -60,6 +60,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Pages secteurs -->
+  <url>
+    <loc>https://hgoautomation.fr/secteurs/automatisation-cvc-climatisation-chauffage</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
   <!-- Blog -->
   <url>
     <loc>https://hgoautomation.fr/blog/automatiser-whatsapp-n8n-tutoriel-2026</loc>

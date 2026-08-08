@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { CheckCircle2, Zap, ArrowUpRight, Activity, Box, ChevronRight, Calendar } from 'lucide-react';
+import { CheckCircle2, Zap, ArrowUpRight, Activity, Box, ChevronRight, Calendar, Download, Mail } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useContact } from '../context/ContactContext';
 
@@ -49,7 +49,9 @@ export default function ContactModal() {
     nom: '', email: '', entreprise: '', tel: '',
     type: 'crm', budget: 'small', message: '', honeypot: ''
   });
+  const [leadData, setLeadData] = useState({ nom: '', email: '', honeypot: '' });
   const [status, setStatus] = useState('idle');
+  const [leadStatus, setLeadStatus] = useState('idle');
   const [tab, setTab] = useState(defaultTab);
 
   // Sync onglet quand la modal s'ouvre
@@ -71,8 +73,14 @@ export default function ContactModal() {
           setFormData({ nom: '', email: '', entreprise: '', tel: '', type: 'crm', budget: 'small', message: '' });
         }, 500);
       }
+      if (leadStatus === 'success') {
+        setTimeout(() => {
+          setLeadStatus('idle');
+          setLeadData({ nom: '', email: '', honeypot: '' });
+        }, 500);
+      }
     }
-  }, [isOpen, status]);
+  }, [isOpen, status, leadStatus]);
 
 
   const handleSubmit = async (e) => {
@@ -120,6 +128,44 @@ export default function ContactModal() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleLeadChange = (e) => {
+    const { name, value } = e.target;
+    setLeadData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleLeadSubmit = async (e) => {
+    e.preventDefault();
+    if (leadData.honeypot) return;
+    setLeadStatus('loading');
+    const payload = {
+      demande_id: `LEAD-${Date.now()}`,
+      client_nom: leadData.nom,
+      client_email: leadData.email,
+      client_telephone: '',
+      nom_entreprise: '',
+      type_intervention: 'lead_magnet',
+      description: 'Téléchargement guide gratuit : 5 automatisations CVC',
+      urgence: 'normale',
+      client_adresse: 'Gentilly',
+      client_ville: 'France',
+      client_code_postal: '94250'
+    };
+    try {
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) {
+        setLeadStatus('success');
+        setTimeout(() => close(), 2500);
+      } else throw new Error('Erreur réseau');
+    } catch {
+      setLeadStatus('error');
+      setTimeout(() => setLeadStatus('idle'), 3000);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -146,6 +192,15 @@ export default function ContactModal() {
             )}
           >
             <Calendar className="w-3.5 h-3.5" /> Planifier un appel
+          </button>
+          <button
+            onClick={() => setTab('leadmagnet')}
+            className={cn(
+              'flex-1 py-4 text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2',
+              tab === 'leadmagnet' ? 'text-cyan border-b-2 border-cyan' : 'text-ghost/40 hover:text-ghost/70'
+            )}
+          >
+            <Download className="w-3.5 h-3.5" /> Guide gratuit
           </button>
           <button onClick={close} className="px-5 py-4 text-ghost/30 hover:text-cyan transition-colors">
             <Zap className="w-5 h-5 rotate-45" />
@@ -251,6 +306,53 @@ export default function ContactModal() {
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>
               </form>
+            </>
+          )}
+        </div>
+
+        {/* ── Panneau Lead Magnet ── */}
+        <div style={{ display: tab === 'leadmagnet' ? 'block' : 'none' }} className="p-8 md:p-12">
+          {leadStatus === 'success' ? (
+            <div className="py-16 text-center">
+              <div className="w-20 h-20 bg-cyan/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan/30">
+                <CheckCircle2 className="w-10 h-10 text-cyan animate-bounce" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-4 text-ghost">Guide envoyé !</h2>
+              <p className="text-ghost/60 font-light">Vérifiez votre boîte mail (et vos spams).<br />Vous recevrez le guide sous 2 minutes.</p>
+            </div>
+          ) : (
+            <>
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4">5 automatisations <span className="text-cyan">CVC.</span></h2>
+                <p className="text-ghost/60 font-light">Le guide gratuit pour gagner 10h par semaine : RDV auto, devis instantanés, relances clients et suivi terrain.</p>
+              </div>
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleLeadSubmit}>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Prénom / Nom</label>
+                  <div className="relative">
+                    <input name="nom" value={leadData.nom} onChange={handleLeadChange} type="text" required className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors" placeholder="Jean Dupont" />
+                    <ArrowUpRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] uppercase font-bold tracking-widest text-cyan/60 ml-2">Email Professionnel</label>
+                  <div className="relative">
+                    <input name="email" value={leadData.email} onChange={handleLeadChange} type="email" required className="w-full bg-void/50 border border-ghost/10 rounded-2xl px-5 py-3 text-sm focus:border-cyan outline-none transition-colors" placeholder="jean@entreprise-cvc.fr" />
+                    <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
+                  </div>
+                </div>
+                {/* Honeypot anti-spam */}
+                <input name="honeypot" value={leadData.honeypot} onChange={handleLeadChange} type="text" tabIndex="-1" autoComplete="off" aria-hidden="true" className="absolute opacity-0 pointer-events-none h-0 w-0" />
+                <button type="submit" disabled={leadStatus === 'loading'} className={cn('md:col-span-2 group relative overflow-hidden bg-cyan text-void py-4 rounded-full font-extrabold uppercase tracking-widest transition-all shadow-lg shadow-cyan/20', leadStatus === 'loading' ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02] active:scale-95')}>
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {leadStatus === 'loading' ? <>Envoi en cours... <Activity className="w-5 h-5 animate-spin" /></>
+                      : leadStatus === 'error' ? <>Erreur - Réessayer <Zap className="w-5 h-5 text-red-500" /></>
+                      : <>Recevoir le guide gratuit <Download className="w-5 h-5" /></>}
+                  </span>
+                  <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                </button>
+              </form>
+              <p className="text-[10px] text-ghost/30 text-center mt-4">Pas de spam. Désinscription à tout moment.</p>
             </>
           )}
         </div>
