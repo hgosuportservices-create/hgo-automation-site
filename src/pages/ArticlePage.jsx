@@ -221,9 +221,9 @@ export default function ArticlePage() {
         </Reveal>
 
         {/* Content */}
-        <Reveal delay={0.2}>
+        <div>
           {article.content.map((block, i) => renderBlock(block, i))}
-        </Reveal>
+        </div>
 
         {/* Related articles */}
         {related.length > 0 && (
