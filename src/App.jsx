@@ -32,6 +32,8 @@ import {
   Send,
   User,
   Download,
+  Linkedin,
+  Mail,
 } from 'lucide-react';
 import { cn } from './lib/utils';
 import BackgroundVideo from './components/BackgroundVideo';
@@ -1053,7 +1055,26 @@ const Footer = () => {
         <div>
           <h4 className="text-xs uppercase font-bold tracking-widest mb-6 opacity-40">Contact</h4>
           <ul className="space-y-4 text-ghost/60">
-            <li><SocialLinks socials={FOOTER_SOCIALS} className="justify-start" /></li>
+            <li>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://www.linkedin.com/in/hugo-fonseca-6b53603aa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl bg-ghost/5 border border-ghost/10 flex items-center justify-center text-ghost/60 hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan transition-all"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href="mailto:hugo@hgoautomation.fr"
+                  className="w-10 h-10 rounded-xl bg-ghost/5 border border-ghost/10 flex items-center justify-center text-ghost/60 hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan transition-all"
+                  aria-label="Email"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+              </div>
+            </li>
             <li><a href="mailto:hugo@hgoautomation.fr" className="hover:text-cyan transition-colors text-cyan font-bold underline underline-offset-4">hugo@hgoautomation.fr</a></li>
           </ul>
         </div>
