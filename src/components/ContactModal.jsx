@@ -313,12 +313,19 @@ export default function ContactModal() {
         {/* ── Panneau Lead Magnet ── */}
         <div style={{ display: tab === 'leadmagnet' ? 'block' : 'none' }} className="p-8 md:p-12">
           {leadStatus === 'success' ? (
-            <div className="py-16 text-center">
+            <div className="py-12 text-center">
               <div className="w-20 h-20 bg-cyan/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan/30">
                 <CheckCircle2 className="w-10 h-10 text-cyan animate-bounce" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-4 text-ghost">Guide envoyé !</h2>
-              <p className="text-ghost/60 font-light">Vérifiez votre boîte mail (et vos spams).<br />Vous recevrez le guide sous 2 minutes.</p>
+              <p className="text-ghost/60 font-light mb-8">Vérifiez votre boîte mail (et vos spams).<br />Vous recevrez le guide sous 2 minutes.</p>
+              <a
+                href="/guides/guide-5-automatisations-cvc.pdf"
+                download
+                className="inline-flex items-center gap-2 bg-cyan text-void px-8 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest hover:bg-white transition-colors"
+              >
+                <Download className="w-5 h-5" /> Télécharger le guide maintenant
+              </a>
             </div>
           ) : (
             <>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>5 automatisations CVC pour gagner 10h par semaine</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d0d1a;
+      color: #f0eff4;
+      line-height: 1.6;
+      font-size: 11pt;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: 0 auto;
+      background: #0d0d1a;
+      position: relative;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 257mm;
+    }
+    .logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 28pt;
+      font-weight: 800;
+      color: #00d1ff;
+      letter-spacing: -0.04em;
+      margin-bottom: 6mm;
+    }
+    .logo span {
+      display: block;
+      font-size: 8pt;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: rgba(240,239,244,0.55);
+      margin-top: 2mm;
+    }
+    h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 36pt;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 8mm;
+      letter-spacing: -0.03em;
+    }
+    h1 .highlight {
+      color: #00d1ff;
+      font-style: italic;
+    }
+    .subtitle {
+      font-size: 14pt;
+      color: rgba(240,239,244,0.7);
+      max-width: 140mm;
+      margin-bottom: 15mm;
+    }
+    .meta {
+      font-size: 10pt;
+      color: rgba(240,239,244,0.5);
+    }
+    h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 20pt;
+      font-weight: 700;
+      color: #00d1ff;
+      margin: 12mm 0 6mm 0;
+      padding-bottom: 3mm;
+      border-bottom: 1px solid rgba(0,209,255,0.2);
+    }
+    h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 14pt;
+      font-weight: 600;
+      margin: 8mm 0 3mm 0;
+      color: #f0eff4;
+    }
+    p { margin-bottom: 4mm; color: rgba(240,239,244,0.85); }
+    ul { margin: 4mm 0 6mm 6mm; }
+    li { margin-bottom: 2mm; color: rgba(240,239,244,0.85); }
+    .box {
+      background: rgba(0,209,255,0.06);
+      border: 1px solid rgba(0,209,255,0.2);
+      border-radius: 8px;
+      padding: 6mm;
+      margin: 6mm 0;
+    }
+    .box strong { color: #00d1ff; }
+    .number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 8mm;
+      height: 8mm;
+      background: #00d1ff;
+      color: #0d0d1a;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 11pt;
+      margin-right: 3mm;
+    }
+    .cta {
+      background: #00d1ff;
+      color: #0d0d1a;
+      padding: 5mm 8mm;
+      border-radius: 50px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 12pt;
+      margin-top: 10mm;
+    }
+    .footer {
+      position: absolute;
+      bottom: 10mm;
+      left: 20mm;
+      right: 20mm;
+      text-align: center;
+      font-size: 9pt;
+      color: rgba(240,239,244,0.4);
+      border-top: 1px solid rgba(240,239,244,0.1);
+      padding-top: 4mm;
+    }
+    .two-col {
+      display: flex;
+      gap: 8mm;
+      margin: 6mm 0;
+    }
+    .col { flex: 1; }
+    .stat {
+      font-family: 'Sora', sans-serif;
+      font-size: 24pt;
+      font-weight: 700;
+      color: #00d1ff;
+    }
+    .stat-label {
+      font-size: 9pt;
+      color: rgba(240,239,244,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE DE COUVERTURE -->
+  <div class="page cover">
+    <div class="logo">HGO<span>AUTOMATION</span></div>
+    <h1>5 automatisations <span class="highlight">CVC</span> pour gagner 10h par semaine</h1>
+    <p class="subtitle">Guide pratique pour les entreprises de chauffage, ventilation et climatisation qui veulent arrêter de perdre du temps sur les tâches répétitives.</p>
+    <p class="meta">Guide gratuit — 2026</p>
+    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+  </div>
+
+  <!-- PAGE INTRO -->
+  <div class="page">
+    <h2>Pourquoi ce guide ?</h2>
+    <p>Les entreprises CVC perdent chaque semaine des heures précieuses sur des tâches qui pourraient être automatisées : répondre aux appels, envoyer des devis, relancer les clients, planifier les techniciens.</p>
+    <p>Ce guide présente <strong>5 automatisations concrètes</strong> déployées par HGO Automation pour des entreprises comme la vôtre. Chaque automation est classée par difficulté, temps de mise en place et retour sur investissement.</p>
+
+    <div class="two-col">
+      <div class="col">
+        <div class="stat">15h</div>
+        <div class="stat-label">économisées / semaine en moyenne</div>
+      </div>
+      <div class="col">
+        <div class="stat">5 jours</div>
+        <div class="stat-label">de délai de déploiement</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <strong>⚡ Principe de base :</strong> une bonne automation ne remplace pas votre équipe. Elle libère du temps pour que vos collaborateurs se concentrent sur ce qui a de la valeur : le conseil, la relation client et les interventions complexes.
+    </div>
+
+    <h2>Ce que vous allez découvrir</h2>
+    <ul>
+      <li>Automatisation 1 : Prise de RDV par WhatsApp 24h/24</li>
+      <li>Automatisation 2 : Devis automatique après visite</li>
+      <li>Automatisation 3 : Relances entretien et contrats maintenance</li>
+      <li>Automatisation 4 : CRM métier CVC centralisé</li>
+      <li>Automatisation 5 : Dispatch techniciens intelligent</li>
+    </ul>
+
+    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+  </div>
+
+  <!-- AUTOMATION 1 -->
+  <div class="page">
+    <h2><span class="number">1</span>Prise de RDV par WhatsApp 24h/24</h2>
+    <h3>Le problème</h3>
+    <p>Vos clients écrivent à 22h pour un dépannage. Vos techniciens sont sur le terrain. Votre secrétaire est débordée. Résultat : l'appel est manqué, le prospect appelle le concurrent.</p>
+
+    <h3>L'automation</h3>
+    <p>Un chatbot WhatsApp qualifie la demande, propose les créneaux disponibles et confirme le RDV instantanément. Le client reçoit un rappel J-1 avec l'adresse et le nom du technicien.</p>
+
+    <div class="box">
+      <strong>Gain de temps :</strong> 4h/semaine<br>
+      <strong>Outils :</strong> WhatsApp Business API + Calendly/Google Calendar + n8n<br>
+      <strong>ROI :</strong> 0 appel manqué, RDV confirmés automatiquement
+    </div>
+
+    <h3>Cas d'usage concret</h3>
+    <p>Un client écrit : "Bonjour, ma clim ne refroidit plus." Le bot lui demande l'adresse, le type d'équipement, les créneaux possibles. En 2 minutes, le RDV est pris sans intervention humaine.</p>
+
+    <h2><span class="number">2</span>Devis automatique après visite</h2>
+    <h3>Le problème</h3>
+    <p>Le technicien visite, prend des notes, et le devis part 5 à 10 jours plus tard. Entre-temps, le client a déjà signé ailleurs.</p>
+
+    <h3>L'automation</h3>
+    <p>Dès que le technicien valide son rapport d'intervention sur mobile, le devis est généré automatiquement (prix, descriptions, conditions) et envoyé par email/WhatsApp au client.</p>
+
+    <div class="box">
+      <strong>Gain de temps :</strong> 3h/semaine<br>
+      <strong>Outils :</strong> Formulaire mobile + CRM + template de devis + n8n<br>
+      <strong>ROI :</strong> Devis envoyé en moins d'une heure après la visite
+    </div>
+
+    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+  </div>
+
+  <!-- AUTOMATION 3 & 4 -->
+  <div class="page">
+    <h2><span class="number">3</span>Relances entretien et contrats maintenance</h2>
+    <h3>Le problème</h3>
+    <p>Les entretiens annuels et les renouvellements de contrat maintenance passent à la trappe. Vous perdez du chiffre d'affaires récurrent.</p>
+
+    <h3>L'automation</h3>
+    <p>Le système identifie automatiquement les clients dont l'entretien est dû, envoie une relance par WhatsApp/email, et permet de réserver un créneau en un clic.</p>
+
+    <div class="box">
+      <strong>Gain de temps :</strong> 2h/semaine<br>
+      <strong>Outils :</strong> CRM avec dates d'entretien + séquences de relance + n8n<br>
+      <strong>ROI :</strong> Taux de rappel passé de 30% à 85%
+    </div>
+
+    <h2><span class="number">4</span>CRM métier CVC centralisé</h2>
+    <h3>Le problème</h3>
+    <p>Les informations clients sont éparpillées : WhatsApp perso, carnet papier, Excel, emails. Impossible de savoir où en est chaque dossier.</p>
+
+    <h3>L'automation</h3>
+    <p>Un CRM sur mesure avec fiches clients, historique des interventions, équipements installés, contrats en cours et relances à faire. Tout est centralisé et accessible sur mobile.</p>
+
+    <div class="box">
+      <strong>Gain de temps :</strong> 3h/semaine<br>
+      <strong>Outils :</strong> Notion / Airtable / HubSpot + automations n8n<br>
+      <strong>ROI :</strong> Plus de dossier perdu, visibilité temps réel
+    </div>
+
+    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+  </div>
+
+  <!-- AUTOMATION 5 & CTA -->
+  <div class="page">
+    <h2><span class="number">5</span>Dispatch techniciens intelligent</h2>
+    <h3>Le problème</h3>
+    <p>Planifier les interventions prend du temps : qui est disponible ? dans quelle zone ? avec quelles compétences ? Les erreurs de planification coûtent cher.</p>
+
+    <h3>L'automation</h3>
+    <p>Le système attribue automatiquement les interventions selon la zone géographique, les compétences requises et la disponibilité du technicien. Le planning est mis à jour en temps réel.</p>
+
+    <div class="box">
+      <strong>Gain de temps :</strong> 2h/semaine<br>
+      <strong>Outils :</strong> Google Calendar / outil de planning + géolocalisation + n8n<br>
+      <strong>ROI :</strong> Moins de trajets inutiles, meilleure couverture territoriale
+    </div>
+
+    <h2>Par où commencer ?</h2>
+    <p>Nous recommandons de commencer par <strong>l'automation 1 (RDV WhatsApp)</strong> car elle a le ROI le plus rapide : moins d'appels manqués, plus de RDV qualifiés, moins de stress pour votre équipe.</p>
+
+    <div class="box">
+      <strong>Conseil :</strong> ne cherchez pas à tout automatiser en une fois. Commencez par une automation qui résout votre plus grosse douleur, mesurez le résultat pendant 30 jours, puis passez à la suivante.
+    </div>
+
+    <div class="cta">
+      Envie de mettre en place ces automatisations ?<br>
+      <span style="font-weight: 400; font-size: 10pt;">Rendez-vous sur hgoautomation.fr pour un appel découverte gratuit.</span>
+    </div>
+
+    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+  </div>
+
+</body>
+</html>
