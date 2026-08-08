@@ -179,46 +179,46 @@ export default function ArticlePage() {
       <SharedNav />
 
       {/* Hero image */}
-      <Reveal y={0} className="relative h-[50vh] overflow-hidden">
+      <div className="relative h-[50vh] overflow-hidden">
         <img src={article.image} alt={article.title} loading="eager" fetchpriority="high" className="w-full h-full object-cover opacity-50" />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-void/20" />
-      </Reveal>
+      </div>
 
       <div className="max-w-3xl mx-auto px-8 md:px-12 pb-32 -mt-20 relative z-10">
         {/* Breadcrumb */}
-        <Reveal className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-ghost/30 mb-8">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-ghost/30 mb-8">
           <Link to="/blog" className="hover:text-cyan transition-colors flex items-center gap-1">
             <ArrowLeft className="w-3 h-3" /> Blog
           </Link>
           <span>/</span>
           <span className="text-ghost/50">{article.category}</span>
-        </Reveal>
+        </div>
 
         {/* Meta */}
-        <Reveal delay={0.05} className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-6">
           <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${categoryColors[article.category]}`}>{article.category}</span>
           <span className="text-[10px] font-mono text-ghost/40 flex items-center gap-1"><Clock className="w-3 h-3" /> {article.readTime}</span>
           <span className="text-[10px] font-mono text-ghost/40">{article.date}</span>
-        </Reveal>
+        </div>
 
         {/* Title */}
-        <Reveal delay={0.1} as="h1" className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
           {article.title}
-        </Reveal>
+        </h1>
 
         {/* Excerpt */}
-        <Reveal delay={0.15} as="p" className="text-ghost/50 text-lg font-light mb-8">
+        <p className="text-ghost/50 text-lg font-light mb-8">
           {article.excerpt}
-        </Reveal>
+        </p>
 
         {/* Auteur */}
-        <Reveal delay={0.18} className="flex items-center gap-3 mb-12 pb-12 border-b border-ghost/10">
+        <div className="flex items-center gap-3 mb-12 pb-12 border-b border-ghost/10">
           <img src="/hugo-fonseca.jpeg" alt="Hugo Fonseca" className="w-10 h-10 rounded-full object-cover border border-ghost/10" />
           <div>
             <p className="text-sm font-bold text-ghost">Hugo Fonseca</p>
             <p className="text-xs text-ghost/40">Fondateur d'HGO Automation</p>
           </div>
-        </Reveal>
+        </div>
 
         {/* Content */}
         <div>
@@ -230,16 +230,14 @@ export default function ArticlePage() {
           <div className="mt-24 pt-12 border-t border-ghost/10">
             <h3 className="text-xs uppercase font-bold tracking-widest text-ghost/30 mb-8">Articles similaires</h3>
             <div className="grid md:grid-cols-2 gap-6">
-              {related.map((rel, i) => (
-                <Reveal key={rel.slug} delay={i * 0.05}>
-                  <Link to={`/blog/${rel.slug}`} className="premium-card group block rounded-2xl border border-ghost/10 hover:border-cyan/30 transition-all p-6 bg-void/30">
-                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${categoryColors[rel.category]}`}>{rel.category}</span>
-                    <h4 className="mt-3 font-bold text-sm leading-tight group-hover:text-cyan transition-colors">{rel.title}</h4>
-                    <div className="mt-3 flex items-center gap-1 text-cyan/50 group-hover:text-cyan text-xs font-bold uppercase tracking-widest transition-colors">
-                      Lire <ChevronRight className="w-3 h-3" />
-                    </div>
-                  </Link>
-                </Reveal>
+              {related.map((rel) => (
+                <Link key={rel.slug} to={`/blog/${rel.slug}`} className="premium-card group block rounded-2xl border border-ghost/10 hover:border-cyan/30 transition-all p-6 bg-void/30">
+                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${categoryColors[rel.category]}`}>{rel.category}</span>
+                  <h4 className="mt-3 font-bold text-sm leading-tight group-hover:text-cyan transition-colors">{rel.title}</h4>
+                  <div className="mt-3 flex items-center gap-1 text-cyan/50 group-hover:text-cyan text-xs font-bold uppercase tracking-widest transition-colors">
+                    Lire <ChevronRight className="w-3 h-3" />
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
