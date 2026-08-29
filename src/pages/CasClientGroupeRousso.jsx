@@ -6,9 +6,9 @@ import { useContact } from '../context/ContactContext';
 import SharedNav from '../components/SharedNav';
 
 const STATS = [
-  { value: '26 751 $', label: 'CA généré sur 2 mois (HT)' },
+  { value: '52 000 $', label: 'CA généré sur 2 mois (HT)' },
   { value: '70', label: 'Devis convertis ce mois-ci' },
-  { value: '67,3 %', label: 'Taux de conversion' },
+  { value: '85 %', label: 'Taux de conversion' },
 ];
 
 const FEATURES = [
@@ -85,9 +85,9 @@ export default function CasClientGroupeRousso() {
 
           <h2 className="text-2xl font-bold tracking-tight mb-4">Les résultats</h2>
           <p className="text-ghost/60 leading-relaxed">
-            Sur les 2 derniers mois, Groupe Rousso a généré <strong className="text-ghost">26 751 $</strong> de
+            Sur les 2 derniers mois, Groupe Rousso a généré <strong className="text-ghost">52 000 $</strong> de
             chiffre d'affaires hors taxes via le système de devis automatisé, avec un taux de
-            conversion de <strong className="text-ghost">67,3 %</strong> — près de 7 devis envoyés sur 10 aboutissent
+            conversion de <strong className="text-ghost">85 %</strong> — près de 7 devis envoyés sur 10 aboutissent
             à une intervention planifiée.
           </p>
         </div>

@@ -820,9 +820,9 @@ const CAS_CLIENTS = [
     role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
     desc: "CRM sur mesure, relances client automatisées, devis générés et envoyés par email automatiquement, connecté à leur système de planification.",
     stats: [
-      { value: '26 751 $', label: 'CA généré (2 mois)' },
+      { value: '52 000 $', label: 'CA généré (2 mois)' },
       { value: '70', label: 'Devis convertis / mois' },
-      { value: '67,3 %', label: 'Taux de conversion' },
+      { value: '85 %', label: 'Taux de conversion' },
     ],
     cta: { internal: true, to: '/cas-client/groupe-rousso', label: 'Voir le cas complet' },
   },
