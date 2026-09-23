@@ -37,7 +37,7 @@ export default function APropos() {
     <main className="min-h-screen text-ghost font-sans overflow-x-hidden">
       <Helmet>
         <title>À propos — Hugo Fonseca | HGO Automation</title>
-        <meta name="description" content="Hugo Fonseca, fondateur d'HGO Automation, ancien technico-commercial CVC. Il automatise RDV, devis et relances pour les artisans du bâtiment." />
+        <meta name="description" content="Hugo Fonseca, fondateur d'HGO Automation, ancien technico-commercial CVC. Il automatise appels, RDV, devis, relances et factures pour les artisans du bâtiment." />
         <link rel="canonical" href="https://www.hgoautomation.fr/a-propos" />
         <meta property="og:title" content="À propos — Hugo Fonseca | HGO Automation" />
         <meta property="og:url" content="https://www.hgoautomation.fr/a-propos" />
@@ -72,7 +72,7 @@ export default function APropos() {
               Hugo<br />Fonseca
             </motion.h1>
             <p className="text-lg md:text-xl text-ghost/80 leading-relaxed bg-void/80 rounded-2xl max-w-xl">
-              Fondateur d'HGO Automation. J'aide les artisans du bâtiment et les PME à ne plus perdre de clients à cause de l'administratif : RDV, devis et relances qui tournent tout seuls.
+              Fondateur d'HGO Automation. J'aide les artisans du bâtiment et les PME à ne plus perdre de clients à cause de l'administratif : appels, RDV, devis, relances et factures qui tournent tout seuls.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button onClick={() => open('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>

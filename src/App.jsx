@@ -42,11 +42,11 @@ const Hero = ({ onOpenContact }) => {
       <Sparkle className="absolute w-8 right-[24%] top-[14%]" />
 
       <div className="relative z-20 flex flex-col items-center text-center px-5 pt-24 md:pt-28">
-        <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="chunky text-[clamp(2.6rem,11vw,7.5rem)] !leading-[0.92]">
-          Vos devis<br />partent seuls
+        <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="chunky text-[clamp(2.2rem,9vw,6.5rem)] !leading-[0.92]">
+          Moins de paperasse,<br />plus de chantiers
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-lg text-ghost/85 text-lg md:text-xl leading-relaxed bg-void rounded-2xl px-4 py-1">
-          RDV, devis et relances automatisés pour les artisans du bâtiment. En service en 2 semaines, dès 990€.
+          Appels, RDV, devis, relances, factures : l'administratif des artisans du bâtiment, automatisé. En service en 2 semaines, dès 990€.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap justify-center gap-3">
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
@@ -63,15 +63,15 @@ const Hero = ({ onOpenContact }) => {
 };
 
 const BENEFITS = [
-  { icon: MessageSquare, title: 'Zéro appel manqué', desc: "Vos clients écrivent sur WhatsApp ou votre site, obtiennent une réponse immédiate et réservent leur créneau, même quand vous êtes sur un chantier." },
-  { icon: Send, title: 'Devis & relances automatiques', desc: "Vos devis partent le jour même et sont relancés automatiquement. Fini les devis oubliés qui partent chez le concurrent." },
+  { icon: MessageSquare, title: 'Zéro appel manqué', desc: "Une standardiste IA décroche au téléphone, un assistant répond sur WhatsApp : vos clients réservent leur créneau, même quand vous êtes sur un chantier." },
+  { icon: Send, title: 'Devis, factures & relances', desc: "Vos devis partent le jour même, vos factures aussi, et les relances se font toutes seules. Un tableau de bord vous montre où en est chaque client." },
   { icon: Calendar, title: 'Un agenda qui se remplit', desc: "RDV confirmés, rappels la veille, entretiens annuels relancés : votre planning se remplit sans passer vos journées au téléphone." },
 ];
 
 const BenefitsSection = () => (
   <section className="py-20 md:py-28 px-5 md:px-12" id="expertise">
     <div className="max-w-6xl mx-auto">
-      <SectionTitle label="Ce que ça change" className="mb-12">Moins de téléphone, <span className="text-cyan">plus de chantiers.</span></SectionTitle>
+      <SectionTitle label="Ce que ça change" className="mb-12">Tout ce qui se répète, <span className="text-cyan">automatisé.</span></SectionTitle>
       <div className="grid md:grid-cols-3 gap-6">
         {BENEFITS.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="card-brut hoverable p-8 flex flex-col gap-4">
@@ -328,7 +328,7 @@ function App() {
         <meta name="description" content="RDV WhatsApp 24h/24, devis envoyés le jour même, relances automatiques : l'automatisation n8n et IA pour artisans et PME. En service en 2 semaines." />
         <meta property="og:locale" content="fr_FR" />
         <meta property="og:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
-        <meta property="og:description" content="RDV, devis et relances automatisés pour les artisans et PME. En service en 2 semaines, dès 990€. Formation n8n dès 290€." />
+        <meta property="og:description" content="Appels, RDV, devis, relances et factures automatisés pour les artisans et PME. En service en 2 semaines, dès 990€. Formation n8n dès 290€." />
         <meta property="og:url" content="https://www.hgoautomation.fr/" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://www.hgoautomation.fr/og-cover.png" />
@@ -336,7 +336,7 @@ function App() {
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
-        <meta name="twitter:description" content="RDV, devis et relances automatisés pour les artisans et PME. En service en 2 semaines." />
+        <meta name="twitter:description" content="Appels, RDV, devis, relances et factures automatisés pour les artisans et PME. En service en 2 semaines." />
         <meta name="twitter:image" content="https://www.hgoautomation.fr/og-cover.png" />
         <link rel="canonical" href="https://www.hgoautomation.fr/" />
         <script type="application/ld+json">{JSON.stringify({
