@@ -11,7 +11,7 @@ export default function NotFound() {
         <title>404 — Page introuvable | HGO Automation</title>
       </Helmet>
       <div className="text-center max-w-lg">
-        <p className="text-[10px] font-mono uppercase tracking-widest text-cyan/60 mb-6">Erreur 404</p>
+        <p className="label-cond mb-4 block">Erreur 404</p>
         <h1 className="text-7xl md:text-[10rem] font-serif italic leading-none mb-6">
           Perdu.
         </h1>
@@ -20,7 +20,7 @@ export default function NotFound() {
         </p>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 bg-cyan text-void px-8 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest hover:bg-white transition-colors"
+          className="btn-cyan"
         >
           Retour à l'accueil <ArrowUpRight className="w-4 h-4" />
         </Link>

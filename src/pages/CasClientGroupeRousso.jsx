@@ -4,9 +4,11 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowUpRight, CheckCircle2, Calendar } from 'lucide-react';
 import { useContact } from '../context/ContactContext';
 import SharedNav from '../components/SharedNav';
+import SiteFooter from '../components/SiteFooter';
+import { CALL_MIN } from '../config';
 
 const STATS = [
-  { value: '52 000 $', label: 'CA généré sur 2 mois (HT)' },
+  { value: '52 000 $ CAD', label: 'CA généré sur 2 mois (HT)' },
   { value: '70', label: 'Devis convertis ce mois-ci' },
   { value: '85 %', label: 'Taux de conversion' },
 ];
@@ -30,20 +32,20 @@ export default function CasClientGroupeRousso() {
       <Helmet>
         <title>Groupe Rousso — Cas Client | HGO Automation</title>
         <meta name="description" content="Comment Groupe Rousso, entreprise de nettoyage de conduits de ventilation à Montréal, a automatisé sa gestion de devis et de clients avec HGO Automation." />
-        <link rel="canonical" href="https://hgoautomation.fr/cas-client/groupe-rousso" />
+        <link rel="canonical" href="https://www.hgoautomation.fr/cas-client/groupe-rousso" />
       </Helmet>
 
       <SharedNav />
 
       <section className="relative min-h-[50vh] flex items-center px-8 md:px-24 pt-40 pb-16">
         <div className="max-w-4xl mx-auto w-full">
-          <span className="inline-block text-[10px] font-mono uppercase tracking-widest text-cyan border border-cyan/30 px-4 py-1.5 rounded-full bg-cyan/5 mb-8">
+          <span className="inline-block font-cond uppercase tracking-[0.18em] text-xs font-semibold text-cyan bg-void border-2 border-cyan rounded-full px-4 py-1.5 mb-8">
             Cas client
           </span>
           <div className="flex items-center gap-6 mb-8">
             <img src="/groupe-rousso-logo.webp" alt="Groupe Rousso" className="w-20 md:w-24" />
             <div>
-              <h1 className="text-3xl md:text-5xl font-bold tracking-tight">Groupe Rousso</h1>
+              <h1 className="chunky text-[clamp(2rem,5vw,3.8rem)]">Groupe Rousso</h1>
               <p className="text-ghost/50 mt-1">Nettoyage de conduits de ventilation — Montréal, Québec</p>
             </div>
           </div>
@@ -53,7 +55,7 @@ export default function CasClientGroupeRousso() {
       <section className="px-8 md:px-24 pb-16">
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6">
           {STATS.map((s) => (
-            <div key={s.label} className="glass rounded-premium p-6 text-center">
+            <div key={s.label} className="card-brut p-6 text-center">
               <p className="text-3xl font-bold text-cyan mb-2">{s.value}</p>
               <p className="text-ghost/40 text-xs uppercase tracking-widest">{s.label}</p>
             </div>
@@ -63,14 +65,14 @@ export default function CasClientGroupeRousso() {
 
       <section className="py-12 px-8 md:px-24">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Le défi</h2>
+          <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-4">Le défi</h2>
           <p className="text-ghost/60 leading-relaxed mb-12">
             Groupe Rousso reçoit des centaines de demandes de nettoyage de conduits chaque mois,
             partout dans la grande région de Montréal. Sans système automatisé, chaque devis
             demandait un suivi manuel — avec le risque de perdre des demandes en cours de route.
           </p>
 
-          <h2 className="text-2xl font-bold tracking-tight mb-6">Ce qui a été mis en place</h2>
+          <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-6">Ce qui a été mis en place</h2>
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {FEATURES.map((f) => (
               <div key={f.title} className="flex items-start gap-3">
@@ -83,9 +85,9 @@ export default function CasClientGroupeRousso() {
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Les résultats</h2>
+          <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-4">Les résultats</h2>
           <p className="text-ghost/60 leading-relaxed">
-            Sur les 2 derniers mois, Groupe Rousso a généré <strong className="text-ghost">52 000 $</strong> de
+            Sur les 2 derniers mois, Groupe Rousso a généré <strong className="text-ghost">52 000 $ CAD</strong> de
             chiffre d'affaires hors taxes via le système de devis automatisé, avec un taux de
             conversion de <strong className="text-ghost">85 %</strong> — près de 7 devis envoyés sur 10 aboutissent
             à une intervention planifiée.
@@ -94,23 +96,23 @@ export default function CasClientGroupeRousso() {
       </section>
 
       <section className="py-24 px-8 md:px-24">
-        <div className="max-w-4xl mx-auto text-center rounded-[2rem] border border-cyan/20 bg-cyan/5 p-12 md:p-16">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+        <div className="max-w-4xl mx-auto text-center card-brut !rounded-[2.5rem] p-12 md:p-16">
+          <h2 className="chunky-sm text-[clamp(1.8rem,4vw,3rem)] mb-4">
             Un projet similaire ?
           </h2>
           <p className="text-ghost/50 mb-8 max-w-lg mx-auto">
-            Appel de découverte gratuit de 30 minutes pour voir si HGO Automation a sa place chez vous.
+            Appel de découverte gratuit de {CALL_MIN} minutes pour voir si HGO Automation a sa place chez vous.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={open}
-              className="inline-flex items-center gap-2 bg-cyan text-void px-8 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest hover:bg-white transition-colors"
+              className="btn-cyan"
             >
               Discuter de mon projet <ArrowUpRight className="w-5 h-5" />
             </button>
             <button
               onClick={() => open('calendly')}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan transition-colors"
+              className="btn-outline"
             >
               <Calendar className="w-4 h-4" /> Planifier un appel
             </button>
@@ -118,17 +120,7 @@ export default function CasClientGroupeRousso() {
         </div>
       </section>
 
-      <footer className="py-8 px-8 md:px-24 border-t border-ghost/5">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <Link to="/" className="text-[10px] font-mono opacity-40 hover:opacity-70 transition-opacity uppercase tracking-widest">
-            © 2026 Hugo Fonseca — HGO Automation
-          </Link>
-          <div className="flex gap-6 text-[10px] font-mono opacity-40">
-            <Link to="/blog" className="hover:text-cyan hover:opacity-100 transition-all">Blog</Link>
-            <Link to="/" className="hover:text-cyan hover:opacity-100 transition-all">Accueil</Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter cta={false} />
     </main>
   );
 }

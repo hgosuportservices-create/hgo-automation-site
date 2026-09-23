@@ -2,9 +2,10 @@ import ServicePage from '../../components/ServicePage.jsx';
 
 const cvcData = {
   slug: 'automatisation-cvc-climatisation-chauffage',
+  path: '/secteurs/automatisation-cvc-climatisation-chauffage',
   title: 'Automatisation pour CVC, Climatisation & Chauffage',
-  metaTitle: 'Automatisation CVC & Climatisation — RDV et suivi client auto | HGO Automation',
-  metaDescription: 'Automatisez la prise de RDV, les devis et le suivi client pour votre entreprise CVC, climatisation ou chauffage. HGO Automation, expert du secteur. Devis gratuit.',
+  metaTitle: 'Automatisation CVC & climatisation : RDV, devis | HGO Automation',
+  metaDescription: 'Automatisation pour entreprises CVC, clim et chauffage : RDV WhatsApp 24h/24, devis le jour même, relances d\'entretien. Dès 990€.',
   hero: {
     image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=1400&auto=format&fit=crop',
     tag: 'Spécialiste CVC & Climatisation',
@@ -13,7 +14,7 @@ const cvcData = {
     stats: [
       { value: '15h', label: 'économisées / semaine' },
       { value: '98%', label: "Taux d'ouverture WhatsApp" },
-      { value: '5j', label: 'Délai de déploiement' },
+      { value: '10j', label: 'Mise en service' },
     ],
   },
   problems: {
@@ -37,7 +38,7 @@ const cvcData = {
     ],
   },
   steps: {
-    h2: 'Déployé en 5 jours ouvrés',
+    h2: 'En service en 5 à 10 jours ouvrés',
     items: [
       { num: '01', title: 'Audit de vos flux CVC', desc: 'On analyse votre process actuel : prise de RDV, devis, intervention, relance, facturation.' },
       { num: '02', title: 'Configuration des outils', desc: 'Connexion WhatsApp Business, CRM, calendrier et formulaires selon votre activité.' },
@@ -46,7 +47,7 @@ const cvcData = {
     ],
   },
   usecases: {
-    h2: 'Qui utilise nos automatisations CVC ?',
+    h2: 'Qui utilise ces automatisations CVC ?',
     items: [
       { sector: 'Installateurs CVC', example: 'Qualification automatique des demandes, prise de RDV en ligne et relance de devis après visite.' },
       { sector: 'Climatisation résidentielle', example: 'Chatbot WhatsApp pour devis express, rappels d\'entretien et suivi client saisonnier.' },
@@ -65,10 +66,10 @@ const cvcData = {
   },
   pricing: {
     h2: 'Tarifs automatisation CVC',
-    note: 'Devis personnalisé sous 24h. Appel découverte gratuit et sans engagement.',
+    note: 'Devis personnalisé sous 24h. Appel découverte gratuit et sans engagement. Maintenance & évolutions en option : à partir de 149 €/mois.',
     items: [
       { label: 'Essentiel', price: '990€', desc: 'Chatbot WhatsApp + prise de RDV + rappels. Idéal pour stopper les appels manqués.', highlight: false },
-      { label: 'CVC Pro', price: '2 200€', desc: 'WhatsApp + CRM + devis auto + relances. Système clé en main déployé en 5 jours.', highlight: true },
+      { label: 'CVC Pro', price: '2 200€', desc: 'WhatsApp + CRM + devis auto + relances. Système clé en main, en service en 10 jours ouvrés.', highlight: true },
       { label: 'Sur mesure', price: 'Devis', desc: 'Intégrations avancées, dispatch techniciens, dashboard direction. Devis sous 24h.', highlight: false },
     ],
   },

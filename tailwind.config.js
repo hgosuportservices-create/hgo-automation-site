@@ -15,7 +15,9 @@ export default {
       },
       fontFamily: {
         sans: ["Sora", "sans-serif"],
-        serif: ["Instrument Serif", "serif"],
+        serif: ["Bowlby One", "Sora", "sans-serif"],
+        display: ["Bowlby One", "Sora", "sans-serif"],
+        cond: ["Oswald", "Sora", "sans-serif"],
         mono: ["Fira Code", "monospace"],
       },
       borderRadius: {

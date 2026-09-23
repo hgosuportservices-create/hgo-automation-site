@@ -2,292 +2,391 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>5 automatisations CVC pour gagner 10h par semaine</title>
+  <title>5 automatisations pour les artisans du bâtiment — HGO Automation</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+    /* Format A4 strict : une section = une page, sans marge navigateur */
+    @page { size: A4; margin: 0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      background: #0d0d1a;
+    }
     body {
       font-family: 'Inter', sans-serif;
-      background: #0d0d1a;
       color: #f0eff4;
-      line-height: 1.6;
-      font-size: 11pt;
+      line-height: 1.55;
+      font-size: 10.5pt;
     }
     .page {
       width: 210mm;
-      min-height: 297mm;
-      padding: 20mm;
-      margin: 0 auto;
-      background: #0d0d1a;
+      height: 296.8mm;
+      padding: 20mm 20mm 26mm;
       position: relative;
+      overflow: hidden;
+      background: #0d0d1a;
       page-break-after: always;
-    }
-    .page:last-child { page-break-after: auto; }
-    .cover {
+      break-after: page;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-height: 257mm;
     }
-    .logo {
-      font-family: 'Sora', sans-serif;
-      font-size: 28pt;
-      font-weight: 800;
-      color: #00d1ff;
-      letter-spacing: -0.04em;
-      margin-bottom: 6mm;
-    }
-    .logo span {
-      display: block;
-      font-size: 8pt;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      color: rgba(240,239,244,0.55);
-      margin-top: 2mm;
-    }
-    h1 {
-      font-family: 'Sora', sans-serif;
-      font-size: 36pt;
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 8mm;
-      letter-spacing: -0.03em;
-    }
-    h1 .highlight {
-      color: #00d1ff;
-      font-style: italic;
-    }
-    .subtitle {
-      font-size: 14pt;
-      color: rgba(240,239,244,0.7);
-      max-width: 140mm;
-      margin-bottom: 15mm;
-    }
-    .meta {
-      font-size: 10pt;
-      color: rgba(240,239,244,0.5);
-    }
-    h2 {
-      font-family: 'Sora', sans-serif;
-      font-size: 20pt;
-      font-weight: 700;
-      color: #00d1ff;
-      margin: 12mm 0 6mm 0;
-      padding-bottom: 3mm;
-      border-bottom: 1px solid rgba(0,209,255,0.2);
-    }
-    h3 {
-      font-family: 'Sora', sans-serif;
-      font-size: 14pt;
-      font-weight: 600;
-      margin: 8mm 0 3mm 0;
-      color: #f0eff4;
-    }
-    p { margin-bottom: 4mm; color: rgba(240,239,244,0.85); }
-    ul { margin: 4mm 0 6mm 6mm; }
-    li { margin-bottom: 2mm; color: rgba(240,239,244,0.85); }
-    .box {
-      background: rgba(0,209,255,0.06);
-      border: 1px solid rgba(0,209,255,0.2);
-      border-radius: 8px;
-      padding: 6mm;
-      margin: 6mm 0;
-    }
-    .box strong { color: #00d1ff; }
-    .number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 8mm;
-      height: 8mm;
-      background: #00d1ff;
-      color: #0d0d1a;
-      border-radius: 50%;
-      font-weight: 700;
-      font-size: 11pt;
-      margin-right: 3mm;
-    }
-    .cta {
-      background: #00d1ff;
-      color: #0d0d1a;
-      padding: 5mm 8mm;
-      border-radius: 50px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 12pt;
-      margin-top: 10mm;
-    }
-    .footer {
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .page::before {
+      content: '';
       position: absolute;
-      bottom: 10mm;
-      left: 20mm;
-      right: 20mm;
-      text-align: center;
-      font-size: 9pt;
-      color: rgba(240,239,244,0.4);
-      border-top: 1px solid rgba(240,239,244,0.1);
-      padding-top: 4mm;
+      top: -60mm; right: -60mm;
+      width: 150mm; height: 150mm;
+      background: radial-gradient(circle, rgba(0,209,255,0.10), transparent 65%);
+      pointer-events: none;
     }
-    .two-col {
-      display: flex;
-      gap: 8mm;
-      margin: 6mm 0;
+
+    /* En-tête et pied de page identiques sur chaque page */
+    .top {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 8pt; color: rgba(240,239,244,0.4);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      padding-bottom: 5mm; margin-bottom: 8mm;
+      border-bottom: 1px solid rgba(240,239,244,0.08);
     }
-    .col { flex: 1; }
-    .stat {
-      font-family: 'Sora', sans-serif;
-      font-size: 24pt;
-      font-weight: 700;
-      color: #00d1ff;
+    .top b { font-family: 'Sora', sans-serif; color: #00d1ff; letter-spacing: 0.05em; font-weight: 800; }
+    .footer {
+      position: absolute; left: 20mm; right: 20mm; bottom: 10mm;
+      display: flex; justify-content: space-between;
+      font-size: 8pt; color: rgba(240,239,244,0.4);
+      border-top: 1px solid rgba(240,239,244,0.08);
+      padding-top: 3.5mm;
     }
-    .stat-label {
-      font-size: 9pt;
-      color: rgba(240,239,244,0.6);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+
+    /* Typo */
+    .kicker { font-size: 8.5pt; color: #00d1ff; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 600; margin-bottom: 3mm; }
+    h1 { font-family: 'Sora', sans-serif; font-size: 34pt; font-weight: 700; line-height: 1.08; letter-spacing: -0.03em; }
+    h1 em { color: #00d1ff; font-style: italic; }
+    h2 { font-family: 'Sora', sans-serif; font-size: 21pt; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 6mm; }
+    h3 { font-family: 'Sora', sans-serif; font-size: 11.5pt; font-weight: 600; margin-bottom: 2.5mm; color: #f0eff4; }
+    p { color: rgba(240,239,244,0.8); margin-bottom: 3.5mm; }
+    strong { color: #f0eff4; }
+    .muted { color: rgba(240,239,244,0.55); }
+
+    /* Blocs */
+    .box { border-radius: 4mm; padding: 5mm 6mm; margin-bottom: 5mm; }
+    .box-problem { background: rgba(255,90,90,0.06); border: 1px solid rgba(255,90,90,0.22); }
+    .box-problem h3 { color: #ff8a8a; }
+    .box-solution { background: rgba(0,209,255,0.06); border: 1px solid rgba(0,209,255,0.22); }
+    .box-solution h3 { color: #00d1ff; }
+    .box-neutral { background: rgba(240,239,244,0.03); border: 1px solid rgba(240,239,244,0.09); }
+
+    .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 11mm; height: 11mm; border-radius: 3mm;
+      background: #00d1ff; color: #0d0d1a;
+      font-family: 'Sora', sans-serif; font-weight: 800; font-size: 14pt;
+      margin-bottom: 5mm;
     }
+
+    ul.examples { list-style: none; }
+    ul.examples li { display: flex; gap: 3mm; margin-bottom: 2.5mm; color: rgba(240,239,244,0.82); }
+    ul.examples li span.tag {
+      flex-shrink: 0; width: 26mm;
+      font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: #00d1ff; padding-top: 0.6mm;
+    }
+
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: auto; }
+    .fact { border: 1px solid rgba(240,239,244,0.09); border-radius: 3mm; padding: 4mm; background: rgba(240,239,244,0.02); }
+    .fact .v { font-family: 'Sora', sans-serif; font-size: 13pt; font-weight: 700; color: #00d1ff; line-height: 1.2; }
+    .fact .l { font-size: 7.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(240,239,244,0.5); margin-top: 1.5mm; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin: 6mm 0; }
+    .stat { border: 1px solid rgba(0,209,255,0.2); border-radius: 3mm; padding: 5mm; background: rgba(0,209,255,0.04); }
+    .stat .v { font-family: 'Sora', sans-serif; font-size: 20pt; font-weight: 700; color: #00d1ff; line-height: 1.1; }
+    .stat .l { font-size: 8pt; color: rgba(240,239,244,0.6); margin-top: 1.5mm; }
+
+    ol.toc { list-style: none; counter-reset: toc; }
+    ol.toc li {
+      counter-increment: toc; display: flex; align-items: center; gap: 4mm;
+      padding: 3.2mm 0; border-bottom: 1px solid rgba(240,239,244,0.07);
+      color: rgba(240,239,244,0.85);
+    }
+    ol.toc li::before {
+      content: counter(toc); display: inline-flex; align-items: center; justify-content: center;
+      width: 7mm; height: 7mm; border-radius: 50%; background: rgba(0,209,255,0.15); color: #00d1ff;
+      font-weight: 700; font-size: 9pt; flex-shrink: 0;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin-bottom: 6mm; }
+    th { text-align: left; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(240,239,244,0.45); font-weight: 600; padding: 0 3mm 2.5mm 0; border-bottom: 1px solid rgba(240,239,244,0.12); }
+    td { padding: 3mm 3mm 3mm 0; border-bottom: 1px solid rgba(240,239,244,0.07); color: rgba(240,239,244,0.85); vertical-align: top; }
+    td.prio { color: #00d1ff; font-weight: 700; white-space: nowrap; }
+
+    .cta {
+      margin-top: auto;
+      border-radius: 5mm; padding: 8mm;
+      background: linear-gradient(135deg, rgba(0,209,255,0.18), rgba(0,209,255,0.05));
+      border: 1px solid rgba(0,209,255,0.35);
+    }
+    .cta h2 { font-size: 17pt; margin-bottom: 3mm; }
+    .btn {
+      display: inline-block; margin-top: 3mm;
+      background: #00d1ff; color: #0d0d1a; text-decoration: none;
+      font-weight: 700; font-size: 10.5pt; padding: 3.5mm 7mm; border-radius: 50mm;
+    }
+    a { color: #00d1ff; }
+
+    /* Couverture */
+    .cover { justify-content: center; }
+    .cover .brand { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 26pt; color: #00d1ff; letter-spacing: -0.04em; line-height: 1; }
+    .cover .brand small { display: block; font-size: 7.5pt; font-weight: 300; letter-spacing: 0.3em; color: rgba(240,239,244,0.55); margin-top: 1.5mm; }
+    .trades { display: flex; flex-wrap: wrap; gap: 2.5mm; margin: 9mm 0 12mm; }
+    .trades span { font-size: 8.5pt; font-weight: 600; padding: 2mm 4mm; border-radius: 50mm; border: 1px solid rgba(0,209,255,0.3); color: #00d1ff; background: rgba(0,209,255,0.06); }
+    .author { display: flex; align-items: center; gap: 4mm; margin-top: 16mm; padding-top: 6mm; border-top: 1px solid rgba(240,239,244,0.1); }
+    .author .av { width: 12mm; height: 12mm; border-radius: 50%; background: linear-gradient(135deg, rgba(0,209,255,0.5), rgba(59,130,246,0.35)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'Sora', sans-serif; }
   </style>
 </head>
 <body>
 
-  <!-- PAGE DE COUVERTURE -->
-  <div class="page cover">
-    <div class="logo">HGO<span>AUTOMATION</span></div>
-    <h1>5 automatisations <span class="highlight">CVC</span> pour gagner 10h par semaine</h1>
-    <p class="subtitle">Guide pratique pour les entreprises de chauffage, ventilation et climatisation qui veulent arrêter de perdre du temps sur les tâches répétitives.</p>
-    <p class="meta">Guide gratuit — 2026</p>
-    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+<!-- 1. Couverture -->
+<section class="page cover">
+  <div class="brand">HGO<small>AUTOMATION</small></div>
+  <div style="height: 24mm"></div>
+  <p class="kicker">Guide gratuit · 2026</p>
+  <h1>5 automatisations pour les <em>artisans du bâtiment</em></h1>
+  <p style="font-size: 13pt; margin-top: 6mm; max-width: 150mm;">
+    Plus d'appels manqués, des devis envoyés le jour même, des relances qui partent toutes seules.
+    Jusqu'à 10 heures gagnées par semaine sur l'administratif.
+  </p>
+  <div class="trades">
+    <span>CVC & climatisation</span><span>Plomberie & chauffage</span><span>Électricité & IRVE</span><span>Rénovation & second œuvre</span>
   </div>
-
-  <!-- PAGE INTRO -->
-  <div class="page">
-    <h2>Pourquoi ce guide ?</h2>
-    <p>Les entreprises CVC perdent chaque semaine des heures précieuses sur des tâches qui pourraient être automatisées : répondre aux appels, envoyer des devis, relancer les clients, planifier les techniciens.</p>
-    <p>Ce guide présente <strong>5 automatisations concrètes</strong> déployées par HGO Automation pour des entreprises comme la vôtre. Chaque automation est classée par difficulté, temps de mise en place et retour sur investissement.</p>
-
-    <div class="two-col">
-      <div class="col">
-        <div class="stat">15h</div>
-        <div class="stat-label">économisées / semaine en moyenne</div>
-      </div>
-      <div class="col">
-        <div class="stat">5 jours</div>
-        <div class="stat-label">de délai de déploiement</div>
-      </div>
+  <div class="author">
+    <div class="av">HF</div>
+    <div>
+      <strong>Hugo Fonseca</strong><br>
+      <span class="muted" style="font-size: 9pt;">Fondateur d'HGO Automation · formé en technico-commercial CVC</span>
     </div>
-
-    <div class="box">
-      <strong>⚡ Principe de base :</strong> une bonne automation ne remplace pas votre équipe. Elle libère du temps pour que vos collaborateurs se concentrent sur ce qui a de la valeur : le conseil, la relation client et les interventions complexes.
-    </div>
-
-    <h2>Ce que vous allez découvrir</h2>
-    <ul>
-      <li>Automatisation 1 : Prise de RDV par WhatsApp 24h/24</li>
-      <li>Automatisation 2 : Devis automatique après visite</li>
-      <li>Automatisation 3 : Relances entretien et contrats maintenance</li>
-      <li>Automatisation 4 : CRM métier CVC centralisé</li>
-      <li>Automatisation 5 : Dispatch techniciens intelligent</li>
-    </ul>
-
-    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
   </div>
+  <div class="footer"><span>hgoautomation.fr</span><span>hugo@hgoautomation.fr</span></div>
+</section>
 
-  <!-- AUTOMATION 1 -->
-  <div class="page">
-    <h2><span class="number">1</span>Prise de RDV par WhatsApp 24h/24</h2>
-    <h3>Le problème</h3>
-    <p>Vos clients écrivent à 22h pour un dépannage. Vos techniciens sont sur le terrain. Votre secrétaire est débordée. Résultat : l'appel est manqué, le prospect appelle le concurrent.</p>
-
-    <h3>L'automation</h3>
-    <p>Un chatbot WhatsApp qualifie la demande, propose les créneaux disponibles et confirme le RDV instantanément. Le client reçoit un rappel J-1 avec l'adresse et le nom du technicien.</p>
-
-    <div class="box">
-      <strong>Gain de temps :</strong> 4h/semaine<br>
-      <strong>Outils :</strong> WhatsApp Business API + Calendly/Google Calendar + n8n<br>
-      <strong>ROI :</strong> 0 appel manqué, RDV confirmés automatiquement
-    </div>
-
-    <h3>Cas d'usage concret</h3>
-    <p>Un client écrit : "Bonjour, ma clim ne refroidit plus." Le bot lui demande l'adresse, le type d'équipement, les créneaux possibles. En 2 minutes, le RDV est pris sans intervention humaine.</p>
-
-    <h2><span class="number">2</span>Devis automatique après visite</h2>
-    <h3>Le problème</h3>
-    <p>Le technicien visite, prend des notes, et le devis part 5 à 10 jours plus tard. Entre-temps, le client a déjà signé ailleurs.</p>
-
-    <h3>L'automation</h3>
-    <p>Dès que le technicien valide son rapport d'intervention sur mobile, le devis est généré automatiquement (prix, descriptions, conditions) et envoyé par email/WhatsApp au client.</p>
-
-    <div class="box">
-      <strong>Gain de temps :</strong> 3h/semaine<br>
-      <strong>Outils :</strong> Formulaire mobile + CRM + template de devis + n8n<br>
-      <strong>ROI :</strong> Devis envoyé en moins d'une heure après la visite
-    </div>
-
-    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+<!-- 2. Introduction -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Introduction</span></div>
+  <p class="kicker">Pourquoi ce guide</p>
+  <h2>Vous ne perdez pas des chantiers sur la technique. Vous les perdez au bureau.</h2>
+  <p>
+    Un client a une panne, une fuite, un projet de rénovation. Il contacte 2 ou 3 entreprises.
+    Celle qui répond vite, envoie un devis propre rapidement et relance au bon moment signe le chantier.
+  </p>
+  <p>
+    Le problème : vous êtes en intervention toute la journée. Les appels tombent sur répondeur, les devis
+    se font le soir, les relances passent à la trappe. Ce guide présente <strong>5 automatisations concrètes</strong>
+    qui règlent ces problèmes, sans changer vos logiciels.
+  </p>
+  <div class="stats">
+    <div class="stat"><div class="v">10h</div><div class="l">gagnées par semaine, jusqu'à</div></div>
+    <div class="stat"><div class="v">10 jours</div><div class="l">pour une mise en service</div></div>
+    <div class="stat"><div class="v">0</div><div class="l">logiciel à changer</div></div>
   </div>
-
-  <!-- AUTOMATION 3 & 4 -->
-  <div class="page">
-    <h2><span class="number">3</span>Relances entretien et contrats maintenance</h2>
-    <h3>Le problème</h3>
-    <p>Les entretiens annuels et les renouvellements de contrat maintenance passent à la trappe. Vous perdez du chiffre d'affaires récurrent.</p>
-
-    <h3>L'automation</h3>
-    <p>Le système identifie automatiquement les clients dont l'entretien est dû, envoie une relance par WhatsApp/email, et permet de réserver un créneau en un clic.</p>
-
-    <div class="box">
-      <strong>Gain de temps :</strong> 2h/semaine<br>
-      <strong>Outils :</strong> CRM avec dates d'entretien + séquences de relance + n8n<br>
-      <strong>ROI :</strong> Taux de rappel passé de 30% à 85%
-    </div>
-
-    <h2><span class="number">4</span>CRM métier CVC centralisé</h2>
-    <h3>Le problème</h3>
-    <p>Les informations clients sont éparpillées : WhatsApp perso, carnet papier, Excel, emails. Impossible de savoir où en est chaque dossier.</p>
-
-    <h3>L'automation</h3>
-    <p>Un CRM sur mesure avec fiches clients, historique des interventions, équipements installés, contrats en cours et relances à faire. Tout est centralisé et accessible sur mobile.</p>
-
-    <div class="box">
-      <strong>Gain de temps :</strong> 3h/semaine<br>
-      <strong>Outils :</strong> Notion / Airtable / HubSpot + automations n8n<br>
-      <strong>ROI :</strong> Plus de dossier perdu, visibilité temps réel
-    </div>
-
-    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+  <p class="kicker" style="margin-top: 4mm;">Au programme</p>
+  <ol class="toc">
+    <li>Prise de RDV par WhatsApp, 24h/24</li>
+    <li>Devis envoyés le jour même, puis relancés</li>
+    <li>Relances d'entretien, de contrats et d'avis Google</li>
+    <li>Toutes vos demandes dans un seul outil</li>
+    <li>Planning des équipes et rapports d'intervention</li>
+  </ol>
+  <div class="box box-neutral" style="margin-top: auto;">
+    <p style="margin: 0;"><strong>Le principe :</strong> une bonne automatisation ne remplace personne. Elle retire les tâches
+    répétitives pour que vous et votre équipe restiez sur ce qui rapporte : le conseil, la relation client et les chantiers.</p>
   </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>2</span></div>
+</section>
 
-  <!-- AUTOMATION 5 & CTA -->
-  <div class="page">
-    <h2><span class="number">5</span>Dispatch techniciens intelligent</h2>
+<!-- 3. Automatisation 1 -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Automatisation 1 / 5</span></div>
+  <div class="num">1</div>
+  <h2>Prise de RDV par WhatsApp, 24h/24</h2>
+  <div class="box box-problem">
     <h3>Le problème</h3>
-    <p>Planifier les interventions prend du temps : qui est disponible ? dans quelle zone ? avec quelles compétences ? Les erreurs de planification coûtent cher.</p>
-
-    <h3>L'automation</h3>
-    <p>Le système attribue automatiquement les interventions selon la zone géographique, les compétences requises et la disponibilité du technicien. Le planning est mis à jour en temps réel.</p>
-
-    <div class="box">
-      <strong>Gain de temps :</strong> 2h/semaine<br>
-      <strong>Outils :</strong> Google Calendar / outil de planning + géolocalisation + n8n<br>
-      <strong>ROI :</strong> Moins de trajets inutiles, meilleure couverture territoriale
-    </div>
-
-    <h2>Par où commencer ?</h2>
-    <p>Nous recommandons de commencer par <strong>l'automation 1 (RDV WhatsApp)</strong> car elle a le ROI le plus rapide : moins d'appels manqués, plus de RDV qualifiés, moins de stress pour votre équipe.</p>
-
-    <div class="box">
-      <strong>Conseil :</strong> ne cherchez pas à tout automatiser en une fois. Commencez par une automation qui résout votre plus grosse douleur, mesurez le résultat pendant 30 jours, puis passez à la suivante.
-    </div>
-
-    <div class="cta">
-      Envie de mettre en place ces automatisations ?<br>
-      <span style="font-weight: 400; font-size: 10pt;">Rendez-vous sur hgoautomation.fr pour un appel découverte gratuit.</span>
-    </div>
-
-    <div class="footer">hgoautomation.fr · contact@hgoautomation.fr</div>
+    <p style="margin: 0;">Le client appelle pendant que vous êtes sur un chantier. Répondeur. Il appelle le suivant sur Google.
+    Le soir, vous rappelez : il a déjà trouvé quelqu'un.</p>
   </div>
+  <div class="box box-solution">
+    <h3>L'automatisation</h3>
+    <p style="margin: 0;">Un assistant WhatsApp répond immédiatement, pose les bonnes questions (adresse, équipement, photos,
+    urgence), propose vos créneaux libres et confirme le RDV dans votre agenda. Le client reçoit un rappel la veille.
+    Les vraies urgences vous sont transférées tout de suite.</p>
+  </div>
+  <p class="kicker" style="margin-top: 2mm;">Exemples par métier</p>
+  <ul class="examples">
+    <li><span class="tag">CVC</span>« Ma clim ne refroidit plus » : type d'appareil, photo, créneau de dépannage proposé.</li>
+    <li><span class="tag">Plomberie</span>« Fuite sous l'évier » : détection de l'urgence, alerte immédiate au plombier d'astreinte.</li>
+    <li><span class="tag">Électricité</span>« Devis borne de recharge » : photos du tableau et du parking, visite technique réservée.</li>
+    <li><span class="tag">Rénovation</span>« Rénover ma salle de bain » : surface, budget, délai, visite de métré planifiée.</li>
+  </ul>
+  <div class="facts">
+    <div class="fact"><div class="v">2 à 4 h</div><div class="l">gagnées / semaine (estimation)</div></div>
+    <div class="fact"><div class="v">5 jours</div><div class="l">de mise en place</div></div>
+    <div class="fact"><div class="v">WhatsApp</div><div class="l">+ agenda + n8n</div></div>
+  </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>3</span></div>
+</section>
+
+<!-- 4. Automatisation 2 -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Automatisation 2 / 5</span></div>
+  <div class="num">2</div>
+  <h2>Devis envoyés le jour même, puis relancés</h2>
+  <div class="box box-problem">
+    <h3>Le problème</h3>
+    <p style="margin: 0;">La visite est faite, mais le devis part 5 à 10 jours plus tard, le soir ou le week-end.
+    Et une fois envoyé, personne ne le relance. Le client a signé ailleurs, ou a simplement oublié.</p>
+  </div>
+  <div class="box box-solution">
+    <h3>L'automatisation</h3>
+    <p style="margin: 0;">À partir de vos notes de visite ou d'un formulaire rempli sur mobile, le devis est préparé
+    avec votre modèle et envoyé au client le jour même. Des relances personnalisées partent ensuite à J+3 et J+7,
+    et s'arrêtent dès que le client répond ou signe.</p>
+  </div>
+  <p class="kicker" style="margin-top: 2mm;">Ce que ça change</p>
+  <ul class="examples">
+    <li><span class="tag">Vitesse</span>Vous êtes souvent le premier à envoyer un devis : c'est un vrai avantage face à la concurrence.</li>
+    <li><span class="tag">Relances</span>Chaque devis est relancé, même les petits, sans que vous y pensiez.</li>
+    <li><span class="tag">Suivi</span>Vous voyez d'un coup d'œil les devis envoyés, ouverts, relancés et signés.</li>
+    <li><span class="tag">Logiciel</span>Compatible avec votre outil actuel (Obat, Batappli, Tolteck, Interfast, Excel…).</li>
+  </ul>
+  <div class="facts">
+    <div class="fact"><div class="v">3 à 5 h</div><div class="l">gagnées / semaine (estimation)</div></div>
+    <div class="fact"><div class="v">5 à 10 jours</div><div class="l">de mise en place</div></div>
+    <div class="fact"><div class="v">Email</div><div class="l">+ logiciel de devis + n8n</div></div>
+  </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>4</span></div>
+</section>
+
+<!-- 5. Automatisation 3 -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Automatisation 3 / 5</span></div>
+  <div class="num">3</div>
+  <h2>Relances d'entretien, de contrats et d'avis Google</h2>
+  <div class="box box-problem">
+    <h3>Le problème</h3>
+    <p style="margin: 0;">Entretiens annuels, contrats de maintenance, renouvellements : c'est du chiffre d'affaires récurrent
+    qui dort dans vos fichiers. Sans rappel automatique, la moitié de ces clients ne vous rappellent jamais.</p>
+  </div>
+  <div class="box box-solution">
+    <h3>L'automatisation</h3>
+    <p style="margin: 0;">Chaque client reçoit un message au bon moment : « Votre entretien annuel arrive, choisissez votre créneau ».
+    Il réserve en deux clics. Après chaque intervention, une demande d'avis Google part automatiquement,
+    et votre note monte sans effort.</p>
+  </div>
+  <p class="kicker" style="margin-top: 2mm;">Exemples par métier</p>
+  <ul class="examples">
+    <li><span class="tag">CVC</span>Entretien de pompe à chaleur et de climatisation, contrats de maintenance annuels.</li>
+    <li><span class="tag">Plomberie</span>Entretien de chaudière obligatoire, détartrage du chauffe-eau.</li>
+    <li><span class="tag">Électricité</span>Contrôle des bornes IRVE, relance des diagnostics et mises aux normes.</li>
+    <li><span class="tag">Rénovation</span>Relance des anciens clients pour de nouveaux projets et du parrainage.</li>
+  </ul>
+  <div class="facts">
+    <div class="fact"><div class="v">Récurrent</div><div class="l">du CA qui revient chaque année</div></div>
+    <div class="fact"><div class="v">3 jours</div><div class="l">de mise en place</div></div>
+    <div class="fact"><div class="v">WhatsApp / SMS</div><div class="l">+ fichier clients + n8n</div></div>
+  </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>5</span></div>
+</section>
+
+<!-- 6. Automatisation 4 -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Automatisation 4 / 5</span></div>
+  <div class="num">4</div>
+  <h2>Toutes vos demandes dans un seul outil</h2>
+  <div class="box box-problem">
+    <h3>Le problème</h3>
+    <p style="margin: 0;">Des demandes par téléphone, par mail, via le site, les plateformes, le WhatsApp perso…
+    Tout est éparpillé. Vous ne savez plus qui attend un devis, qui a été relancé, où en est chaque chantier.</p>
+  </div>
+  <div class="box box-solution">
+    <h3>L'automatisation</h3>
+    <p style="margin: 0;">Chaque demande, d'où qu'elle vienne, arrive automatiquement dans un tableau de suivi simple (un CRM
+    léger) : coordonnées, besoin, photos, étape. Toute l'équipe voit la même chose, sur ordinateur comme sur mobile.</p>
+  </div>
+  <p class="kicker" style="margin-top: 2mm;">Ce que vous voyez chaque matin</p>
+  <ul class="examples">
+    <li><span class="tag">Nouvelles</span>Les demandes arrivées depuis hier, déjà qualifiées.</li>
+    <li><span class="tag">À faire</span>Les devis à envoyer et les clients à rappeler aujourd'hui.</li>
+    <li><span class="tag">En cours</span>Les chantiers planifiés, avec l'historique complet de chaque client.</li>
+    <li><span class="tag">Chiffres</span>Devis envoyés, taux de signature, chiffre d'affaires du mois.</li>
+  </ul>
+  <div class="facts">
+    <div class="fact"><div class="v">1 seul</div><div class="l">endroit pour tout suivre</div></div>
+    <div class="fact"><div class="v">5 à 10 jours</div><div class="l">de mise en place</div></div>
+    <div class="fact"><div class="v">Notion / Airtable</div><div class="l">ou votre CRM actuel</div></div>
+  </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>6</span></div>
+</section>
+
+<!-- 7. Automatisation 5 -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Automatisation 5 / 5</span></div>
+  <div class="num">5</div>
+  <h2>Planning des équipes et rapports d'intervention</h2>
+  <div class="box box-problem">
+    <h3>Le problème</h3>
+    <p style="margin: 0;">Le planning se fait au téléphone et sur un tableau blanc. Les techniciens remplissent leurs rapports
+    le soir, sur papier. Il faut tout ressaisir pour facturer, et des infos se perdent en route.</p>
+  </div>
+  <div class="box box-solution">
+    <h3>L'automatisation</h3>
+    <p style="margin: 0;">Les interventions sont affectées selon la zone, les compétences et les disponibilités. Chaque technicien
+    reçoit sa tournée sur son téléphone. Sur place, il remplit son rapport sur mobile (photos et signature client incluses),
+    et la facture ou le devis complémentaire est prêt à partir.</p>
+  </div>
+  <p class="kicker" style="margin-top: 2mm;">Ce que ça change</p>
+  <ul class="examples">
+    <li><span class="tag">Bureau</span>Moins d'appels pour organiser les journées, plus de ressaisie.</li>
+    <li><span class="tag">Terrain</span>Le technicien a l'adresse, l'historique et les photos avant d'arriver.</li>
+    <li><span class="tag">Client</span>Il est prévenu de l'arrivée du technicien et reçoit son rapport le jour même.</li>
+    <li><span class="tag">Facturation</span>La facture part plus vite, donc vous êtes payé plus vite.</li>
+  </ul>
+  <div class="facts">
+    <div class="fact"><div class="v">2 à 3 h</div><div class="l">gagnées / semaine (estimation)</div></div>
+    <div class="fact"><div class="v">10 jours</div><div class="l">de mise en place</div></div>
+    <div class="fact"><div class="v">Mobile</div><div class="l">+ agenda + facturation</div></div>
+  </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>7</span></div>
+</section>
+
+<!-- 8. Cas client + par où commencer -->
+<section class="page">
+  <div class="top"><b>HGO</b><span>Passer à l'action</span></div>
+  <p class="kicker">Cas client</p>
+  <h2 style="font-size: 17pt; margin-bottom: 4mm;">Groupe Rousso, nettoyage de conduits de ventilation (Montréal)</h2>
+  <p>CRM sur mesure, devis générés et envoyés automatiquement, relances client automatisées, le tout connecté à leur planning.</p>
+  <div class="stats" style="margin: 3mm 0 8mm;">
+    <div class="stat"><div class="v">52 000 $</div><div class="l">CAD de CA généré en 2 mois</div></div>
+    <div class="stat"><div class="v">70</div><div class="l">devis convertis par mois</div></div>
+    <div class="stat"><div class="v">85 %</div><div class="l">de taux de conversion</div></div>
+  </div>
+  <p class="kicker">Par où commencer ?</p>
+  <table>
+    <thead><tr><th>Votre situation</th><th>Commencez par</th><th>Priorité</th></tr></thead>
+    <tbody>
+      <tr><td>Vous ratez des appels en intervention</td><td>1. RDV WhatsApp 24h/24</td><td class="prio">Urgent</td></tr>
+      <tr><td>Vos devis partent tard ou jamais relancés</td><td>2. Devis + relances</td><td class="prio">Urgent</td></tr>
+      <tr><td>Vous avez des clients d'entretien</td><td>3. Relances d'entretien</td><td class="prio">Rentable</td></tr>
+      <tr><td>Vous êtes perdu dans vos demandes</td><td>4. Suivi dans un seul outil</td><td class="prio">Confort</td></tr>
+      <tr><td>Vous avez 3 techniciens ou plus</td><td>5. Planning & rapports</td><td class="prio">Confort</td></tr>
+    </tbody>
+  </table>
+  <div class="cta">
+    <h2>On regarde ensemble ce qu'on peut automatiser chez vous ?</h2>
+    <p style="margin: 0;">Appel gratuit de 20 minutes, sans engagement. Offres à prix fixes : dès 990€, en service en 2 semaines.</p>
+    <a class="btn" href="https://cal.com/hugo-fonseca-kioxnp/hgoautomation">Réserver mon appel gratuit →</a>
+    <p class="muted" style="margin: 4mm 0 0; font-size: 9pt;">Ou écrivez-moi : <a href="mailto:hugo@hgoautomation.fr">hugo@hgoautomation.fr</a> · <a href="https://www.hgoautomation.fr">www.hgoautomation.fr</a></p>
+  </div>
+  <div class="footer"><span>5 automatisations pour les artisans du bâtiment</span><span>8</span></div>
+</section>
 
 </body>
 </html>

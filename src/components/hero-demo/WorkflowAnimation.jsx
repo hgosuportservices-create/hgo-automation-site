@@ -64,7 +64,7 @@ export default function WorkflowAnimation() {
       <div className="self-end mr-2 mb-1">
         <div className="inline-flex items-center gap-2 bg-void/80 backdrop-blur-sm border border-green-400/30 rounded-full px-3 py-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-[10px] font-mono uppercase tracking-widest text-ghost/70">Agent IA actif</span>
+          <span className="font-cond text-xs uppercase tracking-widest text-ghost/70">Agent IA actif</span>
         </div>
       </div>
 

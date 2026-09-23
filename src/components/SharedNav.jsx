@@ -1,45 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, Zap, Activity, MessageSquare, Cpu, Database, LayoutDashboard, Menu, X } from 'lucide-react';
+import { ChevronDown, Zap, Activity, MessageSquare, Cpu, Database, LayoutDashboard, Menu, X, GraduationCap } from 'lucide-react';
 import { useContact } from '../context/ContactContext';
+import { Logo } from './Logo';
+import { CALL_MIN } from '../config';
 
-const Logo = () => (
-  <div className="flex items-center gap-0 leading-none select-none flex-shrink-0">
-    <svg width="34" height="51" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-      <line x1="32" y1="4" x2="32" y2="56" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
-      <line x1="32" y1="10" x2="6" y2="10" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.45" />
-      <circle cx="5" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
-      <line x1="32" y1="18" x2="14" y2="18" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
-      <line x1="14" y1="18" x2="14" y2="23" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
-      <circle cx="14" cy="24" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
-      <line x1="32" y1="26" x2="2" y2="26" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
-      <circle cx="2" cy="26" r="1.5" fill="#00E5FF" fillOpacity="0.7" />
-      <line x1="32" y1="34" x2="20" y2="34" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
-      <line x1="20" y1="34" x2="20" y2="38" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
-      <circle cx="20" cy="39" r="1.2" fill="#00E5FF" fillOpacity="0.45" />
-      <line x1="32" y1="42" x2="8" y2="42" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
-      <circle cx="7" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.55" />
-      <line x1="32" y1="50" x2="16" y2="50" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.3" />
-      <circle cx="15" cy="50" r="1.2" fill="#00E5FF" fillOpacity="0.4" />
-      <circle cx="32" cy="26" r="2" fill="#00E5FF" fillOpacity="0.8" />
-      <circle cx="32" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
-      <circle cx="32" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
-    </svg>
-    <div className="flex flex-col items-start leading-none">
-      <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.04em', lineHeight: 1, color: '#00E5FF', fontWeight: 800, fontSize: '1.45rem', textShadow: '0 0 24px rgba(0,229,255,0.45), 0 0 6px rgba(0,229,255,0.3)' }}>HGO</span>
-      <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '0.25em', lineHeight: 1.2, color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: '0.38rem', textTransform: 'uppercase', marginTop: '2px' }}>AUTOMATION</span>
-    </div>
-  </div>
-);
-
-const services = [
-  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare },
-  { label: 'Agents IA', href: '/services/agent-ia', icon: Cpu },
-  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Zap },
-  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise', icon: Activity },
-  { label: 'Automatisation & Création CRM', href: '/services/automatisation-crm', icon: Database },
-  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard },
+export const NAV_SERVICES = [
+  { label: 'Chatbot WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare, desc: 'RDV et réponses 24h/24 · dès 990€' },
+  { label: 'Agent IA', href: '/services/agent-ia', icon: Cpu, desc: 'Formé sur vos documents · dès 1 500€' },
+  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Zap, desc: 'Vos outils connectés · dès 290€' },
+  { label: 'CRM sur mesure', href: '/services/automatisation-crm', icon: Database, desc: 'Autour de votre process · dès 990€' },
+  { label: 'Automatisation des tâches', href: '/services/automatisation-entreprise', icon: Activity, desc: 'Devis, factures, reporting · dès 800€' },
+  { label: 'Applications & dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard, desc: 'Outils internes · dès 790€' },
+  { label: 'Formation & installation', href: '/formation', icon: GraduationCap, desc: 'n8n & OpenClaw · dès 290€' },
 ];
+
+const LINKS = [
+  { label: 'Métiers', to: '/#metiers' },
+  { label: 'Cas clients', to: '/#cas-clients' },
+  { label: 'À propos', to: '/a-propos' },
+  { label: 'Blog', to: '/blog' },
+];
+
+const linkCls = 'font-cond text-[13px] uppercase tracking-[0.08em] font-semibold transition-colors hover:text-cyan';
 
 export default function SharedNav() {
   const { open } = useContact();
@@ -50,7 +33,7 @@ export default function SharedNav() {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -58,114 +41,89 @@ export default function SharedNav() {
   useEffect(() => {
     setServicesOpen(false);
     setMenuOpen(false);
-  }, [location]);
+  }, [location.pathname]);
 
   useEffect(() => {
-    const handleClick = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setServicesOpen(false);
-      }
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setServicesOpen(false);
     };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  const isActive = (to) => to !== '/' && !to.includes('#') && location.pathname.startsWith(to);
+
   return (
     <>
-      <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 flex items-center gap-6 py-3 px-6 md:px-8 rounded-full border border-ghost/10 w-[90%] max-w-4xl ${scrolled ? 'bg-void/60 backdrop-blur-xl' : 'bg-void/40 backdrop-blur-md'}`}>
-        <Link to="/" className="flex items-center flex-shrink-0">
-          <Logo />
-        </Link>
+      <nav className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-void/90 backdrop-blur-md border-b-2 border-cyan/40' : 'bg-transparent border-b-2 border-transparent'}`}>
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-10 py-4">
+          <Link to="/" className="flex items-center flex-shrink-0" aria-label="HGO Automation, accueil">
+            <Logo size="md" className="flex-shrink-0" />
+          </Link>
 
-        <div className="hidden md:flex items-center gap-5 ml-auto">
-          {/* Services dropdown */}
-          <div ref={dropdownRef} className="relative">
-            <button
-              onClick={() => setServicesOpen(v => !v)}
-              className="flex items-center gap-1 text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors"
-            >
-              Services
-              <ChevronRight className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? 'rotate-90' : ''}`} />
+          <div className="hidden lg:flex items-center gap-8">
+            <div ref={dropdownRef} className="relative">
+              <button onClick={() => setServicesOpen(v => !v)} className={`${linkCls} flex items-center gap-1`} aria-expanded={servicesOpen}>
+                Services <ChevronDown className={`w-3.5 h-3.5 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {servicesOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-5 w-[25rem] bg-[#12121F] border-2 border-cyan rounded-3xl p-2 shadow-[6px_6px_0_#00D1FF]">
+                  {NAV_SERVICES.map(({ label, href, icon: Icon, desc }) => {
+                    const [what, price] = desc.split(' · ');
+                    return (
+                      <Link key={href} to={href} className="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-cyan/10 transition-colors group">
+                        <span className="w-9 h-9 rounded-full bg-cyan text-void flex items-center justify-center flex-shrink-0">
+                          <Icon className="w-4 h-4" />
+                        </span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block font-cond uppercase tracking-wide font-semibold text-[15px] text-ghost group-hover:text-cyan transition-colors">{label}</span>
+                          <span className="block text-xs text-ghost/50">{what}</span>
+                        </span>
+                        {price && <span className="font-cond text-sm font-semibold text-cyan whitespace-nowrap">{price}</span>}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            {LINKS.map(l => (
+              <Link key={l.label} to={l.to} className={`${linkCls} ${isActive(l.to) ? 'text-cyan' : ''}`}>{l.label}</Link>
+            ))}
+            <button onClick={() => open('calendly')} className="btn-cyan !py-2.5 !px-5 !text-[13px]">
+              Appel gratuit
             </button>
-            {servicesOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-2 shadow-2xl">
-                {services.map(({ label, href, icon: Icon }) => (
-                  <Link
-                    key={href}
-                    to={href}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors text-sm text-ghost/70"
-                  >
-                    <Icon className="w-4 h-4 text-cyan/60 flex-shrink-0" />
-                    {label}
-                  </Link>
-                ))}
-              </div>
-            )}
           </div>
 
-          <Link to="/blog" className={`text-xs font-sans font-medium uppercase tracking-widest hover:text-cyan transition-colors ${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'text-cyan' : ''}`}>
-            Blog
-          </Link>
+          <button onClick={() => setMenuOpen(v => !v)} className="lg:hidden p-2 text-ghost" aria-label="Menu">
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-
-        <button
-          onClick={open}
-          className="hidden md:flex ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
-        >
-          <span className="relative z-10">Démarrer</span>
-          <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
-        </button>
-
-        {/* Hamburger button - mobile only */}
-        <button
-          onClick={() => setMenuOpen(v => !v)}
-          className="md:hidden ml-auto p-2 rounded-xl hover:bg-ghost/10 transition-colors"
-          aria-label="Menu"
-        >
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
       </nav>
 
-      {/* Mobile menu overlay */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-void/95 backdrop-blur-xl flex flex-col pt-28 pb-8 px-6 overflow-y-auto">
-          <div className="flex flex-col gap-2">
-            <p className="text-[10px] font-mono text-cyan/60 uppercase tracking-widest mb-2">Services</p>
-            {services.map(({ label, href, icon: Icon }) => (
-              <Link
-                key={href}
-                to={href}
-                className="flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-cyan/10 hover:text-cyan transition-colors text-base text-ghost/70 border border-ghost/5"
-              >
-                <Icon className="w-4 h-4 text-cyan/60 flex-shrink-0" />
-                {label}
+        <div className="fixed inset-0 z-40 bg-void flex flex-col pt-24 pb-8 px-6 overflow-y-auto">
+          <div className="flex flex-col">
+            {LINKS.map(l => (
+              <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)} className="py-3 font-display uppercase text-2xl text-ghost hover:text-cyan">
+                {l.label}
               </Link>
             ))}
           </div>
-
-          <div className="flex flex-col gap-2 mt-6">
-            <Link
-              to="/blog"
-              className="px-4 py-4 text-base font-medium uppercase tracking-widest hover:text-cyan transition-colors border-b border-ghost/5"
-            >
-              Blog
-            </Link>
+          <p className="label-cond mt-8 mb-2">Services</p>
+          <div className="flex flex-col border-t border-cyan/15">
+            {NAV_SERVICES.map(({ label, href }) => (
+              <Link key={href} to={href} className="py-3 border-b border-cyan/15 font-cond uppercase tracking-wide text-ghost/80 hover:text-cyan flex items-center justify-between">
+                {label} <span className="text-cyan">→</span>
+              </Link>
+            ))}
           </div>
-
-          <button
-            onClick={() => { setMenuOpen(false); open(); }}
-            className="mt-8 w-full bg-cyan text-void py-4 rounded-full text-sm font-extrabold uppercase tracking-widest"
-          >
-            Démarrer mon projet
+          <button onClick={() => { setMenuOpen(false); open('calendly'); }} className="btn-cyan mt-8 w-full">
+            Appel gratuit de {CALL_MIN} min
           </button>
         </div>
       )}

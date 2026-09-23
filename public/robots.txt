@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hgoautomation.fr/sitemap.xml
+Sitemap: https://www.hgoautomation.fr/sitemap.xml

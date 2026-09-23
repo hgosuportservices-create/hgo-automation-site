@@ -39,7 +39,7 @@ function MetricPill({ label, value, delay }) {
   );
 }
 
-export default function WhatsAppChat() {
+export default function WhatsAppChat({ showMetrics = true }) {
   const [messages, setMessages] = useState([]);
   const [showTyping, setShowTyping] = useState(false);
   const [cycle, setCycle] = useState(0);
@@ -113,11 +113,11 @@ export default function WhatsAppChat() {
       </div>
 
       {/* Métriques sous le téléphone */}
-      <div className="flex gap-3">
+      {showMetrics && <div className="flex gap-3">
         <MetricPill label="Leads qualifiés" value="×3"  delay={0.3} />
         <MetricPill label="Taux de rép." value="98 %"  delay={0.5} />
         <MetricPill label="Disponible" value="24/7"    delay={0.7} />
-      </div>
+      </div>}
     </div>
   );
 }

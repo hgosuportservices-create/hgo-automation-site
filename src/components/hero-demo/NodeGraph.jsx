@@ -19,7 +19,7 @@ export default function NodeGraph() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative w-full max-w-md glass rounded-[2rem] border border-ghost/10 p-10 shadow-2xl shadow-cyan/5">
+    <div className="relative w-full max-w-md rounded-[2rem] bg-[#12121F] border-2 border-cyan shadow-[8px_8px_0_#00D1FF] p-10">
       <div className="flex items-center justify-between relative">
         {NODES.map((node, i) => {
           const Icon = node.icon;
@@ -53,9 +53,9 @@ export default function NodeGraph() {
           );
         })}
       </div>
-      <div className="flex items-center gap-2 mt-8 pt-6 border-t border-ghost/8">
+      <div className="flex items-center gap-2 mt-8 pt-6 border-t border-cyan/20">
         <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-        <span className="text-xs font-mono uppercase tracking-widest text-ghost/50">Workflow actif</span>
+        <span className="font-cond text-sm uppercase tracking-widest text-ghost/50">Workflow actif</span>
         <span className="ml-auto flex items-center gap-1 text-[10px] text-cyan/70">
           <Check className="w-3 h-3" /> 0 erreur
         </span>

@@ -34,7 +34,7 @@ export default function PhoneMockup({ messages, showTyping, className = '' }) {
       </div>
 
       {/* Header conversation */}
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-ghost/8 bg-graphite/40">
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-cyan/20 bg-graphite/40">
         <ChevronLeft className="w-4 h-4 text-ghost/50" />
         <div className="w-8 h-8 rounded-full bg-green-500/15 border border-green-400/30 flex items-center justify-center text-sm">
           🌿
@@ -81,7 +81,7 @@ export default function PhoneMockup({ messages, showTyping, className = '' }) {
       </div>
 
       {/* Barre de saisie */}
-      <div className="flex items-center gap-2 px-3 py-2.5 border-t border-ghost/8 bg-graphite/40">
+      <div className="flex items-center gap-2 px-3 py-2.5 border-t border-cyan/20 bg-graphite/40">
         <Plus className="w-4 h-4 text-ghost/40 flex-shrink-0" />
         <div className="flex-1 h-7 rounded-full bg-void/60 border border-ghost/10" />
         <Camera className="w-4 h-4 text-ghost/40 flex-shrink-0" />

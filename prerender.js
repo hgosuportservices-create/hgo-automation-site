@@ -78,6 +78,11 @@ const ROUTES = [
   '/services/automatisation-crm',
   '/services/creation-applications-dashboards',
   '/secteurs/automatisation-cvc-climatisation-chauffage',
+  '/secteurs/automatisation-plombier-chauffagiste',
+  '/secteurs/automatisation-electricien',
+  '/secteurs/automatisation-renovation-batiment',
+  '/formation',
+  '/a-propos',
   '/mentions-legales',
   '/cgv',
 ];

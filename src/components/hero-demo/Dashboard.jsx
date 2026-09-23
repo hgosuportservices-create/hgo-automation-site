@@ -20,7 +20,7 @@ export default function Dashboard({ visible, loopKey, className = '' }) {
       animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 16 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       style={{ pointerEvents: visible ? 'auto' : 'none' }}
-      className={`glass rounded-2xl border border-ghost/10 px-3 py-3 animate-pulse-glow-slow ${className}`}
+      className={`rounded-2xl bg-[#12121F] border-2 border-cyan shadow-[8px_8px_0_#00D1FF] px-3 py-3 ${className}`}
     >
       <p className="text-[9px] font-bold uppercase tracking-widest text-ghost/40 mb-2 px-1">Tableau de bord</p>
       <div className="grid grid-cols-4 gap-2">

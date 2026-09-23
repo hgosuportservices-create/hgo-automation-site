@@ -12,13 +12,23 @@ export function CountUp({ value, duration = 1.4, className }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const reduceMotion = useReducedMotion();
-  const [display, setDisplay] = useState(() => (reduceMotion ? value : zeroOut(value)));
+  // Valeur réelle au rendu serveur (SEO / sans JS) ; on ne remet à zéro que les
+  // compteurs hors écran au montage, pour qu'ils s'animent en y entrant.
+  const [display, setDisplay] = useState(value);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    if (!inView || reduceMotion) {
-      if (reduceMotion) setDisplay(value);
-      return;
+    if (reduceMotion || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) {
+      setDisplay(zeroOut(value));
+      setAnimate(true);
     }
+  }, [reduceMotion, value]);
+
+  useEffect(() => {
+    if (!animate) return;
+    if (!inView) return;
     const tokens = [...value.matchAll(/\d[\d\s]*(?:[.,]\d+)?/g)];
     if (!tokens.length) {
       setDisplay(value);
@@ -56,7 +66,7 @@ export function CountUp({ value, duration = 1.4, className }) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, reduceMotion, value, duration]);
+  }, [animate, inView, value, duration]);
 
   return <span ref={ref} className={className}>{display}</span>;
 }

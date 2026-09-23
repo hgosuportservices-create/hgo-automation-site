@@ -22,7 +22,7 @@ export default function NeuralNetwork() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative w-full max-w-md glass rounded-[2rem] border border-ghost/10 p-8 shadow-2xl shadow-cyan/5">
+    <div className="relative w-full max-w-md rounded-[2rem] bg-[#12121F] border-2 border-cyan shadow-[8px_8px_0_#00D1FF] p-8">
       <svg viewBox="0 0 100 100" className="w-full h-64">
         {LINKS.map((l, i) => (
           <motion.line
@@ -51,7 +51,7 @@ export default function NeuralNetwork() {
               key={`${li}-${i}`}
               cx={layer.x}
               cy={y}
-              r="2.6"
+              initial={{ r: 2.6 }}
               className="fill-void"
               stroke="rgba(0,209,255,0.5)"
               strokeWidth="0.6"
@@ -62,9 +62,9 @@ export default function NeuralNetwork() {
         )}
       </svg>
 
-      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-ghost/8">
+      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-cyan/20">
         <Brain className="w-3.5 h-3.5 text-cyan" />
-        <span className="text-xs font-mono uppercase tracking-widest text-ghost/50">Analyse en continu</span>
+        <span className="font-cond text-sm uppercase tracking-widest text-ghost/50">Analyse en continu</span>
         <span className="ml-auto flex items-center gap-1.5 text-[10px] text-ghost/40">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" /> Actif
         </span>

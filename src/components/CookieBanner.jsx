@@ -25,33 +25,21 @@ export default function CookieBanner() {
 
   return (
     <div className={cn(
-      "fixed bottom-0 left-0 right-0 z-[90] bg-void/95 backdrop-blur-xl border-t border-ghost/10 p-4 md:p-6",
+      "fixed bottom-4 left-4 right-4 md:right-auto md:max-w-sm z-[90] bg-[#12121F] border-2 border-cyan/40 rounded-3xl p-5",
       "transform transition-transform duration-500",
-      visible ? "translate-y-0" : "translate-y-full"
+      visible ? "translate-y-0" : "translate-y-[150%]"
     )}>
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="text-sm text-ghost/60 text-center md:text-left">
-          <p className="font-medium text-ghost mb-1">Cookies & données personnelles</p>
-          <p>
-            Nous utilisons des cookies pour améliorer votre expérience et mesurer l'audience.
-            Vous pouvez accepter, refuser ou consulter nos{' '}
-            <a href="/mentions-legales" className="text-cyan hover:underline">mentions légales</a>.
-          </p>
-        </div>
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <button
-            onClick={handleRefuse}
-            className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest border border-ghost/20 text-ghost/70 hover:border-cyan hover:text-ghost transition-colors"
-          >
-            Refuser
-          </button>
-          <button
-            onClick={handleAccept}
-            className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest bg-cyan text-void hover:bg-white transition-colors"
-          >
-            Accepter
-          </button>
-        </div>
+      <p className="text-sm text-ghost/70 leading-relaxed">
+        <span className="font-cond uppercase tracking-wide font-semibold text-ghost">Cookies</span> · On mesure l'audience pour améliorer le site.{' '}
+        <a href="/mentions-legales" className="text-cyan hover:underline">En savoir plus</a>
+      </p>
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        <button onClick={handleRefuse} className="py-2.5 rounded-full font-cond text-sm font-semibold uppercase tracking-widest border-2 border-cyan text-cyan hover:bg-cyan/10 transition-colors">
+          Refuser
+        </button>
+        <button onClick={handleAccept} className="py-2.5 rounded-full font-cond text-sm font-semibold uppercase tracking-widest bg-cyan text-void border-2 border-cyan hover:-translate-y-0.5 transition-transform">
+          Accepter
+        </button>
       </div>
     </div>
   );

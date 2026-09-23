@@ -17,7 +17,7 @@ export default function IntegrationHub() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative w-full max-w-sm aspect-square glass rounded-[2rem] border border-ghost/10 shadow-2xl shadow-cyan/5">
+    <div className="relative w-full max-w-sm aspect-square rounded-[2rem] bg-[#12121F] border-2 border-cyan shadow-[8px_8px_0_#00D1FF]">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
         {[
           [50, 8, 50, 50],

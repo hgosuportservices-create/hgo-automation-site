@@ -1,813 +1,87 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useContact } from './context/ContactContext';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import {
-  Cpu,
-  Layers,
-  Zap,
-  ArrowUpRight,
-  CheckCircle2,
-  ChevronRight,
-  Terminal,
-  MousePointer2,
-  Calendar,
-  Activity,
-  Box,
-  Monitor,
-  Database,
-  MessageSquare,
-  Package,
-  LayoutDashboard,
-  Menu,
-  X,
-  ArrowRight,
-  Sparkles,
-  BrainCircuit,
-  Network,
-  RefreshCw,
-  Send,
-  User,
-  Download,
-  Linkedin,
-  Mail,
-} from 'lucide-react';
+import { ArrowUpRight, Calendar, Download, MessageSquare, Send, Zap, Activity } from 'lucide-react';
 import { cn } from './lib/utils';
-import BackgroundVideo from './components/BackgroundVideo';
+import SharedNav from './components/SharedNav';
+import SiteFooter from './components/SiteFooter';
+import StackBar from './components/StackBar';
+import { Blob, BLOB_RADII, Float, STARS_INK, useMouseParallax } from './components/Brand';
+import { Sparkle, Van, Tools, ClimUnit, House, Faucet, Charger, Quote } from './components/Illustrations';
+import { CALL_MIN } from './config';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-// --- Brand Logo Component ---
-const CircuitLines = ({ scale = 1 }) => (
-  <svg
-    width={40 * scale} height={60 * scale}
-    viewBox="0 0 40 60"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ flexShrink: 0 }}
-  >
-    {/* Ligne verticale principale */}
-    <line x1="32" y1="4" x2="32" y2="56" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
-    {/* Branches horizontales gauche avec dots */}
-    <line x1="32" y1="10" x2="6" y2="10" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.45" />
-    <circle cx="5" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
-
-    <line x1="32" y1="18" x2="14" y2="18" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
-    <line x1="14" y1="18" x2="14" y2="23" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
-    <circle cx="14" cy="24" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
-
-    <line x1="32" y1="26" x2="2" y2="26" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.5" />
-    <circle cx="2" cy="26" r="1.5" fill="#00E5FF" fillOpacity="0.7" />
-
-    <line x1="32" y1="34" x2="20" y2="34" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
-    <line x1="20" y1="34" x2="20" y2="38" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.35" />
-    <circle cx="20" cy="39" r="1.2" fill="#00E5FF" fillOpacity="0.45" />
-
-    <line x1="32" y1="42" x2="8" y2="42" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.4" />
-    <circle cx="7" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.55" />
-
-    <line x1="32" y1="50" x2="16" y2="50" stroke="#00E5FF" strokeWidth="0.8" strokeOpacity="0.3" />
-    <circle cx="15" cy="50" r="1.2" fill="#00E5FF" fillOpacity="0.4" />
-
-    {/* Dot sur la ligne principale */}
-    <circle cx="32" cy="26" r="2" fill="#00E5FF" fillOpacity="0.8" />
-    <circle cx="32" cy="10" r="1.5" fill="#00E5FF" fillOpacity="0.6" />
-    <circle cx="32" cy="42" r="1.5" fill="#00E5FF" fillOpacity="0.5" />
-  </svg>
-);
-
-const Logo = ({ className, size = 'md' }) => {
-  const scale = size === 'xl' ? 1.8 : size === 'lg' ? 1.2 : size === 'sm' ? 0.65 : 0.85;
-  const fontSize = size === 'xl' ? '2.8rem' : size === 'lg' ? '1.8rem' : size === 'sm' ? '1.1rem' : '1.45rem';
-  const subSize = size === 'xl' ? '0.62rem' : size === 'lg' ? '0.42rem' : size === 'sm' ? '0.32rem' : '0.38rem';
-  return (
-    <div className={cn("flex items-center gap-0 leading-none select-none", className)}>
-      <CircuitLines scale={scale} />
-      <div className="flex flex-col items-start leading-none">
-        <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.04em', lineHeight: 1, color: '#00E5FF', fontWeight: 800, fontSize, textShadow: '0 0 24px rgba(0,229,255,0.45), 0 0 6px rgba(0,229,255,0.3)' }}>
-          HGO
-        </span>
-        <span style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '0.25em', lineHeight: 1.2, color: 'rgba(255,255,255,0.55)', fontWeight: 300, fontSize: subSize, textTransform: 'uppercase', marginTop: '2px' }}>
-          AUTOMATION
-        </span>
-      </div>
-    </div>
-  );
-};
-
-// --- Components ---
-
-const NAV_SERVICES = [
-  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare, desc: 'Chatbot, RDV, relances auto' },
-  { label: 'Agents IA', href: '/services/agent-ia', icon: Cpu, desc: 'Assistant formé sur vos données' },
-  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Zap, desc: '400+ intégrations sur mesure' },
-  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise', icon: Activity, desc: 'Connectez tous vos outils' },
-  { label: 'Automatisation & CRM', href: '/services/automatisation-crm', icon: Database, desc: 'CRM livré en 5-10 jours' },
-  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard, desc: 'Outils internes & portails' },
-];
-
-const NAV_ITEMS = [
-  { name: 'Expertise', url: '#expertise', icon: Layers },
-  { name: 'Processus', url: '#processus', icon: Activity },
-  { name: 'Blog', url: '/blog', icon: Terminal },
-];
-
-const Navbar = ({ onOpenContact }) => {
-  const [activeTab, setActiveTab] = useState('Expertise');
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setServicesOpen(false);
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
-
-  const handleNavClick = (item) => {
-    setActiveTab(item.name);
-    if (item.url.startsWith('#')) {
-      document.getElementById(item.url.slice(1))?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <>
-      {/* Desktop — tubelight pill centré */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-2">
-        {/* Logo */}
-        <div className="flex items-center bg-void/40 backdrop-blur-xl border border-ghost/10 rounded-full py-2 px-4 mr-2">
-          <Logo size="md" />
-        </div>
-
-        {/* Tubelight pill */}
-        <div className="flex items-center gap-1 bg-void/40 backdrop-blur-xl border border-ghost/10 rounded-full py-1 px-1">
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeTab === item.name;
-            const isLink = !item.url.startsWith('#');
-            const El = isLink ? Link : 'a';
-            const elProps = isLink ? { to: item.url } : { href: item.url };
-
-            return (
-              <El
-                key={item.name}
-                {...elProps}
-                onClick={() => handleNavClick(item)}
-                className={cn(
-                  "relative cursor-pointer text-xs font-semibold px-5 py-2 rounded-full transition-colors uppercase tracking-widest",
-                  isActive ? "text-cyan" : "text-ghost/60 hover:text-ghost"
-                )}
-              >
-                <span>{item.name}</span>
-                {isActive && (
-                  <motion.div
-                    layoutId="lamp"
-                    className="absolute inset-0 w-full bg-cyan/10 rounded-full -z-10"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  >
-                    {/* Tube glow top */}
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-cyan rounded-t-full">
-                      <div className="absolute w-12 h-6 bg-cyan/20 rounded-full blur-md -top-2 -left-2" />
-                      <div className="absolute w-8 h-6 bg-cyan/20 rounded-full blur-md -top-1" />
-                      <div className="absolute w-4 h-4 bg-cyan/30 rounded-full blur-sm top-0 left-2" />
-                    </div>
-                  </motion.div>
-                )}
-              </El>
-            );
-          })}
-
-          {/* Services dropdown — style header-3 */}
-          <div ref={dropdownRef} className="relative">
-            <button
-              onClick={() => setServicesOpen(v => !v)}
-              className={cn(
-                "relative cursor-pointer text-xs font-semibold px-5 py-2 rounded-full transition-colors uppercase tracking-widest flex items-center gap-1",
-                servicesOpen ? "text-cyan" : "text-ghost/60 hover:text-ghost"
-              )}
-            >
-              <Package className="w-3 h-3 mr-1" />
-              Services
-              <ChevronRight className={cn("w-3 h-3 transition-transform duration-200", servicesOpen ? "rotate-90" : "")} />
-            </button>
-            {servicesOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-void/95 backdrop-blur-xl border border-ghost/10 rounded-2xl p-3 shadow-2xl w-[520px]">
-                <div className="grid grid-cols-2 gap-2">
-                  {NAV_SERVICES.map(({ label, href, icon: Icon, desc }) => (
-                    <Link
-                      key={href}
-                      to={href}
-                      onClick={() => setServicesOpen(false)}
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-cyan/10 hover:text-cyan transition-colors group"
-                    >
-                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-ghost/5 border border-ghost/10 flex items-center justify-center group-hover:bg-cyan/10 group-hover:border-cyan/20 transition-colors">
-                        <Icon className="w-4 h-4 text-ghost/50 group-hover:text-cyan transition-colors" />
-                      </div>
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-medium text-ghost truncate">{label}</span>
-                        <span className="text-[11px] text-ghost/40 group-hover:text-cyan/60 transition-colors truncate">{desc}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-                <div className="mt-3 pt-3 border-t border-ghost/5 px-1">
-                  <p className="text-[11px] text-ghost/40">
-                    Besoin d'un devis ?{' '}
-                    <button className="text-cyan font-medium hover:underline" onClick={() => { setServicesOpen(false); onOpenContact('calendly'); }}>
-                      Planifier un appel →
-                    </button>
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* CTA */}
-        <button
-          onClick={onOpenContact}
-          className="ml-2 group relative overflow-hidden bg-cyan text-void px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-transform active:scale-95"
-        >
-          <span className="relative z-10">Démarrer</span>
-          <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
-        </button>
-      </div>
-
-      {/* Mobile — barre du haut compacte */}
-      <nav className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4 py-3 bg-void/80 backdrop-blur-xl border-b border-ghost/10">
-        <div className="flex items-center">
-          <Logo size="md" />
-        </div>
-        <button
-          onClick={() => setMenuOpen(v => !v)}
-          className="p-2 rounded-xl hover:bg-ghost/10 transition-colors"
-          aria-label="Menu"
-        >
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </nav>
-
-      {/* Mobile overlay */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-void/95 backdrop-blur-xl flex flex-col pt-20 pb-8 px-6 overflow-y-auto md:hidden">
-          <div className="flex flex-col gap-2">
-            <p className="text-[10px] font-mono text-cyan/60 uppercase tracking-widest mb-2">Services</p>
-            {NAV_SERVICES.map(({ label, href }) => (
-              <Link key={href} to={href} onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-cyan/10 hover:text-cyan transition-colors text-base text-ghost/70 border border-ghost/5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan/40 flex-shrink-0" />
-                {label}
-              </Link>
-            ))}
-          </div>
-          <div className="flex flex-col gap-2 mt-6">
-            {NAV_ITEMS.map((item) => {
-              const isLink = !item.url.startsWith('#');
-              const El = isLink ? Link : 'a';
-              const elProps = isLink ? { to: item.url } : { href: item.url };
-              return (
-                <El key={item.name} {...elProps} onClick={() => setMenuOpen(false)} className="px-4 py-4 text-base font-medium uppercase tracking-widest hover:text-cyan transition-colors border-b border-ghost/5">
-                  {item.name}
-                </El>
-              );
-            })}
-          </div>
-          <button onClick={() => { setMenuOpen(false); onOpenContact(); }} className="mt-8 w-full bg-cyan text-void py-4 rounded-full text-sm font-extrabold uppercase tracking-widest">
-            Démarrer mon projet
-          </button>
-        </div>
-      )}
-    </>
-  );
-};
-
-const GlowPrimaryBtn = ({ onClick, children }) => {
-  const [clicked, setClicked] = useState(false);
-  return (
-    <button
-      type="button"
-      className="glow-btn-primary"
-      data-state={clicked ? 'clicked' : undefined}
-      onClick={() => { setClicked(true); setTimeout(() => setClicked(false), 200); onClick?.(); }}
-    >
-      {children}
-    </button>
-  );
-};
-
-const GlowOutlineBtn = ({ onClick, children }) => (
-  <button type="button" className="glow-btn-outline" onClick={onClick}>
-    {children}
-  </button>
+// Titre de section : petit intitulé + grand titre en relief
+const SectionTitle = ({ label, children, className = '', center = false }) => (
+  <div className={cn(center && 'text-center', className)}>
+    {label && <p className="label-cond mb-4">{label}</p>}
+    <h2 className="chunky-sm text-[clamp(2rem,5vw,3.5rem)]">{children}</h2>
+  </div>
 );
 
 const Hero = ({ onOpenContact }) => {
-  const titles = useMemo(() => ["intelligente", "scalable", "automatisée", "performante", "innovante"], []);
-  const [titleNumber, setTitleNumber] = useState(0);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setTitleNumber(prev => prev === titles.length - 1 ? 0 : prev + 1);
-    }, 2000);
-    return () => clearTimeout(timeoutId);
-  }, [titleNumber, titles]);
-
+  const { mx, my, onMouseMove } = useMouseParallax();
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
+    <section onMouseMove={onMouseMove} className="relative overflow-hidden min-h-[680px] md:min-h-[780px] pt-24 pb-20">
+      {/* Formes cyan */}
+      <Blob className="w-[42vw] max-w-[360px] aspect-[1.05] -right-[10vw] md:right-[6%] top-[8%]" radius={BLOB_RADII[1]} />
+      <Blob className="w-[70vw] max-w-[620px] aspect-[1.6] -left-[20vw] md:-left-[6%] -bottom-[18%]" radius={BLOB_RADII[2]} />
+      <Blob className="w-[40vw] max-w-[380px] aspect-[0.9] -right-[12vw] md:right-[-2%] bottom-[-8%]" radius={BLOB_RADII[3]} />
 
-      {/* Fond image */}
-      <div className="absolute inset-0 -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-          alt="Technologie"
-          className="w-full h-full object-cover opacity-60"
-          loading="eager"
-          fetchPriority="high"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/85 to-void/50" />
-        <div className="absolute inset-0 bg-void/40" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_var(--void)_70%)]" />
-      </div>
+      {/* Illustrations */}
+      <Float mx={mx} my={my} depth={24} delay={1} className="right-[2%] md:right-[12%] top-[14%] w-28 md:w-56">
+        <ClimUnit className="w-full" />
+      </Float>
+      <Float mx={mx} my={my} depth={14} delay={0.6} rotate={4} className="hidden sm:block left-[4%] md:left-[6%] bottom-[4%] w-36 md:w-56">
+        <Van className="w-full" />
+      </Float>
+      <Float mx={mx} my={my} depth={-26} delay={1.4} rotate={12} className="right-[6%] md:right-[16%] bottom-[10%] w-24 md:w-44">
+        <Quote className="w-full" />
+      </Float>
+      <Sparkle className="absolute w-8 right-[24%] top-[14%]" />
 
-      <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col max-w-4xl w-full relative z-10">
-
-        {/* Badge */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <button
-            onClick={onOpenContact}
-            className="relative text-sm font-medium rounded-full h-12 p-1 ps-5 pe-14 group transition-all duration-500 hover:ps-14 hover:pe-5 w-fit overflow-hidden cursor-pointer border border-ghost/15 bg-ghost/5 text-ghost/70 hover:text-ghost backdrop-blur-sm inline-flex items-center"
-          >
-            <span className="relative z-10 flex items-center gap-2 transition-all duration-500 whitespace-nowrap">
-              <Sparkles className="w-4 h-4 text-cyan flex-shrink-0" />
-              Découvrez nos automatisations IA
-            </span>
-            <div className="absolute right-1 w-10 h-10 bg-cyan/15 border border-cyan/20 text-cyan rounded-full flex items-center justify-center transition-all duration-500 group-hover:right-[calc(100%-44px)] group-hover:rotate-45">
-              <ArrowUpRight size={15} />
-            </div>
-          </button>
+      <div className="relative z-20 flex flex-col items-center text-center px-5 pt-24 md:pt-28">
+        <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="chunky text-[clamp(2.6rem,11vw,7.5rem)] !leading-[0.92]">
+          Vos devis<br />partent seuls
+        </motion.h1>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-lg text-ghost/85 text-lg md:text-xl leading-relaxed bg-void rounded-2xl px-4 py-1">
+          RDV, devis et relances automatisés pour les artisans du bâtiment. En service en 2 semaines, dès 990€.
+        </motion.p>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap justify-center gap-3">
+          <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
+          <button onClick={() => onOpenContact('leadmagnet')} className="btn-outline"><Download className="w-4 h-4" /> Guide gratuit</button>
         </motion.div>
-
-        {/* H1 + mots cycliques */}
-        <motion.div
-          className="flex gap-4 flex-col items-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-        >
-          <h1 className="text-5xl md:text-7xl max-w-3xl tracking-tighter text-center font-bold drop-shadow-2xl">
-            <span className="text-ghost">Votre entreprise,</span>
-            <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1" style={{ minHeight: '1.2em' }}>
-              &nbsp;
-              {titles.map((title, index) => (
-                <motion.span
-                  key={index}
-                  className="absolute font-serif italic text-cyan"
-                  style={{ textShadow: '0 0 40px rgba(0,229,255,0.35), 0 4px 20px rgba(0,0,0,0.5)' }}
-                  initial={{ opacity: 0, y: -100, filter: 'blur(8px)' }}
-                  transition={{ type: "spring", stiffness: 60, damping: 20 }}
-                  animate={
-                    titleNumber === index
-                      ? { y: 0, opacity: 1, filter: 'blur(0px)' }
-                      : { y: titleNumber > index ? -120 : 120, opacity: 0, filter: 'blur(8px)' }
-                  }
-                >
-                  {title}.
-                </motion.span>
-              ))}
-            </span>
-          </h1>
-
-          <p className="text-lg md:text-xl leading-relaxed text-ghost/70 max-w-2xl text-center font-light drop-shadow-lg">
-            HGO Automation conçoit vos CRM sur mesure, agents IA, workflows n8n et automatisations WhatsApp.
-            Des solutions concrètes, livrées en moins d'une semaine.
-          </p>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-8 bg-void rounded-full px-4 py-1">
+          <Link to="/cas-client/groupe-rousso" className="font-cond uppercase tracking-[0.12em] text-sm text-cyan hover:underline underline-offset-4">
+            52 000 $ générés pour Groupe Rousso en 2 mois →
+          </Link>
         </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <GlowOutlineBtn onClick={() => onOpenContact('calendly')}>
-            <Calendar className="w-5 h-5" /> Planifier un appel
-          </GlowOutlineBtn>
-          <GlowPrimaryBtn onClick={onOpenContact}>
-            Démarrer mon projet <ArrowRight className="w-5 h-5" />
-          </GlowPrimaryBtn>
-          <GlowOutlineBtn onClick={() => onOpenContact('leadmagnet')}>
-            <Download className="w-5 h-5" /> Guide gratuit CVC
-          </GlowOutlineBtn>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-6 md:gap-8 text-sm text-ghost/40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          {[
-            { value: '50+', label: 'Clients accompagnés' },
-            { value: '500+', label: 'Workflows automatisés' },
-            { value: '2 semaines', label: 'Délai de livraison' },
-          ].map((stat, i, arr) => (
-            <React.Fragment key={i}>
-              <div className="flex flex-col items-center gap-0.5">
-                <span className="text-2xl font-bold text-ghost">{stat.value}</span>
-                <span className="text-xs uppercase tracking-widest">{stat.label}</span>
-              </div>
-              {i < arr.length - 1 && <div className="w-px h-8 bg-ghost/10" />}
-            </React.Fragment>
-          ))}
-        </motion.div>
-
       </div>
     </section>
   );
 };
 
-const FeatureCard = ({ title, desc, icon: Icon, children }) => (
-  <div className="glass p-8 rounded-premium flex flex-col gap-6 group hover:border-cyan/40 transition-colors duration-500">
-    <div className="flex items-center gap-4">
-      <div className="w-12 h-12 rounded-2xl bg-cyan/10 flex items-center justify-center">
-        <Icon className="w-6 h-6 text-cyan" />
-      </div>
-      <h3 className="text-xl font-bold font-sans uppercase tracking-tight">{title}</h3>
-    </div>
-    <p className="text-ghost/40 text-sm font-light leading-relaxed">{desc}</p>
-    <div className="flex-grow flex items-center justify-center p-4 border border-ghost/5 rounded-3xl bg-void/50 overflow-hidden min-h-[160px]">
-      {children}
-    </div>
-  </div>
-);
-
-const FeatureShuffler = () => {
-  const [items, setItems] = useState([
-    { id: 1, label: "Analyses Marketing", color: "text-cyan" },
-    { id: 2, label: "Génération de Leads", color: "text-blue" },
-    { id: 3, label: "Opérations CRM Directes", color: "text-green-400" },
-  ]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setItems(prev => {
-        const next = [...prev];
-        next.unshift(next.pop());
-        return next;
-      });
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="relative w-full h-32 flex flex-col items-center justify-center gap-2">
-      {items.map((item, idx) => (
-        <div
-          key={item.id}
-          className={cn(
-            "absolute transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
-            idx === 0 ? "opacity-100 scale-100 translate-y-0" :
-              idx === 1 ? "opacity-40 scale-90 translate-y-8" : "opacity-0 scale-75 translate-y-16"
-          )}
-        >
-          <div className={cn("px-4 py-2 border border-ghost/10 rounded-xl glass whitespace-nowrap", item.color)}>
-            <Zap className="inline-block w-4 h-4 mr-2" />
-            <span className="text-xs font-mono font-bold">{item.label}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const TelemetryTypewriter = () => {
-  const [text, setText] = useState("");
-  const fullText = useMemo(() => "Système prêt. Analyse des nœuds... Scalabilité activée. 10k requêtes/s traitées.", []);
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (index < fullText.length) {
-      const timeout = setTimeout(() => {
-        setText(prev => prev + fullText[index]);
-        setIndex(prev => prev + 1);
-      }, 50);
-      return () => clearTimeout(timeout);
-    } else {
-      setTimeout(() => {
-        setText("");
-        setIndex(0);
-      }, 3000);
-    }
-  }, [index, fullText]);
-
-  return (
-    <div className="w-full font-mono text-xs flex flex-col gap-2">
-      <div className="flex items-center gap-2 text-cyan/60 px-2 py-1 border-b border-ghost/5 mb-1">
-        <div className="w-2 h-2 rounded-full bg-cyan pulse-dot" />
-        <span>TÉLÉMÉTRIE EN DIRECT</span>
-      </div>
-      <div className="px-2 py-1 flex flex-wrap">
-        <span className="text-ghost/80">{text}</span>
-        <span className="w-2 h-4 bg-cyan/80 ml-1 inline-block animate-pulse" />
-      </div>
-    </div>
-  );
-};
-
-const ProtocolScheduler = () => {
-  const [activeDay, setActiveDay] = useState(null);
-  const cursorRef = useRef(null);
-  const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      const runAnimation = () => {
-        const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
-        tl.to(cursorRef.current, { x: 40, y: 20, duration: 1.5, ease: "power2.inOut" })
-          .call(() => setActiveDay(2))
-          .to(cursorRef.current, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 })
-          .to(cursorRef.current, { x: 100, y: 50, duration: 1, ease: "power2.inOut" })
-          .to(cursorRef.current, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 })
-          .to(cursorRef.current, { opacity: 0, duration: 0.5 })
-          .set(cursorRef.current, { x: 0, y: 0, opacity: 1, scale: 1 });
-      };
-      runAnimation();
-    });
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div className="relative w-full max-w-[140px] flex flex-col gap-4">
-      <div className="grid grid-cols-7 gap-1">
-        {days.map((day, i) => (
-          <div
-            key={i}
-            className={cn(
-              "w-4 h-4 rounded-sm flex items-center justify-center text-[8px] border transition-colors",
-              i === 2 && activeDay === 2 ? "bg-cyan border-cyan text-void" : "border-ghost/10 text-ghost/40"
-            )}
-          >
-            {day}
-          </div>
-        ))}
-      </div>
-      <div className="h-6 w-full glass rounded-full flex items-center px-3 gap-2">
-        <div className="w-2 h-2 rounded-full bg-green-400" />
-        <span className="text-[8px] font-mono text-ghost/60">ARCHITECTURE SAUVEGARDÉE...</span>
-      </div>
-      <div ref={cursorRef} className="absolute left-0 top-0 pointer-events-none">
-        <MousePointer2 className="w-4 h-4 text-cyan rotate-[-45deg] drop-shadow-[0_0_8px_rgba(0,209,255,0.5)]" />
-      </div>
-    </div>
-  );
-};
-
-const Philosophy = () => {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      gsap.from(".reveal-text", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1,
-        ease: "power2.out"
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <section ref={sectionRef} className="py-20 md:py-32 px-6 md:px-24 relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-cyan/5 to-void opacity-50 pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto flex flex-col gap-10 md:gap-12">
-        <div className="reveal-text">
-          <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">Manifeste</p>
-          <p className="text-xl md:text-3xl font-light text-ghost/40 leading-relaxed max-w-3xl">
-            La plupart des automatisations se contentent de scripts basiques. Nous concevons des écosystèmes performants.
-          </p>
-        </div>
-
-        <div className="reveal-text">
-          <h2 className="text-4xl sm:text-5xl md:text-8xl leading-none tracking-tighter uppercase">
-            Focus sur la <br />
-            <span className="font-serif italic text-cyan">Performance Intelligente.</span>
-          </h2>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ProtocolSection = () => {
-  const container = useRef(null);
-
-  const steps = [
-    {
-      num: "01",
-      title: "Diagnostic Architectural",
-      desc: "Analyse profonde de vos flux et identification des goulots d'étranglement structurels.",
-      Animation: () => (
-        <div className="relative w-40 h-40 flex items-center justify-center">
-          <div className="absolute inset-0 bg-cyan/10 rounded-full blur-2xl" />
-          <svg viewBox="0 0 100 100" className="w-36 h-36 animate-[spin_12s_linear_infinite] drop-shadow-[0_0_15px_rgba(0,209,255,0.4)]">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="4 4" className="text-cyan/50" />
-            <path d="M50 10 L50 90 M10 50 L90 50" stroke="currentColor" strokeWidth="1.5" className="text-cyan" />
-            <rect x="43" y="43" width="14" height="14" fill="currentColor" className="text-cyan" />
-          </svg>
-        </div>
-      )
-    },
-    {
-      num: "02",
-      title: "Immersion Technologique",
-      desc: "Déploiement de protocoles IA et routages automatisés scalables en temps réel.",
-      Animation: () => (
-        <div className="relative w-40 h-40 flex items-center justify-center overflow-hidden border border-cyan/30 rounded-2xl bg-cyan/5 shadow-[0_0_30px_rgba(0,209,255,0.15)]">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan/25 to-transparent w-[200%] animate-[translateX_3s_linear_infinite] ml-[-100%]" />
-          <Monitor className="w-14 h-14 text-cyan drop-shadow-[0_0_12px_rgba(0,209,255,0.5)]" />
-        </div>
-      )
-    },
-    {
-      num: "03",
-      title: "Optimisation de Flux",
-      desc: "Monitoring et ajustement continu pour maintenir un avantage compétitif absolu.",
-      Animation: () => (
-        <div className="relative w-40 h-28 flex items-end gap-1 p-3 rounded-2xl border border-cyan/20 bg-cyan/5 shadow-[0_0_30px_rgba(0,209,255,0.15)]">
-          <div className="absolute inset-0 bg-gradient-to-t from-cyan/10 to-transparent rounded-2xl" />
-          {[0.2, 0.4, 0.8, 0.5, 0.9, 1, 0.6, 0.4, 0.7].map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 bg-gradient-to-t from-cyan to-cyan/40 rounded-t-md animate-[pulse_2s_ease-in-out_infinite] relative z-10"
-              style={{ height: `${h * 80}%`, animationDelay: `${i * 0.1}s` }}
-            />
-          ))}
-        </div>
-      )
-    }
-  ];
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray(".stacking-card");
-      cards.forEach((card, i) => {
-        if (i !== cards.length - 1) {
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top top",
-            pin: true,
-            pinSpacing: false,
-            scrub: true,
-            onUpdate: (self) => {
-              gsap.to(card, {
-                scale: 0.9 - self.progress * 0.05,
-                filter: `blur(${self.progress * 10}px)`,
-                opacity: 1 - self.progress * 0.5,
-                overwrite: 'auto'
-              });
-            }
-          });
-        }
-      });
-    }, container);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div ref={container} className="bg-transparent" id="processus">
-      {steps.map((step, i) => (
-        <div key={i} className="stacking-card px-4 md:px-24">
-          <div className="glass w-full max-w-5xl p-6 sm:p-12 md:p-24 rounded-premium flex flex-col md:flex-row gap-8 md:gap-12 items-center border border-ghost/10 shadow-2xl shadow-cyan/5">
-            <div className="flex-1 flex flex-col gap-4 md:gap-6">
-              <span className="font-mono text-cyan text-xl md:text-2xl">{step.num}</span>
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-tight leading-none">{step.title}</h2>
-              <p className="text-ghost/60 text-base md:text-lg font-light leading-relaxed max-w-md">{step.desc}</p>
-            </div>
-            <div className="flex-1 flex justify-center">
-              <step.Animation />
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const WhatsAppMockup = () => (
-  <div className="flex flex-col gap-1.5 w-full">
-    <div className="self-start bg-ghost/10 text-ghost/70 text-[10px] rounded-xl rounded-bl-sm px-2.5 py-1.5 max-w-[75%]">Bonjour, un devis pour...</div>
-    <div className="self-end bg-cyan/20 text-cyan text-[10px] rounded-xl rounded-br-sm px-2.5 py-1.5 max-w-[75%] flex items-center gap-1">
-      RDV confirmé <CheckCircle2 className="w-2.5 h-2.5" />
-    </div>
-    <div className="self-start bg-ghost/10 text-ghost/70 text-[10px] rounded-xl rounded-bl-sm px-2.5 py-1.5 max-w-[75%]">Parfait, merci !</div>
-  </div>
-);
-
-const AgentIAMockup = () => (
-  <div className="flex items-center gap-2 w-full">
-    <div className="w-6 h-6 rounded-full bg-cyan/20 border border-cyan/30 flex items-center justify-center flex-shrink-0">
-      <Cpu className="w-3 h-3 text-cyan" />
-    </div>
-    <div className="flex gap-1 items-center bg-ghost/10 rounded-xl px-3 py-2">
-      <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
-      <span className="w-1.5 h-1.5 rounded-full bg-cyan/60 animate-pulse [animation-delay:150ms]" />
-      <span className="w-1.5 h-1.5 rounded-full bg-cyan/30 animate-pulse [animation-delay:300ms]" />
-    </div>
-  </div>
-);
-
-const WorkflowMockup = () => (
-  <svg viewBox="0 0 200 50" className="w-full h-12">
-    <line x1="20" y1="25" x2="90" y2="25" stroke="currentColor" className="text-cyan/40" strokeWidth="1.5" />
-    <line x1="90" y1="25" x2="160" y2="25" stroke="currentColor" className="text-cyan/40" strokeWidth="1.5" />
-    <circle cx="20" cy="25" r="7" className="fill-void stroke-cyan" strokeWidth="1.5" />
-    <circle cx="90" cy="25" r="7" className="fill-cyan" />
-    <circle cx="160" cy="25" r="7" className="fill-void stroke-cyan" strokeWidth="1.5" />
-  </svg>
-);
-
-const EntrepriseMockup = () => (
-  <div className="flex items-center justify-center gap-3 w-full">
-    {[MessageSquare, Database, Calendar].map((I, i) => (
-      <React.Fragment key={i}>
-        <div className="w-7 h-7 rounded-lg bg-ghost/10 flex items-center justify-center">
-          <I className="w-3.5 h-3.5 text-cyan/70" />
-        </div>
-        {i < 2 && <div className="w-4 h-px bg-cyan/30" />}
-      </React.Fragment>
-    ))}
-  </div>
-);
-
-const CRMMockup = () => (
-  <div className="flex flex-col gap-1.5 w-full">
-    {[['Jean D.', 'bg-cyan/60'], ['Marie L.', 'bg-cyan/30'], ['Paul R.', 'bg-cyan/60']].map(([name, color]) => (
-      <div key={name} className="flex items-center justify-between bg-ghost/5 rounded-lg px-2.5 py-1.5">
-        <span className="text-[10px] text-ghost/60">{name}</span>
-        <span className={cn('w-2 h-2 rounded-full', color)} />
-      </div>
-    ))}
-  </div>
-);
-
-const DashboardMockup = () => (
-  <div className="flex items-end gap-1.5 w-full h-12">
-    {[0.4, 0.7, 0.5, 0.9, 0.6, 0.8].map((h, i) => (
-      <div key={i} className="flex-1 bg-cyan/40 rounded-t-sm" style={{ height: `${h * 100}%` }} />
-    ))}
-  </div>
-);
-
-const SERVICES_LIST = [
-  { label: 'WhatsApp & Telegram', href: '/services/automatisation-whatsapp-telegram', icon: MessageSquare, icon2: Send, desc: 'Chatbot, prise de RDV, relances automatiques sur les deux plateformes.', Visual: WhatsAppMockup },
-  { label: 'Agents IA', href: '/services/agent-ia', icon: BrainCircuit, desc: 'Un assistant intelligent formé sur vos données, disponible 24h/24.', Visual: AgentIAMockup },
-  { label: 'Automatisation n8n', href: '/services/automatisation-n8n', icon: Network, desc: 'Workflows sur mesure hébergés chez vous. 400+ intégrations natives.', Visual: WorkflowMockup },
-  { label: 'Automatisation Entreprise', href: '/services/automatisation-entreprise', icon: RefreshCw, desc: 'Connectez vos outils, éliminez les saisies manuelles, scalez sans embaucher.', Visual: EntrepriseMockup },
-  { label: 'Automatisation & Création CRM', href: '/services/automatisation-crm', icon: Database, icon2: User, desc: 'CRM 100% adapté à votre process de vente. Livré en 5-10 jours.', Visual: CRMMockup },
-  { label: 'Applications & Dashboards', href: '/services/creation-applications-dashboards', icon: LayoutDashboard, desc: 'Outils internes, portails clients, dashboards KPIs — livrés rapidement.', Visual: DashboardMockup },
+const BENEFITS = [
+  { icon: MessageSquare, title: 'Zéro appel manqué', desc: "Vos clients écrivent sur WhatsApp ou votre site, obtiennent une réponse immédiate et réservent leur créneau, même quand vous êtes sur un chantier." },
+  { icon: Send, title: 'Devis & relances automatiques', desc: "Vos devis partent le jour même et sont relancés automatiquement. Fini les devis oubliés qui partent chez le concurrent." },
+  { icon: Calendar, title: 'Un agenda qui se remplit', desc: "RDV confirmés, rappels la veille, entretiens annuels relancés : votre planning se remplit sans passer vos journées au téléphone." },
 ];
 
-const FOUNDER = {
-  name: 'Hugo Fonseca',
-  role: "Fondateur d'HGO Automation",
-  photo: '/hugo-fonseca.jpeg',
-  bio: "Avant de me consacrer à l'automatisation, j'ai une expérience terrain dans le secteur du CVC. C'est ce qui m'a poussé à créer des outils pensés pour ce métier plutôt que des solutions génériques — j'accompagne aujourd'hui les entreprises de chauffage, ventilation et climatisation dans l'automatisation de leur prise de rendez-vous et de leur suivi client. Je conçois aussi des agents IA et des automatisations sur mesure pour d'autres secteurs d'activité.",
-};
-
-const FounderSection = () => (
-  <section className="py-20 md:py-32 px-6 md:px-24">
-    <div className="max-w-5xl mx-auto glass rounded-premium p-10 md:p-16 flex flex-col md:flex-row items-center gap-10 md:gap-16">
-      <img
-        src={FOUNDER.photo}
-        alt={FOUNDER.name}
-        className="w-40 h-40 md:w-56 md:h-56 rounded-full object-cover border-2 border-cyan/30 flex-shrink-0"
-      />
-      <div>
-        <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-3">// Fondateur</p>
-        <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight mb-1">{FOUNDER.name}</h2>
-        <p className="text-ghost/40 text-sm mb-6">{FOUNDER.role}</p>
-        <p className="text-ghost/60 text-base md:text-lg font-light leading-relaxed">{FOUNDER.bio}</p>
+const BenefitsSection = () => (
+  <section className="py-20 md:py-28 px-5 md:px-12" id="expertise">
+    <div className="max-w-6xl mx-auto">
+      <SectionTitle label="Ce que ça change" className="mb-12">Moins de téléphone, <span className="text-cyan">plus de chantiers.</span></SectionTitle>
+      <div className="grid md:grid-cols-3 gap-6">
+        {BENEFITS.map(({ icon: Icon, title, desc }) => (
+          <div key={title} className="card-brut hoverable p-8 flex flex-col gap-4">
+            <div className="w-14 h-14 bg-cyan text-void flex items-center justify-center" style={{ borderRadius: BLOB_RADII[1] }}>
+              <Icon className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl text-ghost">{title}</h3>
+            <p className="text-ghost/60 leading-relaxed">{desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -820,11 +94,11 @@ const CAS_CLIENTS = [
     role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
     desc: "CRM sur mesure, relances client automatisées, devis générés et envoyés par email automatiquement, connecté à leur système de planification.",
     stats: [
-      { value: '52 000 $', label: 'CA généré (2 mois)' },
+      { value: '52 000 $', label: 'CAD de CA généré (2 mois)' },
       { value: '70', label: 'Devis convertis / mois' },
       { value: '85 %', label: 'Taux de conversion' },
     ],
-    cta: { internal: true, to: '/cas-client/groupe-rousso', label: 'Voir le cas complet' },
+    to: '/cas-client/groupe-rousso',
   },
   {
     logo: '/lesinstallateurs-logo.png',
@@ -833,302 +107,248 @@ const CAS_CLIENTS = [
     desc: 'Refonte site vitrine + formulaire connecté à Interfast. 13 600 impressions Google en 3 mois.',
     stats: [
       { value: '13 600', label: 'Impressions Google' },
-      { value: '138',    label: 'Clics organiques' },
-      { value: '8,6',   label: 'Position moyenne' },
+      { value: '138', label: 'Clics organiques' },
+      { value: '8,6', label: 'Position moyenne' },
     ],
-    cta: { internal: true, to: '/cas-client/lesinstallateurs', label: 'Voir le cas complet' },
+    to: '/cas-client/lesinstallateurs',
   },
 ];
 
-function CaseCardContent({ c }) {
-  return (
-    <div className="glass rounded-premium p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
-      <div className="w-32 h-32 md:w-36 md:h-36 flex-shrink-0 flex items-center justify-center">
-        <img src={c.logo} alt={c.name} className="max-w-full max-h-full object-contain" />
-      </div>
-      <div className="flex-1">
-        <h3 className="text-2xl font-bold text-ghost mb-1">{c.name}</h3>
-        <p className="text-ghost/40 text-sm mb-4">{c.role}</p>
-        <p className="text-ghost/60 leading-relaxed mb-6">{c.desc}</p>
-        {c.stats.length > 0 && (
-          <div className="flex flex-wrap gap-8 mb-6">
-            {c.stats.map((s) => (
-              <div key={s.label}>
-                <p className="text-2xl font-bold text-cyan">{s.value}</p>
-                <p className="text-xs text-ghost/40 uppercase tracking-widest">{s.label}</p>
+const CasesSection = () => (
+  <section className="py-20 md:py-28 px-5 md:px-12" id="cas-clients">
+    <div className="max-w-6xl mx-auto">
+      <SectionTitle label="Cas clients" className="mb-12">De vrais clients. <span className="text-cyan">De vrais chiffres.</span></SectionTitle>
+      <div className="grid lg:grid-cols-2 gap-8">
+        {CAS_CLIENTS.map(c => (
+          <div key={c.name} className="card-brut p-8 md:p-10 flex flex-col gap-6">
+            <div className="flex items-center gap-5">
+              <div className="w-16 h-16 flex-shrink-0 flex items-center justify-center rounded-2xl bg-void border-2 border-cyan/40 p-2">
+                <img src={c.logo} alt={c.name} className="max-w-full max-h-full object-contain" />
               </div>
-            ))}
-          </div>
-        )}
-        {c.cta.internal
-          ? <Link to={c.cta.to} className="inline-flex items-center gap-2 text-cyan text-sm font-bold uppercase tracking-widest hover:underline">
-              {c.cta.label} <ArrowUpRight className="w-4 h-4" />
+              <div>
+                <h3 className="text-xl text-ghost">{c.name}</h3>
+                <p className="text-ghost/45 text-sm">{c.role}</p>
+              </div>
+            </div>
+            <p className="text-ghost/65 leading-relaxed">{c.desc}</p>
+            <div className="grid grid-cols-3 gap-4 py-5 border-y border-cyan/20">
+              {c.stats.map(st => (
+                <div key={st.label}>
+                  <p className="font-display text-lg md:text-2xl text-cyan leading-tight whitespace-nowrap">{st.value}</p>
+                  <p className="font-cond text-[11px] text-ghost/50 uppercase tracking-widest mt-1">{st.label}</p>
+                </div>
+              ))}
+            </div>
+            <Link to={c.to} className="mt-auto inline-flex items-center gap-2 font-cond uppercase tracking-[0.12em] text-sm font-semibold text-cyan hover:underline underline-offset-4">
+              Voir le cas complet <ArrowUpRight className="w-4 h-4" />
             </Link>
-          : <a href={c.cta.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-cyan text-sm font-bold uppercase tracking-widest hover:underline">
-              {c.cta.label} <ArrowUpRight className="w-4 h-4" />
-            </a>
-        }
-      </div>
-    </div>
-  );
-}
-
-function RoussoCaseSection() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] });
-
-  // Card 2 monte depuis le bas et passe par-dessus card 1
-  const card2Y    = useTransform(scrollYProgress, [0.3, 0.7], ['105%', '0%']);
-  // Card 1 se réduit légèrement quand card 2 arrive
-  const card1Scale = useTransform(scrollYProgress, [0.3, 0.7], [1, 0.92]);
-
-  return (
-    <section ref={sectionRef} className="bg-graphite/20" style={{ height: '280vh' }}>
-      {/* Panneau sticky qui occupe 100vh pendant tout le scroll */}
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-6 md:px-24">
-        <div className="max-w-5xl mx-auto w-full">
-          <p className="text-xs font-mono text-cyan uppercase tracking-widest mb-4">// Cas client</p>
-          <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-10">
-            Un vrai client.<br /><span className="text-cyan">Des vrais chiffres.</span>
-          </h2>
-
-          {/* Zone des cartes empilées */}
-          <div className="relative overflow-hidden rounded-premium">
-            {/* Card 1 — reste en place, se réduit légèrement */}
-            <motion.div style={{ scale: card1Scale, transformOrigin: 'top center', zIndex: 1, position: 'relative' }}>
-              <CaseCardContent c={CAS_CLIENTS[0]} />
-            </motion.div>
-
-            {/* Card 2 — monte depuis le bas par-dessus card 1, couvre toute la hauteur */}
-            <motion.div style={{ y: card2Y, position: 'absolute', inset: 0, zIndex: 2 }} className="bg-void">
-              <CaseCardContent c={CAS_CLIENTS[1]} />
-            </motion.div>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
-const ServicesSection = ({ onOpenContact, onOpenCalendly }) => (
-  <section className="relative py-20 md:py-32 px-6 md:px-24 overflow-hidden" id="services">
-    <div className="absolute inset-0 -z-10">
-      <BackgroundVideo src="/earth-night-bg.mp4" className="w-full h-full object-cover opacity-70" />
-      <div className="absolute inset-0 bg-gradient-to-b from-void via-void/30 to-void" />
-    </div>
-    <div className="max-w-7xl mx-auto">
-      <div className="mb-10 md:mb-16 text-center md:text-left">
-        <h2 className="text-4xl md:text-7xl font-bold uppercase tracking-tighter mb-4 md:mb-6">Nos <br /><span className="text-cyan">Services.</span></h2>
-        <p className="text-ghost/60 max-w-xl text-base md:text-lg font-light">6 expertises pour automatiser chaque dimension de votre activité.</p>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {SERVICES_LIST.map(({ label, href, icon: Icon, icon2: Icon2, desc, Visual }) => (
-          <Link key={href} to={href} className="group glass p-8 rounded-premium border-transparent hover:border-cyan/30 flex flex-col items-center text-center gap-4 transition-all duration-300 hover:shadow-lg hover:shadow-cyan/10">
-            <div className="relative w-20 h-20 rounded-full border border-cyan/30 bg-cyan/5 flex items-center justify-center shadow-[0_0_25px_-5px_rgba(0,209,255,0.5)] group-hover:shadow-[0_0_35px_-5px_rgba(0,209,255,0.8)] group-hover:border-cyan/60 transition-all duration-300">
-              <Icon className="w-8 h-8 text-cyan drop-shadow-[0_0_6px_rgba(0,209,255,0.6)]" strokeWidth={1.5} />
-              {Icon2 && (
-                <Icon2 className="w-4 h-4 text-cyan absolute bottom-3 right-3 drop-shadow-[0_0_6px_rgba(0,209,255,0.6)]" strokeWidth={1.5} />
-              )}
-            </div>
-            <div>
-              <h3 className="font-bold text-ghost uppercase tracking-tight text-lg mb-2">{label}</h3>
-              <p className="text-ghost/50 text-sm leading-relaxed">{desc}</p>
-            </div>
-            <div className="flex items-center justify-center min-h-[56px] p-3 border border-ghost/5 rounded-2xl bg-void/40">
-              <Visual />
-            </div>
-            <div className="mt-auto flex items-center gap-2 text-cyan text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-              Découvrir <ArrowUpRight className="w-3 h-3" />
-            </div>
-          </Link>
         ))}
-      </div>
-      <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button onClick={onOpenContact} className="group relative overflow-hidden bg-cyan text-void px-10 py-4 rounded-full text-sm font-extrabold uppercase tracking-widest transition-transform hover:scale-[1.03] active:scale-100">
-          <span className="relative z-10 flex items-center gap-2">Discuter de mon projet <ArrowUpRight className="w-4 h-4" /></span>
-          <div className="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0" />
-        </button>
-        <button onClick={onOpenCalendly} className="flex items-center gap-2 px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest border border-ghost/20 hover:border-cyan text-ghost/60 hover:text-ghost transition-colors">
-          <Calendar className="w-4 h-4" /> Planifier un appel
-        </button>
       </div>
     </div>
   </section>
 );
 
-const FOOTER_SOCIALS = [
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/hugo-fonseca-6b53603aa",
-    image: "https://link-hover-lndev.vercel.app/linkedin.png",
-  },
+const METIERS = [
+  { title: 'CVC, climatisation & chauffage', desc: 'RDV, devis après visite, relances d\'entretien et contrats.', to: '/secteurs/automatisation-cvc-climatisation-chauffage', Ill: ClimUnit },
+  { title: 'Plombiers & chauffagistes', desc: 'Urgences traitées 24h/24, devis le jour même, entretiens chaudière.', to: '/secteurs/automatisation-plombier-chauffagiste', Ill: Faucet },
+  { title: 'Électriciens & IRVE', desc: 'Pré-chiffrage avec photos, devis relancés, suivi de chantier.', to: '/secteurs/automatisation-electricien', Ill: Charger },
+  { title: 'Rénovation & second œuvre', desc: 'Demandes centralisées, devis relancés, clients informés.', to: '/secteurs/automatisation-renovation-batiment', Ill: House },
 ];
 
-const SocialLinks = ({ socials, className }) => {
-  const [hoveredSocial, setHoveredSocial] = useState(null);
-  const [rotation, setRotation] = useState(0);
-  const [clicked, setClicked] = useState(false);
+const MetiersSection = ({ onOpenContact }) => (
+  <section id="metiers" className="py-20 md:py-28 px-5 md:px-12">
+    <div className="max-w-6xl mx-auto">
+      <SectionTitle label="Par métier">Né sur le terrain <span className="text-cyan">du bâtiment.</span></SectionTitle>
+      <p className="mt-6 text-ghost/65 max-w-2xl leading-relaxed">
+        Les mêmes problèmes reviennent chez tous les artisans : appels manqués en intervention, devis envoyés trop tard, relances oubliées. On a des solutions prêtes pour chaque métier.
+      </p>
+      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {METIERS.map(({ title, desc, to, Ill }, i) => (
+          <Link key={to} to={to} className="card-brut group p-6 flex flex-col">
+            <div className="relative h-36 mb-5 flex items-center justify-center">
+              <div className="absolute inset-2 bg-cyan" style={{ borderRadius: BLOB_RADII[i % 4], backgroundImage: STARS_INK, backgroundSize: '140px 140px' }} />
+              <Ill className="relative w-28 group-hover:rotate-[-4deg] transition-transform" />
+            </div>
+            <h3 className="text-lg leading-tight text-ghost">{title}</h3>
+            <p className="mt-2 text-sm text-ghost/60 leading-relaxed flex-1">{desc}</p>
+            <span className="mt-4 inline-flex items-center gap-1 font-cond uppercase tracking-[0.12em] text-xs font-semibold text-cyan">
+              Voir <ArrowUpRight className="w-4 h-4" />
+            </span>
+          </Link>
+        ))}
+      </div>
+      <div className="mt-8 card-brut p-7 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h3 className="text-lg text-ghost">Un autre secteur ?</h3>
+          <p className="text-ghost/60 text-sm mt-1">Immobilier, garages, commerces, services… Dès que vous gérez des demandes, des RDV ou des devis, on peut automatiser.</p>
+        </div>
+        <button onClick={() => onOpenContact('calendly')} className="btn-outline flex-shrink-0"><Calendar className="w-4 h-4" /> Parlons-en</button>
+      </div>
+    </div>
+  </section>
+);
 
-  const animation = {
-    scale: clicked ? [1, 1.3, 1] : 1,
-    transition: { duration: 0.3 },
-  };
+const OffersSection = ({ onOpenContact }) => (
+  <section id="offres" className="py-20 md:py-28 px-5 md:px-12">
+    <div className="max-w-6xl mx-auto">
+      <SectionTitle label="Nos offres" className="mb-12">Deux façons de <span className="text-cyan">travailler ensemble.</span></SectionTitle>
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="card-cyan !rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden flex flex-col" style={{ boxShadow: '8px 8px 0 rgba(0,209,255,.3)' }}>
+          <Sparkle className="absolute w-6 right-8 top-8" fill="#0A0A14" />
+          <p className="font-cond uppercase tracking-[0.2em] text-xs text-void/70">Clé en main</p>
+          <h3 className="mt-3 text-3xl">On le fait pour vous</h3>
+          <p className="mt-4 text-void/80 leading-relaxed">Pour les artisans, entreprises du bâtiment et PME. On installe et on connecte vos outils : WhatsApp, agenda, CRM, devis, relances. Vous n'avez rien à apprendre.</p>
+          <ul className="mt-6 space-y-3 text-sm">
+            <li className="flex justify-between gap-4 border-b border-void/20 pb-3"><span>Essentiel — WhatsApp + RDV + rappels</span><strong className="whitespace-nowrap">990€</strong></li>
+            <li className="flex justify-between gap-4 border-b border-void/20 pb-3"><span>Pro — + CRM, devis auto, relances</span><strong className="whitespace-nowrap">2 200€</strong></li>
+            <li className="flex justify-between gap-4"><span>Maintenance & évolutions</span><strong className="whitespace-nowrap">dès 149€/mois</strong></li>
+          </ul>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button onClick={() => onOpenContact('calendly')} className="bg-void text-cyan px-6 py-3 rounded-full font-cond uppercase tracking-[0.1em] text-sm font-semibold inline-flex items-center gap-2"><Calendar className="w-4 h-4" /> Appel gratuit</button>
+            <a href="#metiers" className="border-2 border-void px-6 py-3 rounded-full font-cond uppercase tracking-[0.1em] text-sm font-semibold">Voir par métier</a>
+          </div>
+        </div>
+        <div className="card-brut !rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden flex flex-col">
+          <Tools className="absolute w-24 -right-2 -top-2 rotate-12" />
+          <p className="font-cond uppercase tracking-[0.2em] text-xs text-ghost/60">Formation & installation</p>
+          <h3 className="mt-3 text-3xl pr-16 text-ghost">Je vous forme, vous devenez autonome</h3>
+          <p className="mt-4 text-ghost/65 leading-relaxed">Pour les entrepreneurs, freelances et équipes qui veulent maîtriser n8n et l'IA. Installation propre et sécurisée, puis formation sur vos propres cas.</p>
+          <ul className="mt-6 space-y-3 text-sm text-ghost/80">
+            <li className="flex justify-between gap-4 border-b border-ghost/10 pb-3"><span>Installation n8n self-hosted</span><strong className="whitespace-nowrap text-cyan">290€</strong></li>
+            <li className="flex justify-between gap-4 border-b border-ghost/10 pb-3"><span>Installation OpenClaw sécurisée</span><strong className="whitespace-nowrap text-cyan">390€</strong></li>
+            <li className="flex justify-between gap-4"><span>Formation n8n 1:1 (2 × 3h)</span><strong className="whitespace-nowrap text-cyan">590€</strong></li>
+          </ul>
+          <Link to="/formation" className="btn-cyan mt-8 self-start">Voir la formation <ArrowUpRight className="w-4 h-4" /></Link>
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
-  useEffect(() => {
-    const handleClick = () => {
-      setClicked(true);
-      setTimeout(() => setClicked(false), 200);
-    };
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, [clicked]);
+const STEPS = [
+  { num: '01', icon: Calendar, title: 'Appel & audit gratuit', desc: `${CALL_MIN} minutes en visio pour comprendre comment arrivent vos demandes, vos devis et vos relances, et repérer où vous perdez des clients.` },
+  { num: '02', icon: Zap, title: 'Mise en place en 2 semaines', desc: "Je connecte vos outils existants et je construis vos automatisations. Votre équipe est formée en 1h, sans changer de logiciel." },
+  { num: '03', icon: Activity, title: 'Suivi & résultats', desc: "30 jours de support inclus, puis maintenance en option. On mesure ce que ça vous rapporte et on ajuste." },
+];
 
+const ProtocolSection = () => (
+  <section className="py-20 md:py-28 px-5 md:px-12" id="processus">
+    <div className="max-w-6xl mx-auto">
+      <SectionTitle label="Méthode" className="mb-12">Simple, <span className="text-cyan">en 3 étapes.</span></SectionTitle>
+      <div className="grid md:grid-cols-3 gap-6">
+        {STEPS.map(({ num, icon: Icon, title, desc }) => (
+          <div key={num} className="card-brut p-8 flex flex-col gap-5 relative overflow-hidden">
+            <span className="absolute -top-2 right-4 font-display text-7xl text-cyan/15 select-none">{num}</span>
+            <div className="w-14 h-14 bg-cyan text-void flex items-center justify-center" style={{ borderRadius: BLOB_RADII[2] }}>
+              <Icon className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="font-cond text-cyan text-sm font-semibold tracking-widest mb-2">ÉTAPE {num}</p>
+              <h3 className="text-xl text-ghost mb-2">{title}</h3>
+              <p className="text-ghost/60 text-sm leading-relaxed">{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const FOUNDER_BIO = "Formé en technico-commercial CVC et passé par le terrain, je connais les journées des artisans : le téléphone qui sonne en intervention, les devis faits le soir, les relances qu'on n'a jamais le temps de faire. Aujourd'hui, j'automatise tout ça pour les artisans, les entreprises du bâtiment et les PME avec n8n, WhatsApp et l'IA. Et pour ceux qui veulent devenir autonomes, j'installe et je forme.";
+
+const FounderSection = () => (
+  <section className="py-20 md:py-28 px-5 md:px-12">
+    <div className="max-w-5xl mx-auto card-brut !rounded-[2.5rem] p-8 md:p-14 flex flex-col md:flex-row items-center gap-10 md:gap-14">
+      <div className="relative flex-shrink-0">
+        <div className="absolute -inset-4 bg-cyan" style={{ borderRadius: BLOB_RADII[0], backgroundImage: STARS_INK, backgroundSize: '140px 140px' }} />
+        <img src="/hugo-fonseca.jpeg" alt="Hugo Fonseca" className="relative w-40 h-40 md:w-56 md:h-56 rounded-full object-cover border-4 border-void" />
+      </div>
+      <div>
+        <p className="label-cond mb-3">Fondateur</p>
+        <h2 className="chunky-sm text-3xl md:text-5xl mb-2">Hugo Fonseca</h2>
+        <p className="text-ghost/45 text-sm mb-6">Fondateur d'HGO Automation</p>
+        <p className="text-ghost/70 text-base md:text-lg leading-relaxed">{FOUNDER_BIO}</p>
+        <Link to="/a-propos" className="btn-outline mt-8">Mon parcours <ArrowUpRight className="w-4 h-4" /></Link>
+      </div>
+    </div>
+  </section>
+);
+
+const HOME_FAQ = [
+  { q: 'Combien ça coûte ?', a: "Prix fixes : 990€ pour un assistant WhatsApp avec prise de RDV et rappels, 2 200€ pour un système complet (WhatsApp, CRM, devis automatiques, relances). Maintenance en option dès 149 €/mois. Formation et installation dès 290€." },
+  { q: 'Faut-il changer de logiciel ?', a: "Non. Je me branche sur vos outils actuels : agenda, logiciel de devis et facturation, CRM, Excel, WhatsApp. Ils se mettent simplement à travailler ensemble." },
+  { q: "Je ne suis pas à l'aise avec l'informatique, c'est un problème ?", a: "Non. J'installe tout, je vous forme en 1h et je reste disponible 30 jours. Au quotidien, vous continuez à utiliser WhatsApp et vos mails comme d'habitude." },
+  { q: 'En combien de temps est-ce opérationnel ?', a: "2 semaines en moyenne (10 jours ouvrés) entre l'appel de découverte et la mise en production, tests avec vos vraies données compris." },
+  { q: 'Y a-t-il un engagement ?', a: "Non. Le projet est payé une fois. La maintenance mensuelle est optionnelle et sans engagement." },
+  { q: "Je ne suis pas dans le bâtiment, vous pouvez m'aider ?", a: "Oui. Dès que vous gérez des demandes clients, des rendez-vous ou des devis (immobilier, garages, commerces, services…), les mêmes automatisations s'appliquent. Parlons-en lors d'un appel gratuit." },
+];
+
+function FaqRow({ item }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className={cn("flex items-center justify-center gap-0", className)}>
-      {socials.map((social, index) => (
-        <a
-          key={index}
-          href={social.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "relative cursor-pointer px-5 py-2 transition-opacity duration-200",
-            hoveredSocial && hoveredSocial !== social.name ? "opacity-50" : "opacity-100"
-          )}
-          onMouseEnter={() => {
-            setHoveredSocial(social.name);
-            setRotation(Math.random() * 20 - 10);
-          }}
-          onMouseLeave={() => setHoveredSocial(null)}
-          onClick={() => setClicked(true)}
-        >
-          <span className="block text-sm font-medium uppercase tracking-widest">{social.name}</span>
-          <AnimatePresence>
-            {hoveredSocial === social.name && (
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 flex h-full w-full items-center justify-center"
-                animate={animation}
-              >
-                <motion.img
-                  key={social.name}
-                  src={social.image}
-                  alt={social.name}
-                  className="w-16 h-16"
-                  initial={{ y: -40, rotate: rotation, opacity: 0, filter: "blur(2px)" }}
-                  animate={{ y: -50, opacity: 1, filter: "blur(0px)" }}
-                  exit={{ y: -40, opacity: 0, filter: "blur(2px)" }}
-                  transition={{ duration: 0.2 }}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </a>
-      ))}
+    <div className={cn('rounded-2xl border-2 px-6 py-5 transition-colors', open ? 'border-cyan bg-[#12121F]' : 'border-cyan/25 hover:border-cyan/60')}>
+      <button onClick={() => setOpen(o => !o)} aria-expanded={open} className="w-full flex items-start justify-between gap-4 text-left">
+        <span className="font-cond uppercase tracking-wide text-lg font-semibold text-ghost">{item.q}</span>
+        <span className={cn('w-7 h-7 flex-shrink-0 rounded-full bg-cyan text-void flex items-center justify-center text-lg leading-none transition-transform duration-300', open && 'rotate-45')}>+</span>
+      </button>
+      <div className={cn('grid transition-all duration-300', open ? 'grid-rows-[1fr] opacity-100 pt-3' : 'grid-rows-[0fr] opacity-0')}>
+        <p className="overflow-hidden text-ghost/65 leading-relaxed">{item.a}</p>
+      </div>
     </div>
   );
-};
+}
 
-const Footer = () => {
-  return (
-    <footer className="bg-graphite/40 backdrop-blur-sm pt-16 md:pt-32 pb-12 px-6 md:px-24 rounded-t-[2rem] md:rounded-t-[4rem]">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-16 md:mb-24">
-        <div className="sm:col-span-2">
-          <div className="flex items-center mb-6">
-            <Logo size="xl" />
-          </div>
-          <p className="text-ghost/40 max-w-sm font-light leading-relaxed">
-            Redéfinir les frontières de l'efficacité opérationnelle par l'automatisation intelligente. L'avenir appartient aux systèmes qui apprennent.
-          </p>
-        </div>
-
-        <div>
-          <h4 className="text-xs uppercase font-bold tracking-widest mb-6 opacity-40">Compagnie</h4>
-          <ul className="space-y-4 text-ghost/60">
-            <li><a href="#expertise" className="hover:text-cyan transition-colors font-medium">Notre Expertise</a></li>
-            <li><a href="#services" className="hover:text-cyan transition-colors font-medium">Services</a></li>
-            <li><a href="#processus" className="hover:text-cyan transition-colors font-medium">Processus</a></li>
-            <li><Link to="/blog" className="hover:text-cyan transition-colors font-medium">Blog</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-xs uppercase font-bold tracking-widest mb-6 opacity-40">Contact</h4>
-          <ul className="space-y-4 text-ghost/60">
-            <li>
-              <div className="flex items-center gap-3">
-                <a
-                  href="https://www.linkedin.com/in/hugo-fonseca-6b53603aa"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-ghost/5 border border-ghost/10 flex items-center justify-center text-ghost/60 hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan transition-all"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-4 h-4" />
-                </a>
-                <a
-                  href="mailto:hugo@hgoautomation.fr"
-                  className="w-10 h-10 rounded-xl bg-ghost/5 border border-ghost/10 flex items-center justify-center text-ghost/60 hover:bg-cyan/10 hover:border-cyan/30 hover:text-cyan transition-all"
-                  aria-label="Email"
-                >
-                  <Mail className="w-4 h-4" />
-                </a>
-              </div>
-            </li>
-            <li><a href="mailto:hugo@hgoautomation.fr" className="hover:text-cyan transition-colors text-cyan font-bold underline underline-offset-4">hugo@hgoautomation.fr</a></li>
-          </ul>
-        </div>
+const FaqSection = () => (
+  <section className="py-20 md:py-28 px-5 md:px-12" id="faq">
+    <div className="max-w-3xl mx-auto">
+      <SectionTitle label="Questions fréquentes" className="mb-10">Vos questions, <span className="text-cyan">mes réponses.</span></SectionTitle>
+      <div className="space-y-3">
+        {HOME_FAQ.map(item => <FaqRow key={item.q} item={item} />)}
       </div>
-
-      <div className="max-w-7xl mx-auto pt-12 border-t border-ghost/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex items-center gap-3 px-4 py-2 bg-void/50 rounded-full border border-ghost/5">
-          <div className="w-2 h-2 rounded-full bg-green-500 pulse-dot" />
-          <span className="text-[10px] font-mono font-bold tracking-tighter opacity-80 uppercase">Système Opérationnel // Plateforme 1.0.4</span>
-        </div>
-        <div className="text-[10px] font-mono opacity-40 flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4 uppercase">
-          <span>© 2026 Hugo Fonseca — HGO Automation. SIRET 908 443 120 00021</span>
-          <div className="flex items-center gap-6">
-            <Link to="/mentions-legales" className="hover:text-cyan transition-colors">Mentions Légales</Link>
-            <Link to="/cgv" className="hover:text-cyan transition-colors">CGV</Link>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-};
+    </div>
+  </section>
+);
 
 function App() {
   const { open: openContact } = useContact();
-  const openCalendly = () => openContact('calendly');
+
+  // Liens /#metiers depuis les autres pages : scroller vers l'ancre une fois la page montée.
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    const t = setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 300);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30">
+    <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30 overflow-x-hidden">
       <Helmet>
-        <title>HGO Automation — Automatisation & IA pour PME françaises</title>
-        <meta name="description" content="HGO Automation déploie vos automatisations d'entreprise et agents IA en moins de 2 semaines. n8n, WhatsApp, CRM, dashboards. Devis gratuit sous 24h." />
+        <title>Automatisation & IA pour artisans et PME | HGO Automation</title>
+        <meta name="description" content="RDV WhatsApp 24h/24, devis envoyés le jour même, relances automatiques : l'automatisation n8n et IA pour artisans et PME. En service en 2 semaines." />
         <meta property="og:locale" content="fr_FR" />
-        <meta property="og:title" content="HGO Automation — Automatisation & IA pour PME françaises" />
-        <meta property="og:description" content="HGO Automation déploie vos automatisations d'entreprise et agents IA en moins de 2 semaines. Devis gratuit sous 24h." />
-        <meta property="og:url" content="https://hgoautomation.fr" />
+        <meta property="og:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
+        <meta property="og:description" content="RDV, devis et relances automatisés pour les artisans et PME. En service en 2 semaines, dès 990€. Formation n8n dès 290€." />
+        <meta property="og:url" content="https://www.hgoautomation.fr/" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://hgoautomation.fr/og-cover.png" />
+        <meta property="og:image" content="https://www.hgoautomation.fr/og-cover.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="HGO Automation — Automatisation & IA pour PME françaises" />
-        <meta name="twitter:description" content="HGO Automation déploie vos automatisations d'entreprise et agents IA en moins de 2 semaines." />
-        <meta name="twitter:image" content="https://hgoautomation.fr/og-cover.png" />
-        <link rel="canonical" href="https://hgoautomation.fr" />
+        <meta name="twitter:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
+        <meta name="twitter:description" content="RDV, devis et relances automatisés pour les artisans et PME. En service en 2 semaines." />
+        <meta name="twitter:image" content="https://www.hgoautomation.fr/og-cover.png" />
+        <link rel="canonical" href="https://www.hgoautomation.fr/" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "HGO Automation",
-          "description": "Agence d'automatisation d'entreprise et d'intelligence artificielle pour PME françaises. Déploiement de workflows n8n, agents IA, chatbots WhatsApp, CRM et dashboards.",
-          "url": "https://hgoautomation.fr",
-          "logo": "https://hgoautomation.fr/hgo-logo.svg",
-          "image": "https://hgoautomation.fr/og-cover.png",
+          "description": "Automatisation et intelligence artificielle pour artisans, entreprises du bâtiment et PME : prise de RDV WhatsApp, devis et relances automatiques, CRM, agents IA. Formation et installation n8n / OpenClaw.",
+          "url": "https://www.hgoautomation.fr",
+          "logo": "https://www.hgoautomation.fr/hgo-logo.svg",
+          "image": "https://www.hgoautomation.fr/og-cover.png",
           "telephone": "+33783945296",
-          "email": "contact@hgoautomation.fr",
+          "email": "hugo@hgoautomation.fr",
           "address": {
             "@type": "PostalAddress",
             "addressCountry": "FR",
@@ -1142,58 +362,46 @@ function App() {
           "areaServed": { "@type": "Country", "name": "France" },
           "priceRange": "€€",
           "openingHours": "Mo-Fr 09:00-18:00",
-          "sameAs": [],
+          "sameAs": ["https://www.linkedin.com/in/hugo-fonseca-6b53603aa", "https://www.malt.fr/profile/hugofonseca1"],
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Services d'automatisation & IA",
             "itemListElement": [
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation n8n", "url": "https://hgoautomation.fr/services/automatisation-n8n" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Agents IA", "url": "https://hgoautomation.fr/services/agent-ia" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation WhatsApp & Telegram", "url": "https://hgoautomation.fr/services/automatisation-whatsapp-telegram" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation Entreprise", "url": "https://hgoautomation.fr/services/automatisation-entreprise" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM sur mesure", "url": "https://hgoautomation.fr/services/automatisation-crm" } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Applications & Dashboards", "url": "https://hgoautomation.fr/services/creation-applications-dashboards" } }
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation CVC & climatisation", "url": "https://www.hgoautomation.fr/secteurs/automatisation-cvc-climatisation-chauffage" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation plombier & chauffagiste", "url": "https://www.hgoautomation.fr/secteurs/automatisation-plombier-chauffagiste" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation électricien", "url": "https://www.hgoautomation.fr/secteurs/automatisation-electricien" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation rénovation & bâtiment", "url": "https://www.hgoautomation.fr/secteurs/automatisation-renovation-batiment" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Formation & installation n8n / OpenClaw", "url": "https://www.hgoautomation.fr/formation" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation n8n", "url": "https://www.hgoautomation.fr/services/automatisation-n8n" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Agents IA", "url": "https://www.hgoautomation.fr/services/agent-ia" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation WhatsApp & Telegram", "url": "https://www.hgoautomation.fr/services/automatisation-whatsapp-telegram" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automatisation Entreprise", "url": "https://www.hgoautomation.fr/services/automatisation-entreprise" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM sur mesure", "url": "https://www.hgoautomation.fr/services/automatisation-crm" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Applications & Dashboards", "url": "https://www.hgoautomation.fr/services/creation-applications-dashboards" } }
             ]
           }
         })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": HOME_FAQ.map(item => ({
+            "@type": "Question",
+            "name": item.q,
+            "acceptedAnswer": { "@type": "Answer", "text": item.a }
+          }))
+        })}</script>
       </Helmet>
-      <Navbar onOpenContact={openContact} />
+      <SharedNav />
       <Hero onOpenContact={openContact} />
-
-      <section className="py-20 md:py-32 px-6 md:px-24" id="expertise">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
-          <FeatureCard
-            title="Workflows sur mesure"
-            desc="Des architectures d'automatisation conçues spécifiquement pour soutenir votre modèle économique unique."
-            icon={Activity}
-          >
-            <FeatureShuffler />
-          </FeatureCard>
-
-          <FeatureCard
-            title="Scalabilité instantanée"
-            desc="Gérez 10 ou 10 000 clients avec le même effort grâce à des processus capables d'absorber votre croissance."
-            icon={Zap}
-          >
-            <TelemetryTypewriter />
-          </FeatureCard>
-
-          <FeatureCard
-            title="IA au cœur"
-            desc="Intégration d'intelligences artificielles pour trier, analyser et répondre plus vite que vos concurrents."
-            icon={Cpu}
-          >
-            <ProtocolScheduler />
-          </FeatureCard>
-        </div>
-      </section>
-
-      <Philosophy />
+      <StackBar />
+      <BenefitsSection />
+      <MetiersSection onOpenContact={openContact} />
+      <CasesSection />
+      <OffersSection onOpenContact={openContact} />
       <ProtocolSection />
       <FounderSection />
-      <RoussoCaseSection />
-      <ServicesSection onOpenContact={openContact} onOpenCalendly={openCalendly} />
-      <Footer />
+      <FaqSection />
+      <SiteFooter />
     </main>
   );
 }

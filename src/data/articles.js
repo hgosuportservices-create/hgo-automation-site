@@ -1,8 +1,10 @@
+import { CALL_MIN } from '../config';
+
 export const articles = [
   {
     slug: "automatiser-whatsapp-n8n-tutoriel-2026",
     title: "Automatiser WhatsApp avec n8n : tutoriel complet 2026",
-    metaDescription: "Tutoriel complet pour connecter WhatsApp Business API à n8n en 2026 : configuration 360dialog, webhook, réponses automatiques, connexion CRM. Guide pas à pas pour PME françaises.",
+    metaDescription: "Connecter WhatsApp Business API à n8n en 2026 : 360dialog, webhook, réponses automatiques et CRM. Tutoriel pas à pas pour PME.",
     category: "Tutoriel",
     readTime: "18 min",
     date: "6 août 2026",
@@ -263,7 +265,7 @@ export const articles = [
   {
     slug: "n8n-hebergement-france-rgpd-guide-2026",
     title: "Héberger n8n en France : guide RGPD complet 2026",
-    metaDescription: "Comment héberger n8n sur un serveur français en 2026 : OVHcloud, Scaleway, configuration SSL, sauvegardes, conformité RGPD. Guide technique complet pour PME européennes.",
+    metaDescription: "Héberger n8n sur un serveur français en 2026 : OVHcloud, Scaleway, SSL, sauvegardes et conformité RGPD. Le guide complet pour PME.",
     category: "Guide",
     readTime: "14 min",
     date: "6 août 2026",
@@ -511,7 +513,7 @@ export const articles = [
   {
     slug: "pennylane-n8n-integration-automatisation-comptabilite",
     title: "Pennylane + n8n : automatiser sa comptabilité en 2026",
-    metaDescription: "Comment connecter Pennylane à n8n pour automatiser votre comptabilité en 2026 : import factures, rapprochement bancaire automatique, alertes trésorerie, synchronisation CRM. Guide complet pour PME.",
+    metaDescription: "Connecter Pennylane à n8n en 2026 : import des factures, rapprochement bancaire, alertes trésorerie et synchro CRM. Guide pour PME.",
     category: "Tutoriel",
     readTime: "12 min",
     date: "6 août 2026",
@@ -906,7 +908,7 @@ export const articles = [
       },
       {
         type: "cta",
-        text: "Vous ne savez pas encore lequel choisir ? Nos experts ont déployé les deux solutions pour des dizaines de clients. Planifiez un appel gratuit de 30 minutes pour qu'on analyse votre situation."
+        text: `Vous ne savez pas encore lequel choisir ? J'utilise les deux au quotidien. Planifiez un appel gratuit de ${CALL_MIN} minutes pour qu'on analyse votre situation.`
       }
     ]
   },
@@ -1020,7 +1022,7 @@ export const articles = [
   {
     slug: "chatbot-whatsapp-pme-guide-complet-2026",
     title: "Chatbot WhatsApp pour PME : guide complet 2026",
-    metaDescription: "Comment créer un chatbot WhatsApp pour votre PME en 2026 : outils, coût, cas d'usage. WhatsApp Business API, n8n, Make — tout ce qu'il faut savoir avant de se lancer.",
+    metaDescription: "Créer un chatbot WhatsApp pour votre PME en 2026 : outils, coûts, cas d'usage, API WhatsApp Business et n8n. Tout savoir avant de se lancer.",
     category: "Guide",
     readTime: "22 min",
     date: "24 février 2026",
@@ -1434,7 +1436,7 @@ export const articles = [
   {
     slug: "automatiser-emails-confirmation-entreprise-2026",
     title: "Automatiser les emails de votre entreprise : confirmation, relance, facturation",
-    metaDescription: "Comment automatiser vos emails professionnels en 2026 : confirmation de commande, relance client, rappel de RDV, facturation. Guide pratique avec n8n et Make pour PME françaises.",
+    metaDescription: "Automatiser vos emails pros en 2026 : confirmations, relances clients, rappels de RDV et factures. Guide pratique avec n8n et Make.",
     category: "Tutoriel",
     readTime: "10 min",
     date: "12 mars 2026",
@@ -1545,14 +1547,14 @@ export const articles = [
       },
       {
         type: "cta",
-        text: "Hugo Fonseca (HGO Automation) déploie ce type de workflow en 2 semaines, connecté à vos outils existants. Résultat : vous ne touchez plus jamais à ces emails manuellement. Planifiez un appel gratuit de 30 min."
+        text: `Hugo Fonseca (HGO Automation) déploie ce type de workflow en 2 semaines, connecté à vos outils existants. Résultat : vous ne touchez plus jamais à ces emails manuellement. Planifiez un appel gratuit de ${CALL_MIN} min.`
       }
     ]
   },
   {
     slug: "n8n-vs-zapier-comparatif-2026",
     title: "n8n vs Zapier en 2026 : lequel choisir pour automatiser votre entreprise ?",
-    metaDescription: "Comparatif n8n vs Zapier 2026 : prix, fonctionnalités, RGPD, facilité d'utilisation. Quel outil d'automatisation choisir pour votre PME ? Guide honnête et sans langue de bois.",
+    metaDescription: "n8n vs Zapier en 2026 : prix, fonctionnalités, RGPD et prise en main. Quel outil d'automatisation choisir pour votre PME ? Comparatif honnête.",
     category: "Comparatif",
     readTime: "20 min",
     date: "9 mars 2026",
@@ -1925,7 +1927,7 @@ export const articles = [
   {
     slug: "crm-notion-airtable-pme-2026",
     title: "CRM Notion vs Airtable pour les PME : lequel choisir en 2026 ?",
-    metaDescription: "Comparatif CRM Notion vs Airtable pour PME en 2026 : fonctionnalités, prix, personnalisation, automatisations. Quelle alternative à HubSpot pour votre équipe commerciale ?",
+    metaDescription: "CRM Notion ou Airtable pour une PME en 2026 : fonctionnalités, prix, automatisations. Quelle alternative à HubSpot pour votre équipe ?",
     category: "Comparatif",
     readTime: "9 min",
     date: "7 mars 2026",
@@ -2019,7 +2021,7 @@ export const articles = [
   {
     slug: "agent-ia-service-client-entreprise-2026",
     title: "Agent IA pour le service client : le guide complet pour les entreprises en 2026",
-    metaDescription: "Déployer un agent IA pour votre service client en 2026 : ce que c'est, comment ça fonctionne, combien ça coûte, et comment ne pas se planter. Guide complet pour dirigeants de PME.",
+    metaDescription: "Agent IA pour le service client en 2026 : fonctionnement, coûts, risques et bonnes pratiques. Le guide complet pour dirigeants de PME.",
     category: "Guide",
     readTime: "11 min",
     date: "5 mars 2026",
@@ -2118,14 +2120,14 @@ export const articles = [
       },
       {
         type: "cta",
-        text: "HGO Automation déploie des agents IA service client pour les PME françaises. Appel de découverte gratuit de 30 min pour évaluer votre cas, vos volumes et la solution adaptée à votre budget."
+        text: `HGO Automation déploie des agents IA service client pour les PME françaises. Appel de découverte gratuit de ${CALL_MIN} min pour évaluer votre cas, vos volumes et la solution adaptée à votre budget.`
       }
     ]
   },
   {
     slug: "tableau-de-bord-no-code-kpi-entreprise",
     title: "Créer un tableau de bord KPI sans code en 2026 : les meilleures solutions",
-    metaDescription: "Comment créer un tableau de bord KPI no-code pour votre entreprise en 2026. Retool, Airtable, Notion, Google Looker Studio : comparatif et guide pratique pour dirigeants de PME.",
+    metaDescription: "Créer un tableau de bord KPI sans code en 2026 : Retool, Airtable, Notion, Looker Studio. Comparatif et guide pratique pour PME.",
     category: "Guide",
     readTime: "8 min",
     date: "4 mars 2026",
@@ -2226,7 +2228,7 @@ export const articles = [
   {
     slug: "automatiser-facturation-devis-pme-2026",
     title: "Automatiser sa facturation et ses devis : économisez 5h par semaine",
-    metaDescription: "Comment automatiser la facturation et les devis dans votre PME en 2026. Génération automatique de devis PDF, envoi de factures, relances impayés avec n8n. Guide pratique.",
+    metaDescription: "Automatiser devis et factures en 2026 : devis PDF automatiques, envoi des factures et relances d'impayés avec n8n. Guide pratique.",
     category: "Tutoriel",
     readTime: "9 min",
     date: "1 mars 2026",
@@ -2311,14 +2313,14 @@ export const articles = [
       },
       {
         type: "cta",
-        text: "Vous voulez automatiser votre cycle de facturation ? HGO Automation analyse votre situation en appel gratuit de 30 min et déploie les workflows adaptés à votre logiciel existant. Résultat garanti ou remboursé."
+        text: `Vous voulez automatiser votre cycle de facturation ? HGO Automation analyse votre situation en appel gratuit de ${CALL_MIN} min et déploie les workflows adaptés à votre logiciel existant. Résultat garanti ou remboursé.`
       }
     ]
   },
   {
     slug: "5-workflows-n8n-indispensables-pme-2026",
     title: "5 workflows n8n indispensables pour toute PME en 2026",
-    metaDescription: "Découvrez les 5 workflows n8n les plus rentables pour une PME française : relances clients, synchronisation CRM, rapports automatiques, onboarding et qualification de leads.",
+    metaDescription: "Les 5 workflows n8n les plus rentables pour une PME : relances clients, synchro CRM, rapports automatiques, onboarding et leads.",
     category: "Tutoriel",
     readTime: "10 min",
     date: "18 mars 2026",
@@ -2476,7 +2478,7 @@ export const articles = [
   {
     slug: "5-goulots-etranglement-pme-automatisation-2026",
     title: "Les 5 goulots d'étranglement qui freinent votre croissance (et comment les éliminer avec l'automatisation)",
-    metaDescription: "Speed to lead, traitement documentaire, nurturing, réactivation CRM, reporting : découvrez les 5 blocages qui coûtent des milliers d'euros aux PME et comment les automatiser avec n8n.",
+    metaDescription: "Délai de rappel, documents, relances, CRM qui dort, reporting : les 5 blocages qui coûtent cher aux PME et comment les automatiser.",
     category: "Guide",
     readTime: "10 min",
     date: "1 avril 2026",
@@ -2485,7 +2487,7 @@ export const articles = [
     content: [
       {
         type: "intro",
-        text: "Si 500 nouveaux clients arrivaient demain matin dans votre entreprise, quelle partie de votre organisation casserait en premier ? Cette question révèle immédiatement les goulots d'étranglement qui limitent votre croissance. Après des dizaines de missions d'automatisation pour des PME françaises, HGO Automation a identifié 5 blocages universels — et les workflows n8n pour les éliminer définitivement."
+        text: "Si 500 nouveaux clients arrivaient demain matin dans votre entreprise, quelle partie de votre organisation casserait en premier ? Cette question révèle immédiatement les goulots d'étranglement qui limitent votre croissance. En automatisant des PME et des artisans, HGO Automation retrouve toujours les 5 mêmes blocages. Les voici — avec les workflows n8n pour les éliminer définitivement."
       },
       {
         type: "h2",

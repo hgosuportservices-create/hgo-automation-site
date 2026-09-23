@@ -33,7 +33,7 @@ export default function PipelineBoard() {
   }, [reduceMotion]);
 
   return (
-    <div className="w-full max-w-md glass rounded-[2rem] border border-ghost/10 p-6 shadow-2xl shadow-cyan/5">
+    <div className="w-full max-w-md rounded-[2rem] bg-[#12121F] border-2 border-cyan shadow-[8px_8px_0_#00D1FF] p-6">
       <div className="grid grid-cols-4 gap-2">
         {STAGES.map((stage, colIndex) => (
           <div key={stage} className="min-w-0">
@@ -53,9 +53,9 @@ export default function PipelineBoard() {
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-ghost/8">
+      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-cyan/20">
         <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-        <span className="text-xs font-mono uppercase tracking-widest text-ghost/50">Pipeline synchronisé</span>
+        <span className="font-cond text-sm uppercase tracking-widest text-ghost/50">Pipeline synchronisé</span>
       </div>
     </div>
   );

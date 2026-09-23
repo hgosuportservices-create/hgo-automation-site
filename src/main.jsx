@@ -22,6 +22,11 @@ const CreationApplications = lazy(() => import('./pages/services/CreationApplica
 const CasClientGroupeRousso = lazy(() => import('./pages/CasClientGroupeRousso.jsx'))
 const CasClientLesInstallateurs = lazy(() => import('./pages/CasClientLesInstallateurs.jsx'))
 const SectorCVC = lazy(() => import('./pages/sectors/SectorCVC.jsx'))
+const SectorPlomberie = lazy(() => import('./pages/sectors/SectorPlomberie.jsx'))
+const SectorElectricite = lazy(() => import('./pages/sectors/SectorElectricite.jsx'))
+const SectorRenovation = lazy(() => import('./pages/sectors/SectorRenovation.jsx'))
+const Formation = lazy(() => import('./pages/Formation.jsx'))
+const APropos = lazy(() => import('./pages/APropos.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -44,6 +49,11 @@ createRoot(document.getElementById('root')).render(
               <Route path="/services/automatisation-crm" element={<AutomatisationCRM />} />
               <Route path="/services/creation-applications-dashboards" element={<CreationApplications />} />
               <Route path="/secteurs/automatisation-cvc-climatisation-chauffage" element={<SectorCVC />} />
+              <Route path="/secteurs/automatisation-plombier-chauffagiste" element={<SectorPlomberie />} />
+              <Route path="/secteurs/automatisation-electricien" element={<SectorElectricite />} />
+              <Route path="/secteurs/automatisation-renovation-batiment" element={<SectorRenovation />} />
+              <Route path="/formation" element={<Formation />} />
+              <Route path="/a-propos" element={<APropos />} />
               <Route path="/mentions-legales" element={<MentionsLegales />} />
               <Route path="/cgv" element={<CGV />} />
               <Route path="*" element={<NotFound />} />

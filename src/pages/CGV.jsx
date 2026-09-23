@@ -2,13 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import SharedNav from '../components/SharedNav';
+import SiteFooter from '../components/SiteFooter';
+import { CALL_MIN } from '../config';
 
 const articles = [
   {
     num: '1',
     title: 'Identification',
     content: (
-      <div className="bg-void/40 p-4 rounded-xl border border-ghost/8">
+      <div className="bg-void p-4 rounded-xl border-2 border-cyan/30">
         <p><strong className="text-ghost">Hugo Fonseca</strong>, exerçant sous le nom commercial <strong className="text-ghost">HGO Automation</strong></p>
         <p>Siège social : 94250 Gentilly, France</p>
         <p>SIRET : 908 443 120 00021</p>
@@ -25,7 +27,7 @@ const articles = [
   {
     num: '3',
     title: 'Devis et commande',
-    content: <p>Tout devis est gratuit, établi après un appel découverte de 30 minutes, et valable 30 jours à compter de sa date d'émission. La commande est définitivement validée par la signature du devis et le versement de l'acompte défini à l'article 4.</p>,
+    content: <p>Tout devis est gratuit, établi après un appel découverte de {CALL_MIN} minutes, et valable 30 jours à compter de sa date d'émission. La commande est définitivement validée par la signature du devis et le versement de l'acompte défini à l'article 4.</p>,
   },
   {
     num: '4',
@@ -100,26 +102,26 @@ export default function CGV() {
         <title>Conditions Générales de Vente — HGO Automation</title>
         <meta name="description" content="Conditions Générales de Vente de HGO Automation — prestations d'automatisation, agents IA, CRM sur mesure. Hugo Fonseca, consultant indépendant." />
         <meta name="robots" content="noindex" />
-        <link rel="canonical" href="https://hgoautomation.fr/cgv" />
+        <link rel="canonical" href="https://www.hgoautomation.fr/cgv" />
       </Helmet>
 
       <SharedNav />
 
       <section className="pt-40 pb-24 px-8 md:px-24">
         <div className="max-w-3xl mx-auto">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-cyan/60 border border-cyan/20 px-4 py-1.5 rounded-full mb-8 inline-block">Contractuel</span>
-          <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-4">
+          <span className="inline-block font-cond uppercase tracking-[0.18em] text-xs font-semibold text-cyan bg-void border-2 border-cyan rounded-full px-4 py-1.5 mb-8">Contractuel</span>
+          <h1 className="chunky text-[clamp(2rem,5vw,3.8rem)] mb-4">
             Conditions Générales<br />de <span className="text-cyan">Vente.</span>
           </h1>
-          <p className="text-ghost/40 text-xs mb-12 font-mono border-b border-ghost/10 pb-6 italic">
+          <p className="text-ghost/40 text-xs mb-12 font-cond border-b border-ghost/10 pb-6 italic">
             Dernière mise à jour : mars 2026 · Applicable à toute commande passée auprès de HGO Automation
           </p>
 
           <div className="space-y-8">
             {articles.map((article) => (
-              <section key={article.num} className="border border-ghost/8 rounded-2xl p-6 hover:border-cyan/20 transition-colors">
-                <h2 className="text-ghost text-base font-bold uppercase tracking-widest mb-4 flex items-center gap-3">
-                  <span className="text-cyan font-mono text-sm border border-cyan/20 bg-cyan/5 px-2 py-0.5 rounded">Art. {article.num}</span>
+              <section key={article.num} className="card-brut p-6">
+                <h2 className="font-cond text-ghost text-lg font-semibold uppercase tracking-wide mb-4 flex items-center gap-3">
+                  <span className="font-cond text-sm text-void bg-cyan px-2 py-0.5 rounded">Art. {article.num}</span>
                   {article.title}
                 </h2>
                 <div className="text-ghost/60 text-sm leading-relaxed">{article.content}</div>
@@ -127,22 +129,18 @@ export default function CGV() {
             ))}
           </div>
 
-          <div className="mt-12 p-4 rounded-2xl bg-void/40 border border-ghost/8 text-xs text-ghost/40 italic">
+          <div className="mt-12 p-4 rounded-2xl bg-void border-2 border-cyan/30 text-xs text-ghost/40 italic">
             Pour toute question relative à ces CGV : <a href="mailto:hugo@hgoautomation.fr" className="text-cyan hover:text-white transition-colors">hugo@hgoautomation.fr</a>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-ghost/10 flex gap-6 text-xs font-mono opacity-40">
+          <div className="mt-8 pt-8 border-t border-ghost/10 flex gap-6 font-cond text-sm opacity-40">
             <Link to="/" className="hover:text-cyan hover:opacity-100 transition-all">← Accueil</Link>
             <Link to="/mentions-legales" className="hover:text-cyan hover:opacity-100 transition-all">Mentions légales →</Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-8 md:px-24 border-t border-ghost/5">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-[10px] font-mono opacity-30 uppercase tracking-widest">© 2026 Hugo Fonseca — HGO Automation. SIRET 908 443 120 00021</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

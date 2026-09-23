@@ -5,6 +5,9 @@ import { ArrowLeft, Clock, ArrowUpRight, ChevronRight } from 'lucide-react';
 import { articles } from '../data/articles';
 import SharedNav from '../components/SharedNav';
 import { Reveal } from '../lib/motion';
+import { useContact } from '../context/ContactContext';
+import SiteFooter from '../components/SiteFooter';
+import { CALL_MIN } from '../config';
 
 const MONTHS = { 'janvier':'01','février':'02','mars':'03','avril':'04','mai':'05','juin':'06','juillet':'07','août':'08','septembre':'09','octobre':'10','novembre':'11','décembre':'12' };
 function toISO(frDate) {
@@ -28,7 +31,7 @@ function renderBlock(block, i) {
       );
     case 'h2':
       return (
-        <h2 key={i} className="text-2xl md:text-3xl font-bold uppercase tracking-tight mt-16 mb-6 text-ghost">
+        <h2 key={i} className="font-cond font-semibold text-2xl md:text-3xl mt-16 mb-6 text-ghost">
           {block.text}
         </h2>
       );
@@ -85,7 +88,7 @@ function renderBlock(block, i) {
             loading="lazy"
           />
           {block.caption && (
-            <figcaption className="mt-3 text-center text-xs text-ghost/40 italic font-mono">{block.caption}</figcaption>
+            <figcaption className="mt-3 text-center text-xs text-ghost/40 italic font-cond">{block.caption}</figcaption>
           )}
         </figure>
       );
@@ -93,7 +96,7 @@ function renderBlock(block, i) {
       return (
         <div key={i} className="mt-16 rounded-[1.5rem] border border-cyan/20 bg-cyan/5 p-8 md:p-10">
           <p className="text-ghost/70 text-base md:text-lg font-light leading-relaxed mb-6">{block.text}</p>
-          <Link to="/" className="premium-btn inline-flex items-center gap-2 bg-cyan text-void px-6 py-3 rounded-full text-sm font-extrabold uppercase tracking-widest hover:bg-white transition-colors">
+          <Link to="/" className="btn-cyan">
             Planifier un appel gratuit <ArrowUpRight className="w-4 h-4" />
           </Link>
         </div>
@@ -103,7 +106,7 @@ function renderBlock(block, i) {
         <Link
           key={i}
           to={block.href}
-          className="premium-card group flex flex-col sm:flex-row sm:items-center justify-between gap-3 my-10 px-6 py-5 rounded-2xl border border-cyan/15 bg-cyan/5 hover:border-cyan/30 transition-colors"
+          className="premium-card group flex flex-col sm:flex-row sm:items-center justify-between gap-3 my-10 px-6 py-5 card-brut"
         >
           <span className="text-sm text-ghost/70 group-hover:text-ghost transition-colors">{block.text}</span>
           <span className="flex items-center gap-1.5 text-cyan text-xs font-bold uppercase tracking-widest flex-shrink-0">
@@ -118,6 +121,7 @@ function renderBlock(block, i) {
 
 export default function ArticlePage() {
   const { slug } = useParams();
+  const { open } = useContact();
   const article = articles.find(a => a.slug === slug);
 
   useEffect(() => {
@@ -128,7 +132,7 @@ export default function ArticlePage() {
 
   const related = articles.filter(a => a.slug !== slug).slice(0, 2);
 
-  const canonicalUrl = `https://hgoautomation.fr/blog/${article.slug}`;
+  const canonicalUrl = `https://www.hgoautomation.fr/blog/${article.slug}`;
 
   return (
     <main className="min-h-screen text-ghost font-sans bg-void">
@@ -157,21 +161,21 @@ export default function ArticlePage() {
           "author": {
             "@type": "Person",
             "name": "Hugo Fonseca",
-            "url": "https://hgoautomation.fr"
+            "url": "https://www.hgoautomation.fr"
           },
           "publisher": {
             "@type": "Organization",
             "name": "HGO Automation",
-            "url": "https://hgoautomation.fr",
-            "logo": { "@type": "ImageObject", "url": "https://hgoautomation.fr/hgo-logo.svg" }
+            "url": "https://www.hgoautomation.fr",
+            "logo": { "@type": "ImageObject", "url": "https://www.hgoautomation.fr/hgo-logo.svg" }
           }
         })}</script>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://hgoautomation.fr" },
-            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://hgoautomation.fr/blog" },
+            { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.hgoautomation.fr" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.hgoautomation.fr/blog" },
             { "@type": "ListItem", "position": 3, "name": article.title, "item": canonicalUrl }
           ]
         })}</script>
@@ -180,13 +184,13 @@ export default function ArticlePage() {
 
       {/* Hero image */}
       <div className="relative h-[50vh] overflow-hidden">
-        <img src={article.image} alt={article.title} loading="eager" fetchpriority="high" className="w-full h-full object-cover opacity-50" />
+        <img src={article.image} alt={article.title} loading="eager" fetchPriority="high" className="w-full h-full object-cover opacity-50" />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-void/20" />
       </div>
 
       <div className="max-w-3xl mx-auto px-8 md:px-12 pb-32 -mt-20 relative z-10">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-ghost/30 mb-8">
+        <div className="flex items-center gap-2 font-cond text-xs tracking-wide uppercase tracking-widest text-ghost/30 mb-8">
           <Link to="/blog" className="hover:text-cyan transition-colors flex items-center gap-1">
             <ArrowLeft className="w-3 h-3" /> Blog
           </Link>
@@ -197,12 +201,12 @@ export default function ArticlePage() {
         {/* Meta */}
         <div className="flex items-center gap-3 mb-6">
           <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${categoryColors[article.category]}`}>{article.category}</span>
-          <span className="text-[10px] font-mono text-ghost/40 flex items-center gap-1"><Clock className="w-3 h-3" /> {article.readTime}</span>
-          <span className="text-[10px] font-mono text-ghost/40">{article.date}</span>
+          <span className="font-cond text-xs tracking-wide text-ghost/40 flex items-center gap-1"><Clock className="w-3 h-3" /> {article.readTime}</span>
+          <span className="font-cond text-xs tracking-wide text-ghost/40">{article.date}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
+        <h1 className="text-ghost text-[clamp(1.8rem,4vw,3rem)] mb-8">
           {article.title}
         </h1>
 
@@ -225,13 +229,30 @@ export default function ArticlePage() {
           {article.content.map((block, i) => renderBlock(block, i))}
         </div>
 
+        {/* Appel à l'action fin d'article */}
+        <div className="mt-20 card-brut !rounded-[2.5rem] p-8 md:p-12">
+          <p className="label-cond mb-4 block">Passer à l'action</p>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">Vous voulez mettre ça en place chez vous ?</h2>
+          <p className="text-ghost/55 mb-8">
+            Deux options : je l'installe pour vous, clé en main en 2 semaines, ou je vous forme pour que vous deveniez autonome sur n8n et l'IA.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button onClick={() => open('calendly')} className="btn-cyan">
+              Appel gratuit de {CALL_MIN} min <ArrowUpRight className="w-4 h-4" />
+            </button>
+            <Link to="/formation" className="btn-outline">
+              Formation dès 290€
+            </Link>
+          </div>
+        </div>
+
         {/* Related articles */}
         {related.length > 0 && (
           <div className="mt-24 pt-12 border-t border-ghost/10">
             <h3 className="text-xs uppercase font-bold tracking-widest text-ghost/30 mb-8">Articles similaires</h3>
             <div className="grid md:grid-cols-2 gap-6">
               {related.map((rel) => (
-                <Link key={rel.slug} to={`/blog/${rel.slug}`} className="premium-card group block rounded-2xl border border-ghost/10 hover:border-cyan/30 transition-all p-6 bg-void/30">
+                <Link key={rel.slug} to={`/blog/${rel.slug}`} className="card-brut group block p-6">
                   <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${categoryColors[rel.category]}`}>{rel.category}</span>
                   <h4 className="mt-3 font-bold text-sm leading-tight group-hover:text-cyan transition-colors">{rel.title}</h4>
                   <div className="mt-3 flex items-center gap-1 text-cyan/50 group-hover:text-cyan text-xs font-bold uppercase tracking-widest transition-colors">
@@ -243,6 +264,7 @@ export default function ArticlePage() {
           </div>
         )}
       </div>
+      <SiteFooter />
     </main>
   );
 }

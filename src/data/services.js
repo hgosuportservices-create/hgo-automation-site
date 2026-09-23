@@ -1,8 +1,10 @@
+import { CALL_MIN } from '../config';
+
 export const servicesData = {
   'automatisation-whatsapp-telegram': {
     slug: 'automatisation-whatsapp-telegram',
     title: 'Automatisation WhatsApp & Telegram',
-    metaTitle: 'Automatisation WhatsApp & Telegram Entreprise — Chatbot & API | HGO Automation',
+    metaTitle: 'Chatbot & automatisation WhatsApp | HGO Automation',
     metaDescription: 'Automatisez WhatsApp et Telegram pour votre entreprise : chatbot, prise de RDV, qualification de leads, relances clients 24h/24. HGO Automation. Devis gratuit.',
     hero: {
       image: 'https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=1400&auto=format&fit=crop',
@@ -12,7 +14,7 @@ export const servicesData = {
       stats: [
         { value: '98%', label: 'des messages WhatsApp sont lus' },
         { value: '2 Mrd', label: "d'utilisateurs sur les deux canaux" },
-        { value: '60%', label: 'de temps de réponse en moins' },
+        { value: '24/7', label: 'réponse immédiate, même le soir' },
       ],
     },
     problems: {
@@ -64,7 +66,7 @@ export const servicesData = {
     },
     pricing: {
       h2: 'Trois façons de démarrer',
-      note: 'Devis personnalisé sous 24h. Un appel de 30 minutes suffit pour savoir ce qui est possible chez vous.',
+      note: `Devis personnalisé sous 24h. Un appel de ${CALL_MIN} minutes suffit pour savoir ce qui est possible chez vous.`,
       items: [
         { label: 'Essentiel', price: '990€', desc: 'Un bot qui répond aux questions fréquentes et prend des rendez-vous. Un seul canal, en ligne en 3 jours.', highlight: false },
         { label: 'Pro', price: '2 200€', desc: 'WhatsApp et Telegram réunis. Connecté à votre CRM, avec relances automatiques et reprise humaine si besoin.', highlight: true },
@@ -76,15 +78,15 @@ export const servicesData = {
   'agent-ia': {
     slug: 'agent-ia',
     title: 'Agents IA pour Entreprise',
-    metaTitle: 'Agent IA Entreprise — Créer & Déployer un Agent Intelligent | HGO Automation',
-    metaDescription: 'Déployez un agent IA sur mesure pour votre entreprise : support client, prospection, analyse de données, RH. HGO Automation crée votre agent IA en moins de 2 semaines.',
+    metaTitle: 'Agent IA pour entreprise sur mesure | HGO Automation',
+    metaDescription: 'Agent IA sur mesure pour votre entreprise : service client, prospection, analyse de documents. En service en moins de 2 semaines, dès 1 500€.',
     hero: {
       image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1400&auto=format&fit=crop',
       tag: 'Agents IA',
       h1: 'Un agent qui répond à vos clients pendant que votre équipe dort',
       subtitle: 'Il comprend une demande écrite normalement, va chercher l\'information dans vos outils, et agit — sans que vous ayez à intervenir.',
       stats: [
-        { value: '80%', label: 'des demandes traitées sans humain' },
+        { value: '80%', label: 'des questions courantes traitées sans vous (jusqu\'à)' },
         { value: '24/7', label: 'week-ends et jours fériés compris' },
         { value: '2 sem.', label: 'avant la mise en service' },
       ],
@@ -150,7 +152,7 @@ export const servicesData = {
   'automatisation-n8n': {
     slug: 'automatisation-n8n',
     title: 'Automatisation n8n',
-    metaTitle: 'Expert n8n France — Consultant & Développeur n8n | HGO Automation',
+    metaTitle: 'Expert n8n France : consultant & intégrateur | HGO Automation',
     metaDescription: 'Expert n8n certifié : déployez vos workflows d\'automatisation avec n8n. Hébergement self-hosted, connexion API, CRM, Google Sheets. Devis gratuit sous 24h.',
     hero: {
       image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1400&auto=format&fit=crop',
@@ -204,7 +206,7 @@ export const servicesData = {
     faq: {
       h2: 'Questions fréquentes sur n8n',
       items: [
-        { q: 'n8n est-il vraiment gratuit ?', a: 'n8n est open-source et gratuit en auto-hébergé. Vous payez seulement le serveur (environ 10 à 20€ par mois) et notre prestation de configuration.' },
+        { q: 'n8n est-il vraiment gratuit ?', a: 'n8n est open-source et gratuit en auto-hébergé. Vous payez seulement le serveur (environ 5 à 20 € par mois) et ma prestation de configuration.' },
         { q: 'Quelle différence avec Make ?', a: 'n8n s\'installe sur votre serveur — données chez vous, coût fixe. Make est cloud uniquement, facturé à l\'opération. n8n demande plus de configuration au départ, mais reste économique quel que soit le volume.' },
         { q: 'Faut-il des compétences techniques ?', a: 'Pas pour l\'utiliser au quotidien. Pour le configurer et le maintenir, oui — c\'est ce qu\'on prend en charge.' },
         { q: 'Que se passe-t-il en cas de panne ?', a: 'La maintenance inclut une surveillance continue avec alertes, et un engagement de remise en service sous 4h pour les workflows critiques.' },
@@ -214,9 +216,9 @@ export const servicesData = {
       h2: 'Trois façons de commencer avec n8n',
       note: 'Hébergement sur vos serveurs. Aucun coût de licence SaaS. Données chez vous.',
       items: [
-        { label: 'Installation', price: '490€', desc: 'n8n installé sur votre serveur. SSL, sauvegardes automatiques, surveillance. Livré en 48h.', highlight: false },
+        { label: 'Installation', price: '290€', desc: 'n8n installé sur votre serveur. SSL, sauvegardes automatiques, surveillance. Livré en 48h. Formation disponible (voir page Formation).', highlight: false },
         { label: 'Workflows Pro', price: '1 800€', desc: 'L\'installation, jusqu\'à 5 workflows sur mesure, et une formation de 4h pour votre équipe.', highlight: true },
-        { label: 'Maintenance', price: '150€/mois', desc: 'Surveillance continue, corrections incluses, mises à jour, nouveaux workflows en priorité.', highlight: false },
+        { label: 'Maintenance', price: '149€/mois', desc: 'Surveillance continue, corrections incluses, mises à jour, nouveaux workflows en priorité.', highlight: false },
       ],
     },
   },
@@ -224,8 +226,8 @@ export const servicesData = {
   'automatisation-entreprise': {
     slug: 'automatisation-entreprise',
     title: 'Automatisation d\'Entreprise',
-    metaTitle: 'Automatisation Processus Entreprise — Consultant & Agence | HGO Automation',
-    metaDescription: 'Automatisez vos processus métier avec HGO Automation : CRM, facturation, prospection, reporting, onboarding. Consultant automatisation entreprise en France. Devis gratuit.',
+    metaTitle: 'Automatisation des processus d\'entreprise | HGO Automation',
+    metaDescription: 'Automatisez devis, factures, relances et reporting de votre entreprise, sans changer de logiciel. Consultant automatisation en France, dès 800€.',
     hero: {
       image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop',
       tag: 'Automatisation Métier',
@@ -260,7 +262,7 @@ export const servicesData = {
     steps: {
       h2: 'Comment on démarre',
       items: [
-        { num: '01', title: 'Un diagnostic gratuit de 30 minutes', desc: 'On identifie ensemble les automatisations qui vous feraient gagner le plus de temps.' },
+        { num: '01', title: `Un diagnostic gratuit de ${CALL_MIN} minutes`, desc: 'On identifie ensemble les automatisations qui vous feraient gagner le plus de temps.' },
         { num: '02', title: 'On conçoit l\'architecture', desc: 'On choisit les bons outils selon vos besoins, et on valide avec vous avant de construire quoi que ce soit.' },
         { num: '03', title: 'On construit et on teste', desc: 'Chaque workflow est testé sur vos données réelles, pas sur des cas fictifs.' },
         { num: '04', title: 'Déploiement, puis suivi', desc: 'Mise en production, formation de votre équipe, 30 jours de support inclus.' },
@@ -278,15 +280,15 @@ export const servicesData = {
     faq: {
       h2: 'Questions fréquentes',
       items: [
-        { q: 'Par quel processus commencer ?', a: 'Celui qui vous fait perdre le plus de temps ou qui génère le plus d\'erreurs. Un diagnostic gratuit de 30 minutes suffit à l\'identifier.' },
-        { q: 'Faut-il changer nos outils actuels ?', a: 'Non. On s\'adapte à ce que vous utilisez déjà. Notre rôle est de les connecter, pas de vous imposer un nouvel écosystème.' },
-        { q: 'Combien de temps avant de voir un résultat ?', a: 'La plupart de nos clients voient un résultat concret dès le premier mois. Une automatisation qui fait gagner 10h par semaine à un salarié représente, à elle seule, plusieurs milliers d\'euros de valeur par an.' },
+        { q: 'Par quel processus commencer ?', a: `Celui qui vous fait perdre le plus de temps ou qui génère le plus d'erreurs. Un diagnostic gratuit de ${CALL_MIN} minutes suffit à l'identifier.` },
+        { q: 'Faut-il changer nos outils actuels ?', a: 'Non. On s\'adapte à ce que vous utilisez déjà. Mon rôle est de les connecter, pas de vous imposer un nouvel écosystème.' },
+        { q: 'Combien de temps avant de voir un résultat ?', a: 'La plupart de mes clients voient un résultat concret dès le premier mois. Une automatisation qui fait gagner 10h par semaine à un salarié représente, à elle seule, plusieurs milliers d\'euros de valeur par an.' },
         { q: 'Et si notre process évolue ?', a: 'Les workflows sont conçus pour évoluer. Les ajustements simples sont inclus dans la maintenance ; les évolutions plus importantes font l\'objet d\'un nouveau devis.' },
       ],
     },
     pricing: {
       h2: 'Trois façons de démarrer',
-      note: 'Diagnostic gratuit de 30 minutes pour identifier vos automatisations prioritaires.',
+      note: `Diagnostic gratuit de ${CALL_MIN} minutes pour identifier vos automatisations prioritaires.`,
       items: [
         { label: 'Quick Win', price: '800€', desc: 'Un processus automatisé, clé en main. Déployé en moins d\'une semaine, résultat visible tout de suite.', highlight: false },
         { label: 'Pack Croissance', price: '3 500€', desc: 'De 3 à 5 processus connectés entre eux. Architecture complète, formation de l\'équipe incluse.', highlight: true },
@@ -298,15 +300,15 @@ export const servicesData = {
   'automatisation-crm': {
     slug: 'automatisation-crm',
     title: 'Automatisation & Création CRM',
-    metaTitle: 'Automatisation & Création CRM sur Mesure — HubSpot, Notion, Airtable | HGO Automation',
-    metaDescription: 'Créez ou automatisez votre CRM sur mesure avec HGO Automation. Pipeline commercial, relances automatiques, reporting. CRM personnalisé pour PME françaises. Devis gratuit.',
+    metaTitle: 'CRM sur mesure & automatisation | HGO Automation',
+    metaDescription: 'CRM sur mesure pour artisans et PME : suivi des demandes, devis, relances automatiques et reporting. Livré en 5 à 10 jours, dès 990€.',
     hero: {
       image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1400&auto=format&fit=crop',
       tag: 'CRM sur mesure',
       h1: 'Un CRM que votre équipe utilise vraiment, pas un qu\'elle contourne',
       subtitle: 'Un CRM générique ne colle jamais parfaitement à votre façon de vendre. On construit le vôtre, autour de votre process — suivi, relances et reporting inclus.',
       stats: [
-        { value: '40%', label: 'de temps commercial récupéré' },
+        { value: '0', label: 'relance oubliée' },
         { value: '10j', label: 'avant que le CRM soit en production' },
         { value: '100%', label: 'construit autour de votre process' },
       ],
@@ -372,8 +374,8 @@ export const servicesData = {
   'creation-applications-dashboards': {
     slug: 'creation-applications-dashboards',
     title: "Création d'Applications & Dashboards",
-    metaTitle: "Création Application Métier & Dashboard sur Mesure | HGO Automation",
-    metaDescription: "Créez des applications métier et dashboards sur mesure avec HGO Automation. Outils internes, portails clients, tableaux de bord KPIs. Livraison en 5-10 jours. Devis gratuit.",
+    metaTitle: "Application métier & dashboard sur mesure | HGO Automation",
+    metaDescription: "Applications métier et tableaux de bord sur mesure : outils internes, portails clients, suivi des KPI. Livrés en 5 à 10 jours, dès 790€.",
     hero: {
       image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1400&auto=format&fit=crop',
       tag: 'Applications & Dashboards',
