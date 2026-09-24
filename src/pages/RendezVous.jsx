@@ -13,7 +13,7 @@ export default function RendezVous() {
   return (
     <main className="min-h-screen text-ghost font-sans bg-void">
       <Helmet>
-        <title>Réserver un appel de {String(CALL_MIN)} minutes | HGO Automation</title>
+        <title>{`Réserver un appel de ${CALL_MIN} minutes | HGO Automation`}</title>
         <meta name="description" content={`Appel gratuit de ${CALL_MIN} minutes avec Hugo Fonseca pour voir ce qu'on peut automatiser chez vous : appels, RDV, devis, relances, factures.`} />
         <link rel="canonical" href="https://www.hgoautomation.fr/rendez-vous" />
         <meta property="og:title" content={`Réserver un appel gratuit de ${CALL_MIN} minutes — HGO Automation`} />
