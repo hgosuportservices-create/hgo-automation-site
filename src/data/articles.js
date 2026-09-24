@@ -2313,7 +2313,7 @@ export const articles = [
       },
       {
         type: "cta",
-        text: `Vous voulez automatiser votre cycle de facturation ? HGO Automation analyse votre situation en appel gratuit de ${CALL_MIN} min et déploie les workflows adaptés à votre logiciel existant. Résultat garanti ou remboursé.`
+        text: `Vous voulez automatiser votre cycle de facturation ? HGO Automation analyse votre situation en appel gratuit de ${CALL_MIN} min et déploie les workflows adaptés à votre logiciel existant. 30 jours de support inclus après la mise en service, et corrections sans frais si le résultat ne correspond pas au devis.`
       }
     ]
   },
