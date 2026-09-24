@@ -20,6 +20,13 @@ const FEATURES = [
   { title: "Plans d'entretien et suivi terrain", desc: "Plans d'entretien, ferblanterie et rapports d'intervention réunis au même endroit que les devis et les clients." },
 ];
 
+const CAPTURES = [
+  { src: '/cas-client/rousso/devis.jpg', alt: 'Création d’un devis de nettoyage CVAC dans la plateforme Groupe Rousso', caption: 'Un devis en quelques clics : services, taxes et 3 créneaux de rendez-vous proposés au client.' },
+  { src: '/cas-client/rousso/tableau-de-bord.jpg', alt: 'Tableau de bord de la plateforme Groupe Rousso', caption: 'Le tableau de bord : chiffre d’affaires mensuel, taxes et taux de conversion.' },
+  { src: '/cas-client/rousso/plan-entretien.jpg', alt: 'Création d’un plan d’entretien pluriannuel', caption: 'Les plans d’entretien sur plusieurs années, avec l’aperçu du document envoyé au client.' },
+  { src: '/cas-client/rousso/relances.jpg', alt: 'Suivi des relances clients', caption: 'Le suivi des relances : clients à relancer, courriels envoyés, rendez-vous confirmés.' },
+];
+
 export default function CasClientGroupeRousso() {
   const { open } = useContact();
 
@@ -82,6 +89,17 @@ export default function CasClientGroupeRousso() {
                   <p className="text-ghost/50 text-sm leading-relaxed">{f.desc}</p>
                 </div>
               </div>
+            ))}
+          </div>
+
+          <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-2">La plateforme en images</h2>
+          <p className="text-ghost/40 text-sm mb-8">Client fictif, montants et tarifs masqués.</p>
+          <div className="space-y-10 mb-12">
+            {CAPTURES.map((c) => (
+              <figure key={c.src}>
+                <img src={c.src} alt={c.alt} loading="lazy" className="w-full rounded-2xl border border-ghost/10" />
+                <figcaption className="text-ghost/50 text-sm mt-3">{c.caption}</figcaption>
+              </figure>
             ))}
           </div>
 
