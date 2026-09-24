@@ -24,6 +24,7 @@ import SectorElectricite from './pages/sectors/SectorElectricite.jsx';
 import SectorRenovation from './pages/sectors/SectorRenovation.jsx';
 import Formation from './pages/Formation.jsx';
 import APropos from './pages/APropos.jsx';
+import RendezVous from './pages/RendezVous.jsx';
 
 export function render(url) {
   const helmetContext = {};
@@ -49,6 +50,7 @@ export function render(url) {
             <Route path="/secteurs/automatisation-renovation-batiment" element={<SectorRenovation />} />
             <Route path="/formation" element={<Formation />} />
             <Route path="/a-propos" element={<APropos />} />
+            <Route path="/rendez-vous" element={<RendezVous />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/cgv" element={<CGV />} />
             <Route path="*" element={<NotFound />} />

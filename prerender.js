@@ -83,6 +83,7 @@ const ROUTES = [
   '/secteurs/automatisation-renovation-batiment',
   '/formation',
   '/a-propos',
+  '/rendez-vous',
   '/mentions-legales',
   '/cgv',
 ];

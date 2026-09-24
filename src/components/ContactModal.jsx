@@ -6,7 +6,7 @@ import { useContact } from '../context/ContactContext';
 import { BOOKING_URL, CALL_MIN } from '../config';
 
 // Calendrier de réservation : Cal.com (iframe) ou, en repli, Calendly.
-function BookingWidget() {
+export function BookingWidget() {
   const [loading, setLoading] = useState(true);
   const isCal = BOOKING_URL.includes('cal.com');
   const url = isCal
