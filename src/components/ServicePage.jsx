@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Calendar, CheckCircle2, ChevronRight, MessageSquare, Cpu, Zap, Activity, Database, LayoutDashboard } from 'lucide-react';
 import { useContact } from '../context/ContactContext';
 import SharedNav from './SharedNav';
