@@ -92,7 +92,7 @@ const CAS_CLIENTS = [
     logo: '/groupe-rousso-logo.webp',
     name: 'Groupe Rousso',
     role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
-    desc: "CRM sur mesure, relances client automatisées, devis générés et envoyés par email automatiquement, connecté à leur système de planification.",
+    desc: "Plateforme CRM sur mesure : devis PDF en français ou en anglais envoyés en quelques clics avec créneaux de RDV, relances automatiques, plans d'entretien et tableau de bord.",
     stats: [
       { value: '52 000 $', label: 'CAD de CA généré (2 mois)' },
       { value: '70', label: 'Devis convertis / mois' },

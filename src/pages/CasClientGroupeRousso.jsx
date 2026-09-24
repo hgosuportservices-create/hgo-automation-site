@@ -14,10 +14,10 @@ const STATS = [
 ];
 
 const FEATURES = [
-  { title: 'CRM sur mesure', desc: "Conçu autour de leur process réel de gestion de devis et de clients résidentiels, pas un outil générique détourné." },
-  { title: 'Relances client automatisées', desc: "Chaque devis en attente est relancé automatiquement, sans intervention manuelle." },
-  { title: 'Devis générés et envoyés par email', desc: "Le calcul (sous-total, TPS, TVQ, total TTC) et l'envoi sont automatiques dès qu'une demande est qualifiée." },
-  { title: 'Connecté à leur planification', desc: "Les interventions planifiées et acceptées remontent directement dans leur système de gestion des rendez-vous." },
+  { title: 'Une plateforme CRM à leur nom', desc: "Une application web sur mesure (tableau de bord, clients, historique des devis), conçue autour de leur façon de travailler, pas un outil générique détourné." },
+  { title: 'Devis en quelques clics, en français ou en anglais', desc: "On coche les services : sous-total, TPS, TVQ et rabais sont calculés, puis le devis PDF part par courriel avec jusqu'à 3 créneaux de rendez-vous proposés au client." },
+  { title: 'Relances et échéances suivies', desc: "Chaque devis en attente est relancé automatiquement, et les échéances d'entretien sont suivies pour ne perdre aucun client." },
+  { title: "Plans d'entretien et suivi terrain", desc: "Plans d'entretien, ferblanterie et rapports d'intervention réunis au même endroit que les devis et les clients." },
 ];
 
 export default function CasClientGroupeRousso() {
@@ -31,7 +31,7 @@ export default function CasClientGroupeRousso() {
     <main className="min-h-screen text-ghost font-sans bg-void">
       <Helmet>
         <title>Groupe Rousso — Cas Client | HGO Automation</title>
-        <meta name="description" content="Comment Groupe Rousso, entreprise de nettoyage de conduits de ventilation à Montréal, a automatisé sa gestion de devis et de clients avec HGO Automation." />
+        <meta name="description" content="Comment Groupe Rousso, entreprise de nettoyage de conduits de ventilation à Montréal, gère ses devis, relances et plans d'entretien dans une plateforme CRM sur mesure créée par HGO Automation." />
         <link rel="canonical" href="https://www.hgoautomation.fr/cas-client/groupe-rousso" />
       </Helmet>
 
@@ -89,7 +89,7 @@ export default function CasClientGroupeRousso() {
           <p className="text-ghost/60 leading-relaxed">
             Sur les 2 derniers mois, Groupe Rousso a généré <strong className="text-ghost">52 000 $ CAD</strong> de
             chiffre d'affaires hors taxes via le système de devis automatisé, avec un taux de
-            conversion de <strong className="text-ghost">85 %</strong> — près de 7 devis envoyés sur 10 aboutissent
+            conversion de <strong className="text-ghost">85 %</strong> — plus de 8 devis envoyés sur 10 aboutissent
             à une intervention planifiée.
           </p>
         </div>
