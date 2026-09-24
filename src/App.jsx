@@ -46,7 +46,7 @@ const Hero = ({ onOpenContact }) => {
           Moins de paperasse,<br />plus de chantiers
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-lg text-ghost/85 text-lg md:text-xl leading-relaxed bg-void rounded-2xl px-4 py-1">
-          Appels, RDV, devis, relances, factures : l'administratif des artisans du bâtiment, automatisé. En service en 2 semaines, dès 990€.
+          Appels, RDV, devis, relances, factures : l'administratif des artisans du bâtiment, automatisé. En service en 2 semaines, forfaits dès 990€.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap justify-center gap-3">
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
@@ -63,7 +63,7 @@ const Hero = ({ onOpenContact }) => {
 };
 
 const BENEFITS = [
-  { icon: MessageSquare, title: 'Zéro appel manqué', desc: "Une standardiste IA décroche au téléphone, un assistant répond sur WhatsApp : vos clients réservent leur créneau, même quand vous êtes sur un chantier." },
+  { icon: MessageSquare, title: 'Zéro appel manqué', desc: "Léa, votre standardiste IA, décroche au téléphone, un assistant répond sur WhatsApp : vos clients réservent leur créneau, même quand vous êtes sur un chantier." },
   { icon: Send, title: 'Devis, factures & relances', desc: "Vos devis partent le jour même, vos factures aussi, et les relances se font toutes seules. Un tableau de bord vous montre où en est chaque client." },
   { icon: Calendar, title: 'Un agenda qui se remplit', desc: "RDV confirmés, rappels la veille, entretiens annuels relancés : votre planning se remplit sans passer vos journées au téléphone." },
 ];
@@ -255,7 +255,7 @@ const ProtocolSection = () => (
   </section>
 );
 
-const FOUNDER_BIO = "Formé en technico-commercial CVC et passé par le terrain, je connais les journées des artisans : le téléphone qui sonne en intervention, les devis faits le soir, les relances qu'on n'a jamais le temps de faire. Aujourd'hui, j'automatise tout ça pour les artisans, les entreprises du bâtiment et les PME avec n8n, WhatsApp et l'IA. Et pour ceux qui veulent devenir autonomes, j'installe et je forme.";
+const FOUNDER_BIO = "8 ans de terrain en CVC, de metteur au point à chargé de projet : je connais les journées des artisans : le téléphone qui sonne en intervention, les devis faits le soir, les relances qu'on n'a jamais le temps de faire. Aujourd'hui, j'automatise tout ça pour les artisans, les entreprises du bâtiment et les PME avec n8n, WhatsApp et l'IA. Et pour ceux qui veulent devenir autonomes, j'installe et je forme.";
 
 const FounderSection = () => (
   <section className="py-20 md:py-28 px-5 md:px-12">

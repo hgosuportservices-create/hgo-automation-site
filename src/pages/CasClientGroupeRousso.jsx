@@ -9,7 +9,7 @@ import { CALL_MIN } from '../config';
 
 const STATS = [
   { value: '52 000 $ CAD', label: 'CA généré sur 2 mois (HT)' },
-  { value: '70', label: 'Devis convertis ce mois-ci' },
+  { value: '70', label: 'Devis convertis en août 2026' },
   { value: '85 %', label: 'Taux de conversion' },
 ];
 

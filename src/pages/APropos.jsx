@@ -12,7 +12,7 @@ import { Sparkle, Van, Tools, ClimUnit, Quote } from '../components/Illustration
 import { CALL_MIN } from '../config';
 
 const PARCOURS = [
-  { title: 'Le terrain d\'abord', desc: "Formé en technico-commercial CVC, j'ai vu de près le quotidien des artisans : les chantiers, les clients au téléphone, les devis à chiffrer et les relances qu'on repousse toujours à plus tard." },
+  { title: 'Le terrain d\'abord', desc: "8 ans de terrain en CVC, de metteur au point à chargé de projet. J'ai vécu le quotidien des artisans : les chantiers, les clients au téléphone, les devis à chiffrer et les relances qu'on repousse toujours à plus tard." },
   { title: 'Le constat', desc: "Les artisans ne perdent pas des chantiers sur la technique. Ils les perdent au bureau : un appel manqué en intervention, un devis envoyé trop tard, une relance oubliée." },
   { title: 'HGO Automation', desc: "J'ai créé HGO Automation pour régler ça avec des outils simples : un assistant WhatsApp qui répond 24h/24, des devis qui partent le jour même, des relances qui se font toutes seules. Sans changer vos logiciels." },
 ];
@@ -21,6 +21,11 @@ const VALEURS = [
   { not: 'Je ne vends pas de robots.', but: "J'automatise uniquement ce qui vous fait perdre du temps." },
   { not: 'Je ne remplace pas vos équipes.', but: 'Je leur retire les tâches répétitives.' },
   { not: 'Je ne fais pas de démonstrations.', but: 'Je livre des systèmes utilisés chaque jour.' },
+];
+
+const PRODUITS = [
+  { name: 'Léa', tag: 'Standardiste vocale IA', desc: "Elle décroche à votre place 24h/24, qualifie la demande et prend le rendez-vous. Vous recevez le résumé, le client sa confirmation par email et SMS.", href: 'https://lea.hgoautomation.fr', cta: 'Parler à Léa' },
+  { name: 'CVCPilot', tag: 'Rapports de mise en service CVC', desc: "Le logiciel que j'aurais voulu avoir comme metteur au point : mesures saisies sur téléphone, calculs en direct, rapports Word et PDF prêts avant de quitter le chantier.", href: 'https://www.cvcpilot.fr', cta: 'Voir CVCPilot' },
 ];
 
 const CHIFFRES = [
@@ -37,7 +42,7 @@ export default function APropos() {
     <main className="min-h-screen text-ghost font-sans overflow-x-hidden">
       <Helmet>
         <title>À propos — Hugo Fonseca | HGO Automation</title>
-        <meta name="description" content="Hugo Fonseca, fondateur d'HGO Automation, ancien technico-commercial CVC. Il automatise appels, RDV, devis, relances et factures pour les artisans du bâtiment." />
+        <meta name="description" content="Hugo Fonseca, fondateur d'HGO Automation, 8 ans de terrain en CVC, de metteur au point à chargé de projet. Il automatise appels, RDV, devis, relances et factures pour les artisans du bâtiment." />
         <link rel="canonical" href="https://www.hgoautomation.fr/a-propos" />
         <meta property="og:title" content="À propos — Hugo Fonseca | HGO Automation" />
         <meta property="og:url" content="https://www.hgoautomation.fr/a-propos" />
@@ -117,6 +122,24 @@ export default function APropos() {
         </div>
       </section>
 
+      {/* Produits */}
+      <section className="px-5 md:px-16 pt-20 md:pt-28">
+        <div className="max-w-6xl mx-auto">
+          <p className="label-cond mb-4">Ce que j'ai construit</p>
+          <h2 className="chunky-sm text-[clamp(2rem,5vw,3.5rem)] mb-12">Deux outils <span className="text-cyan">nés du terrain.</span></h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {PRODUITS.map(p => (
+              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="card-brut hoverable p-8 flex flex-col gap-3 group">
+                <span className="font-cond uppercase tracking-[0.16em] text-xs text-cyan">{p.tag}</span>
+                <h3 className="text-2xl text-ghost">{p.name}</h3>
+                <p className="text-ghost/65 leading-relaxed flex-1">{p.desc}</p>
+                <span className="mt-2 inline-flex items-center gap-2 font-cond uppercase tracking-[0.12em] text-sm font-semibold text-cyan group-hover:underline underline-offset-4">{p.cta} <ArrowUpRight className="w-4 h-4" /></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Outils */}
       <section className="px-5 md:px-16 py-20 md:py-28" id="outils">
         <div className="max-w-6xl mx-auto">
@@ -154,7 +177,7 @@ export default function APropos() {
           <div className="mt-14 card-brut p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
             <div className="flex items-center gap-4">
               <Quote className="w-14 flex-shrink-0" />
-              <p className="text-ghost/75">Vous voulez voir ce que ça donnerait chez vous ? On en parle 20 minutes, gratuitement.</p>
+              <p className="text-ghost/75">Vous voulez voir ce que ça donnerait chez vous ? On en parle {CALL_MIN} minutes, gratuitement.</p>
             </div>
             <div className="flex flex-wrap gap-3 flex-shrink-0">
               <button onClick={() => open('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Réserver</button>
