@@ -324,7 +324,7 @@ function App() {
   return (
     <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30 overflow-x-hidden">
       <Helmet>
-        <title>Automatisation & IA pour artisans et PME | HGO Automation</title>
+        <title>Automatisation & IA pour artisans du bâtiment | HGO Automation</title>
         <meta name="description" content="RDV WhatsApp 24h/24, devis envoyés le jour même, relances automatiques : l'automatisation n8n et IA pour artisans et PME. En service en 2 semaines." />
         <meta property="og:locale" content="fr_FR" />
         <meta property="og:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
