@@ -36,7 +36,7 @@ const COLUMNS = [
   },
 ];
 
-export default function SiteFooter({ cta = true }) {
+export default function SiteFooter({ cta = true, sansCasRousso = false }) {
   const { open } = useContact();
 
   return (
@@ -91,7 +91,7 @@ export default function SiteFooter({ cta = true }) {
           <div key={col.title}>
             <h3 className="label-cond !font-cond !tracking-[0.2em] mb-5">{col.title}</h3>
             <ul className="space-y-3">
-              {col.links.map(l => (
+              {col.links.filter(l => !(sansCasRousso && l.to === '/cas-client/groupe-rousso')).map(l => (
                 <li key={l.to}>
                   <Link to={l.to} className="text-sm text-ghost/60 hover:text-cyan transition-colors">{l.label}</Link>
                 </li>
