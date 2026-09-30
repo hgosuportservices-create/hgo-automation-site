@@ -3,6 +3,7 @@ import { batimentSteps, batimentPricing, batimentFaqCommune } from './shared.js'
 
 const electriciteData = {
   slug: 'automatisation-electricien',
+  calculator: true,
   path: '/secteurs/automatisation-electricien',
   title: 'Automatisation pour électriciens',
   metaTitle: 'Automatisation électricien : RDV, devis | HGO Automation',

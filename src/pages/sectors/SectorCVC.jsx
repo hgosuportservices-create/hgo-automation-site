@@ -2,6 +2,7 @@ import ServicePage from '../../components/ServicePage.jsx';
 
 const cvcData = {
   slug: 'automatisation-cvc-climatisation-chauffage',
+  calculator: true,
   path: '/secteurs/automatisation-cvc-climatisation-chauffage',
   title: 'Automatisation pour CVC, Climatisation & Chauffage',
   metaTitle: 'Automatisation CVC & climatisation : RDV, devis | HGO Automation',

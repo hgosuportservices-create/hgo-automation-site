@@ -3,6 +3,7 @@ import { batimentSteps, batimentPricing, batimentFaqCommune } from './shared.js'
 
 const renovationData = {
   slug: 'automatisation-renovation-batiment',
+  calculator: true,
   path: '/secteurs/automatisation-renovation-batiment',
   title: 'Automatisation pour entreprises de rénovation & artisans du bâtiment',
   metaTitle: 'Automatisation rénovation & bâtiment | HGO Automation',

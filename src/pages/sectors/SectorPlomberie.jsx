@@ -3,6 +3,7 @@ import { batimentSteps, batimentPricing, batimentFaqCommune } from './shared.js'
 
 const plomberieData = {
   slug: 'automatisation-plombier-chauffagiste',
+  calculator: true,
   path: '/secteurs/automatisation-plombier-chauffagiste',
   title: 'Automatisation pour plombiers & chauffagistes',
   metaTitle: 'Automatisation plombier & chauffagiste | HGO Automation',

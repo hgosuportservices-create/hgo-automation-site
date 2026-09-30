@@ -8,6 +8,7 @@ import { cn } from './lib/utils';
 import SharedNav from './components/SharedNav';
 import SiteFooter from './components/SiteFooter';
 import StackBar from './components/StackBar';
+import TimeCalculator from './components/TimeCalculator';
 import { Blob, BLOB_RADII, Float, STARS_INK, useMouseParallax } from './components/Brand';
 import { Sparkle, Van, Tools, ClimUnit, House, Faucet, Charger, Quote } from './components/Illustrations';
 import { CALL_MIN } from './config';
@@ -395,6 +396,7 @@ function App() {
       <Hero onOpenContact={openContact} />
       <StackBar />
       <BenefitsSection />
+      <TimeCalculator />
       <MetiersSection onOpenContact={openContact} />
       <CasesSection />
       <OffersSection onOpenContact={openContact} />

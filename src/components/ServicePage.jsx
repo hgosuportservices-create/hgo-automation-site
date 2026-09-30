@@ -17,6 +17,7 @@ import { Blob, BLOB_RADII, STARS_INK } from './Brand';
 import { PhoneChat, ClimUnit, House, Faucet, Charger } from './Illustrations';
 import SiteFooter from './SiteFooter';
 import StackBar from './StackBar';
+import TimeCalculator from './TimeCalculator';
 import { CALL_MIN } from '../config';
 
 const HERO_VISUALS = {
@@ -357,6 +358,8 @@ export default function ServicePage({ data }) {
           </div>
         </div>
       </section>
+
+      {data.calculator && <TimeCalculator />}
 
       {/* Pricing */}
       {data.pricing && (
