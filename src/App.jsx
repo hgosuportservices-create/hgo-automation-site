@@ -47,7 +47,7 @@ const Hero = ({ onOpenContact }) => {
           Moins de paperasse,<br />plus de chantiers
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-lg text-ghost/85 text-lg md:text-xl leading-relaxed bg-void rounded-2xl px-4 py-1">
-          Appels, RDV, devis, relances, factures : l'administratif des artisans du bâtiment, automatisé. En service en 2 semaines, forfaits dès 990€.
+          Nos logiciels et nos automatisations prennent en charge devis, relances, rendez-vous et suivi clients des métiers du bâtiment et de la ventilation. Installés à votre image en 2 semaines, dès 990€.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap justify-center gap-3">
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
@@ -156,6 +156,39 @@ const METIERS = [
   { title: 'Électriciens & IRVE', desc: 'Pré-chiffrage avec photos, devis relancés, suivi de chantier.', to: '/secteurs/automatisation-electricien', Ill: Charger },
   { title: 'Rénovation & second œuvre', desc: 'Demandes centralisées, devis relancés, clients informés.', to: '/secteurs/automatisation-renovation-batiment', Ill: House },
 ];
+
+const LOGICIELS = [
+  { title: 'CRM pour nettoyage de conduits', desc: "Devis en quelques clics, relances automatiques, plans d'entretien sur plusieurs années et tableau de bord. Une plateforme à l'image de votre entreprise.", to: '/crm-nettoyage-conduits', tag: 'Sur devis', external: false },
+  { title: 'CVCPilot', desc: "Rapports de mise en service CVC prêts à envoyer, avec export Excel. Pour les techniciens et les chargés de projet.", to: 'https://www.cvcpilot.fr', tag: 'Logiciel en ligne', external: true },
+];
+
+const LogicielsSection = () => (
+  <section id="logiciels" className="py-20 md:py-28 px-5 md:px-12">
+    <div className="max-w-6xl mx-auto">
+      <SectionTitle label="Nos logiciels">Des produits, pas <span className="text-cyan">que des heures.</span></SectionTitle>
+      <p className="mt-6 text-ghost/65 max-w-2xl leading-relaxed">
+        On édite nos propres logiciels pour les métiers de la ventilation et du bâtiment, puis on les installe et on les adapte à votre entreprise.
+      </p>
+      <div className="mt-12 grid md:grid-cols-2 gap-6">
+        {LOGICIELS.map(({ title, desc, to, tag, external }) => {
+          const inner = (
+            <>
+              <span className="self-start font-cond uppercase tracking-[0.14em] text-xs font-semibold text-cyan border-2 border-cyan rounded-full px-3 py-1">{tag}</span>
+              <h3 className="mt-4 text-xl leading-tight text-ghost">{title}</h3>
+              <p className="mt-2 text-sm text-ghost/60 leading-relaxed flex-1">{desc}</p>
+              <span className="mt-4 inline-flex items-center gap-1 font-cond uppercase tracking-[0.12em] text-xs font-semibold text-cyan">
+                Découvrir <ArrowUpRight className="w-4 h-4" />
+              </span>
+            </>
+          );
+          return external
+            ? <a key={to} href={to} target="_blank" rel="noopener" className="card-brut group p-7 flex flex-col">{inner}</a>
+            : <Link key={to} to={to} className="card-brut group p-7 flex flex-col">{inner}</Link>;
+        })}
+      </div>
+    </div>
+  </section>
+);
 
 const MetiersSection = ({ onOpenContact }) => (
   <section id="metiers" className="py-20 md:py-28 px-5 md:px-12">
@@ -325,26 +358,26 @@ function App() {
   return (
     <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30 overflow-x-hidden">
       <Helmet>
-        <title>Automatisation & IA pour artisans du bâtiment | HGO Automation</title>
-        <meta name="description" content="RDV WhatsApp 24h/24, devis envoyés le jour même, relances automatiques : l'automatisation n8n et IA pour artisans et PME. En service en 2 semaines." />
+        <title>Éditeur de logiciels et d'automatisations pour le bâtiment et la ventilation | HGO Automation</title>
+        <meta name="description" content="Éditeur de logiciels et d'automatisations pour le bâtiment et la ventilation : CRM, devis automatiques, relances, RDV WhatsApp. Installé à votre image en 2 semaines, dès 990€." />
         <meta property="og:locale" content="fr_FR" />
-        <meta property="og:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
-        <meta property="og:description" content="Appels, RDV, devis, relances et factures automatisés pour les artisans et PME. En service en 2 semaines, dès 990€. Formation n8n dès 290€." />
+        <meta property="og:title" content="HGO Automation — Logiciels et automatisations pour le bâtiment et la ventilation" />
+        <meta property="og:description" content="CRM, devis automatiques, relances et RDV pour le bâtiment et la ventilation. Logiciels installés à votre image en 2 semaines, dès 990€. Formation n8n dès 290€." />
         <meta property="og:url" content="https://www.hgoautomation.fr/" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://www.hgoautomation.fr/og-cover.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="HGO Automation — Automatisation & IA pour artisans, bâtiment et PME" />
-        <meta name="twitter:description" content="Appels, RDV, devis, relances et factures automatisés pour les artisans et PME. En service en 2 semaines." />
+        <meta name="twitter:title" content="HGO Automation — Logiciels et automatisations pour le bâtiment et la ventilation" />
+        <meta name="twitter:description" content="CRM, devis automatiques, relances et RDV pour le bâtiment et la ventilation. Installé à votre image en 2 semaines." />
         <meta name="twitter:image" content="https://www.hgoautomation.fr/og-cover.png" />
         <link rel="canonical" href="https://www.hgoautomation.fr/" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "HGO Automation",
-          "description": "Automatisation et intelligence artificielle pour artisans, entreprises du bâtiment et PME : prise de RDV WhatsApp, devis et relances automatiques, CRM, agents IA. Formation et installation n8n / OpenClaw.",
+          "description": "Éditeur de logiciels et d'automatisations pour le bâtiment et la ventilation : CRM, devis et relances automatiques, prise de RDV WhatsApp, agents IA. Installation sur mesure, formation n8n.",
           "url": "https://www.hgoautomation.fr",
           "logo": "https://www.hgoautomation.fr/hgo-logo.svg",
           "image": "https://www.hgoautomation.fr/og-cover.png",
@@ -397,6 +430,7 @@ function App() {
       <StackBar />
       <BenefitsSection />
       <TimeCalculator />
+      <LogicielsSection />
       <MetiersSection onOpenContact={openContact} />
       <CasesSection />
       <OffersSection onOpenContact={openContact} />
