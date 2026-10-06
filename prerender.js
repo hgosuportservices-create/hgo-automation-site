@@ -54,6 +54,7 @@ function extractHeadTags(html) {
 
 const ROUTES = [
   '/',
+  '/cas-client/groupe-rousso',
   '/cas-client/lesinstallateurs',
   '/blog',
   '/blog/automatiser-whatsapp-n8n-tutoriel-2026',

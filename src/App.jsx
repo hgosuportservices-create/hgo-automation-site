@@ -53,6 +53,11 @@ const Hero = ({ onOpenContact }) => {
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
           <button onClick={() => onOpenContact('leadmagnet')} className="btn-outline"><Download className="w-4 h-4" /> Guide gratuit</button>
         </motion.div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-8 bg-void rounded-full px-4 py-1">
+          <Link to="/cas-client/groupe-rousso" className="font-cond uppercase tracking-[0.12em] text-sm text-cyan hover:underline underline-offset-4">
+            52 000 $ générés pour Groupe Rousso en 2 mois →
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
@@ -85,6 +90,18 @@ const BenefitsSection = () => (
 
 const CAS_CLIENTS = [
   {
+    logo: '/groupe-rousso-logo.webp',
+    name: 'Entreprise de nettoyage CVAC au Québec (Groupe Rousso)',
+    role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
+    desc: "Plateforme CRM sur mesure : devis PDF en français ou en anglais envoyés en quelques clics avec créneaux de RDV, relances automatiques, plans d'entretien et tableau de bord.",
+    stats: [
+      { value: '52 000 $', label: 'CAD de CA généré (2 mois)' },
+      { value: '70', label: 'Devis convertis / mois' },
+      { value: '85 %', label: 'Taux de conversion' },
+    ],
+    to: '/cas-client/groupe-rousso',
+  },
+  {
     logo: '/lesinstallateurs-logo.png',
     name: 'LesInstallateurs.fr',
     role: 'Installateur RGE — pompes à chaleur, climatisation, ventilation, bornes IRVE — Île-de-France & Oise',
@@ -102,7 +119,7 @@ const CasesSection = () => (
   <section className="py-20 md:py-28 px-5 md:px-12" id="cas-clients">
     <div className="max-w-6xl mx-auto">
       <SectionTitle label="Cas clients" className="mb-12">De vrais clients. <span className="text-cyan">De vrais chiffres.</span></SectionTitle>
-      <div className="grid gap-8 max-w-3xl mx-auto">
+      <div className="grid lg:grid-cols-2 gap-8">
         {CAS_CLIENTS.map(c => (
           <div key={c.name} className="card-brut p-8 md:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-5">
@@ -420,7 +437,7 @@ function App() {
       <ProtocolSection />
       <FounderSection />
       <FaqSection />
-      <SiteFooter sansCasRousso />
+      <SiteFooter />
     </main>
   );
 }
