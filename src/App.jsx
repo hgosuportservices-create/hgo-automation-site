@@ -53,11 +53,6 @@ const Hero = ({ onOpenContact }) => {
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
           <button onClick={() => onOpenContact('leadmagnet')} className="btn-outline"><Download className="w-4 h-4" /> Guide gratuit</button>
         </motion.div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-8 bg-void rounded-full px-4 py-1">
-          <Link to="/cas-client/groupe-rousso" className="font-cond uppercase tracking-[0.12em] text-sm text-cyan hover:underline underline-offset-4">
-            52 000 $ générés pour Groupe Rousso en 2 mois →
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
@@ -437,7 +432,7 @@ function App() {
       <ProtocolSection />
       <FounderSection />
       <FaqSection />
-      <SiteFooter />
+      <SiteFooter sansCasRousso />
     </main>
   );
 }
