@@ -53,11 +53,6 @@ const Hero = ({ onOpenContact }) => {
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
           <button onClick={() => onOpenContact('leadmagnet')} className="btn-outline"><Download className="w-4 h-4" /> Guide gratuit</button>
         </motion.div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-8 bg-void rounded-full px-4 py-1">
-          <Link to="/cas-client/groupe-rousso" className="font-cond uppercase tracking-[0.12em] text-sm text-cyan hover:underline underline-offset-4">
-            52 000 $ générés pour Groupe Rousso en 2 mois →
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
@@ -100,6 +95,7 @@ const CAS_CLIENTS = [
       { value: '85 %', label: 'Taux de conversion' },
     ],
     to: '/cas-client/groupe-rousso',
+    masque: true, // discrétion : non affiché sur l'accueil (prospection au Québec)
   },
   {
     logo: '/lesinstallateurs-logo.png',
@@ -119,8 +115,8 @@ const CasesSection = () => (
   <section className="py-20 md:py-28 px-5 md:px-12" id="cas-clients">
     <div className="max-w-6xl mx-auto">
       <SectionTitle label="Cas clients" className="mb-12">De vrais clients. <span className="text-cyan">De vrais chiffres.</span></SectionTitle>
-      <div className="grid lg:grid-cols-2 gap-8">
-        {CAS_CLIENTS.map(c => (
+      <div className="grid gap-8 max-w-3xl mx-auto">
+        {CAS_CLIENTS.filter(c => !c.masque).map(c => (
           <div key={c.name} className="card-brut p-8 md:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-5">
               <div className="w-16 h-16 flex-shrink-0 flex items-center justify-center rounded-2xl bg-void border-2 border-cyan/40 p-2">
@@ -437,7 +433,7 @@ function App() {
       <ProtocolSection />
       <FounderSection />
       <FaqSection />
-      <SiteFooter />
+      <SiteFooter sansCasRousso />
     </main>
   );
 }
