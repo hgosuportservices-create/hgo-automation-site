@@ -29,8 +29,8 @@ const PRODUITS = [
 ];
 
 const CHIFFRES = [
-  { v: '52 000 $', l: 'CAD générés pour Groupe Rousso en 2 mois', to: '/cas-client/groupe-rousso' },
-  { v: '85 %', l: 'de devis convertis chez Groupe Rousso', to: '/cas-client/groupe-rousso' },
+  { v: '8 ans', l: 'de terrain en CVC, de metteur au point à chargé de projet' },
+  { v: '2 semaines', l: 'pour une installation en service' },
   { v: '13 600', l: 'impressions Google en 3 mois pour LesInstallateurs.fr', to: '/cas-client/lesinstallateurs' },
 ];
 
@@ -113,12 +113,17 @@ export default function APropos() {
       {/* Chiffres */}
       <section className="card-cyan !rounded-none py-14 px-5">
         <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
-          {CHIFFRES.map(c => (
-            <Link key={c.l} to={c.to} className="group">
-              <p className="font-display text-4xl md:text-5xl">{c.v}</p>
-              <p className="mt-2 font-cond uppercase tracking-[0.16em] text-xs text-void/75 group-hover:underline underline-offset-4">{c.l}</p>
-            </Link>
-          ))}
+          {CHIFFRES.map(c => {
+            const inner = (
+              <>
+                <p className="font-display text-4xl md:text-5xl">{c.v}</p>
+                <p className={`mt-2 font-cond uppercase tracking-[0.16em] text-xs text-void/75${c.to ? ' group-hover:underline underline-offset-4' : ''}`}>{c.l}</p>
+              </>
+            );
+            return c.to
+              ? <Link key={c.l} to={c.to} className="group">{inner}</Link>
+              : <div key={c.l}>{inner}</div>;
+          })}
         </div>
       </section>
 

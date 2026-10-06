@@ -19,7 +19,6 @@ const AutomatisationN8n = lazy(() => import('./pages/services/AutomatisationN8n.
 const AutomatisationEntreprise = lazy(() => import('./pages/services/AutomatisationEntreprise.jsx'))
 const AutomatisationCRM = lazy(() => import('./pages/services/AutomatisationCRM.jsx'))
 const CreationApplications = lazy(() => import('./pages/services/CreationApplications.jsx'))
-const CasClientGroupeRousso = lazy(() => import('./pages/CasClientGroupeRousso.jsx'))
 const CasClientLesInstallateurs = lazy(() => import('./pages/CasClientLesInstallateurs.jsx'))
 const SectorCVC = lazy(() => import('./pages/sectors/SectorCVC.jsx'))
 const SectorPlomberie = lazy(() => import('./pages/sectors/SectorPlomberie.jsx'))
@@ -40,7 +39,6 @@ createRoot(document.getElementById('root')).render(
           <Suspense fallback={<div className="min-h-screen bg-void" />}>
             <Routes>
               <Route path="/" element={<App />} />
-              <Route path="/cas-client/groupe-rousso" element={<CasClientGroupeRousso />} />
               <Route path="/cas-client/lesinstallateurs" element={<CasClientLesInstallateurs />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<ArticlePage />} />

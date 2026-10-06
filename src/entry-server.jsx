@@ -16,7 +16,6 @@ import AutomatisationN8n from './pages/services/AutomatisationN8n.jsx';
 import AutomatisationEntreprise from './pages/services/AutomatisationEntreprise.jsx';
 import AutomatisationCRM from './pages/services/AutomatisationCRM.jsx';
 import CreationApplications from './pages/services/CreationApplications.jsx';
-import CasClientGroupeRousso from './pages/CasClientGroupeRousso.jsx';
 import CasClientLesInstallateurs from './pages/CasClientLesInstallateurs.jsx';
 import SectorCVC from './pages/sectors/SectorCVC.jsx';
 import SectorPlomberie from './pages/sectors/SectorPlomberie.jsx';
@@ -35,7 +34,6 @@ export function render(url) {
         <StaticRouter location={url}>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/cas-client/groupe-rousso" element={<CasClientGroupeRousso />} />
             <Route path="/cas-client/lesinstallateurs" element={<CasClientLesInstallateurs />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<ArticlePage />} />

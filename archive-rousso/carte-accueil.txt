@@ -1,0 +1,15 @@
+Carte retirée de CAS_CLIENTS dans src/App.jsx (à remettre en première position pour restaurer) :
+
+  {
+    logo: '/groupe-rousso-logo.webp',
+    name: 'Groupe Rousso',
+    role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
+    desc: "Plateforme CRM sur mesure : devis PDF en français ou en anglais envoyés en quelques clics avec créneaux de RDV, relances automatiques, plans d'entretien et tableau de bord.",
+    stats: [
+      { value: '52 000 $', label: 'CAD de CA généré (2 mois)' },
+      { value: '70', label: 'Devis convertis / mois' },
+      { value: '85 %', label: 'Taux de conversion' },
+    ],
+    to: '/cas-client/groupe-rousso',
+    masque: true, // discrétion : non affiché sur l'accueil (prospection au Québec)
+  },

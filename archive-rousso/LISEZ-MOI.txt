@@ -1,0 +1,1 @@
+Éléments retirés du site public par discrétion (06/10/2026). Pour restaurer : remettre les routes dans src/main.jsx et src/entry-server.jsx, '/cas-client/groupe-rousso' dans prerender.js et le sitemap, ce dossier dans public/, et remettre la carte décrite dans carte-accueil.txt (src/App.jsx).

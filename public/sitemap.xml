@@ -98,12 +98,6 @@
 
   <!-- Cas clients -->
   <url>
-    <loc>https://www.hgoautomation.fr/cas-client/groupe-rousso</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://www.hgoautomation.fr/cas-client/lesinstallateurs</loc>
     <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>

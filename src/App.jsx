@@ -85,19 +85,6 @@ const BenefitsSection = () => (
 
 const CAS_CLIENTS = [
   {
-    logo: '/groupe-rousso-logo.webp',
-    name: 'Groupe Rousso',
-    role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
-    desc: "Plateforme CRM sur mesure : devis PDF en français ou en anglais envoyés en quelques clics avec créneaux de RDV, relances automatiques, plans d'entretien et tableau de bord.",
-    stats: [
-      { value: '52 000 $', label: 'CAD de CA généré (2 mois)' },
-      { value: '70', label: 'Devis convertis / mois' },
-      { value: '85 %', label: 'Taux de conversion' },
-    ],
-    to: '/cas-client/groupe-rousso',
-    masque: true, // discrétion : non affiché sur l'accueil (prospection au Québec)
-  },
-  {
     logo: '/lesinstallateurs-logo.png',
     name: 'LesInstallateurs.fr',
     role: 'Installateur RGE — pompes à chaleur, climatisation, ventilation, bornes IRVE — Île-de-France & Oise',
@@ -116,7 +103,7 @@ const CasesSection = () => (
     <div className="max-w-6xl mx-auto">
       <SectionTitle label="Cas clients" className="mb-12">De vrais clients. <span className="text-cyan">De vrais chiffres.</span></SectionTitle>
       <div className="grid gap-8 max-w-3xl mx-auto">
-        {CAS_CLIENTS.filter(c => !c.masque).map(c => (
+        {CAS_CLIENTS.map(c => (
           <div key={c.name} className="card-brut p-8 md:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-5">
               <div className="w-16 h-16 flex-shrink-0 flex items-center justify-center rounded-2xl bg-void border-2 border-cyan/40 p-2">

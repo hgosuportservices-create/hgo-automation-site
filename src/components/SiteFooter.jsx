@@ -30,7 +30,6 @@ const COLUMNS = [
     links: [
       { label: 'À propos', to: '/a-propos' },
       { label: 'Blog', to: '/blog' },
-      { label: 'Cas client : Groupe Rousso', to: '/cas-client/groupe-rousso' },
       { label: 'Cas client : LesInstallateurs', to: '/cas-client/lesinstallateurs' },
     ],
   },
