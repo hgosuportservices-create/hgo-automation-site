@@ -29,6 +29,7 @@ const Formation = lazy(() => import('./pages/Formation.jsx'))
 const APropos = lazy(() => import('./pages/APropos.jsx'))
 const RendezVous = lazy(() => import('./pages/RendezVous.jsx'))
 const CrmNettoyageConduits = lazy(() => import('./pages/CrmNettoyageConduits.jsx'))
+const CampagnesCopropriete = lazy(() => import('./pages/CampagnesCopropriete.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -58,6 +59,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/a-propos" element={<APropos />} />
               <Route path="/rendez-vous" element={<RendezVous />} />
               <Route path="/crm-nettoyage-conduits" element={<CrmNettoyageConduits />} />
+              <Route path="/campagnes-copropriete" element={<CampagnesCopropriete />} />
               <Route path="/mentions-legales" element={<MentionsLegales />} />
               <Route path="/cgv" element={<CGV />} />
               <Route path="*" element={<NotFound />} />

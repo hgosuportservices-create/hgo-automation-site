@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Démo : plateforme de campagnes en copropriété | HGO Automation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_ds/industry-f7518b7e-bf83-4f67-a3d3-1c1616d17a08/styles.css">
+<script src="_ds/industry-f7518b7e-bf83-4f67-a3d3-1c1616d17a08/_ds_bundle.js"></script>
+<style>
+  body{margin:0;background:#d9d9de;}
+  a{color:var(--color-accent-700);}a:hover{color:var(--color-accent-800);}
+  .lbl{font-size:11px;letter-spacing:.04em;color:var(--color-neutral-600);}
+  .soft{border-radius:18px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.06),0 8px 20px rgba(43,43,45,.05);}
+
+  /* Buttons */
+  .pill{border-radius:999px;border:none;cursor:pointer;font-family:var(--font-body);font-weight:500;font-size:13.5px;padding:9px 16px;display:inline-flex;align-items:center;gap:7px;transition:background .15s,box-shadow .15s,transform .1s,opacity .15s;position:relative;overflow:hidden;}
+  .pill:active:not([disabled]){transform:scale(.96);}
+  .pill[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none;}
+  .pill-dark{background:#1d1f20;color:#f7f7f8;}
+  .pill-dark::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.13) 50%,transparent 70%);transform:translateX(-200%);transition:transform 0s;pointer-events:none;}
+  .pill-dark:hover{background:#2e3032;}
+  .pill-dark:hover::after{transform:translateX(200%);transition:transform .55s;}
+  .pill-light{background:#fff;color:#1d1f20;box-shadow:0 1px 2px rgba(43,43,45,.1),0 0 0 1px rgba(43,43,45,.08);}
+  .pill-light:hover{background:var(--color-neutral-100);}
+  .pill-quiet{background:transparent;color:var(--color-neutral-600);}
+  .pill-quiet:hover{background:rgba(29,31,32,.07);color:#1d1f20;}
+  .ico{width:34px;height:34px;border-radius:999px;border:none;background:transparent;color:var(--color-neutral-600);display:grid;place-items:center;cursor:pointer;transition:background .12s,color .12s;flex:none;}
+  .ico:hover{background:rgba(29,31,32,.08);color:#1d1f20;}
+  .ico:active{transform:scale(.92);}
+
+  /* Fields */
+  .fld{width:100%;border:none;background:var(--color-neutral-100);border-radius:12px;padding:10px 13px;font:inherit;font-size:14px;color:#1d1f20;box-sizing:border-box;transition:outline .1s;outline:2px solid transparent;outline-offset:0;}
+  .fld:focus-visible{outline:2px solid var(--color-accent);background:#fff;}
+
+  /* Card lift */
+  .card-lift{transition:box-shadow .22s,transform .22s;cursor:pointer;}
+  .card-lift:hover{box-shadow:0 16px 40px rgba(29,31,32,.16)!important;transform:translateY(-3px);}
+
+  /* Checkbox */
+  .cb{width:16px;height:16px;flex:none;border-radius:4px;border:1.5px solid var(--color-neutral-300);background:#fff;display:grid;place-items:center;cursor:pointer;transition:all .12s;}
+  .cb.on{background:var(--color-accent);border-color:var(--color-accent);}
+  .cb.part{background:var(--color-accent-200);border-color:var(--color-accent);}
+  .cb svg{opacity:0;transition:opacity .1s;}
+  .cb.on svg,.cb.part svg{opacity:1;}
+
+  /* Sort */
+  .sort-h{cursor:pointer;user-select:none;display:flex;align-items:center;gap:3px;transition:color .1s;white-space:nowrap;}
+  .sort-h:hover{color:#1d1f20;}
+  .sort-h svg{opacity:.35;transition:opacity .1s;}
+  .sort-h:hover svg,.sort-h.active svg{opacity:1;}
+
+  /* Pulse dot */
+  @keyframes pdot{0%,100%{transform:scale(1);opacity:1}55%{transform:scale(1.8);opacity:.3}}
+  .pdot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle;flex:none;}
+  .pdot-pulse{animation:pdot 2s ease-in-out infinite;}
+
+  /* Row hover */
+  .rowh{transition:background .1s;}
+  .rowh:hover{background:var(--color-neutral-100)!important;}
+
+  /* Toast */
+  @keyframes toast-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+  .toast-item{border-radius:14px;padding:11px 16px;font-size:13.5px;display:flex;align-items:center;gap:10px;animation:toast-in .22s ease;box-shadow:0 4px 16px rgba(29,31,32,.18);min-width:280px;max-width:380px;}
+
+  /* Page transitions */
+  @keyframes page-slide{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+  .page-in{animation:page-slide .2s ease;}
+
+  /* Portal fade */
+  @keyframes step-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+  .step-fade{animation:step-in .2s ease;}
+
+  /* Notification badge */
+  .notif-badge{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:999px;background:oklch(55% .18 25);color:#fff;font-size:10px;font-weight:600;display:grid;place-items:center;border:2px solid var(--color-neutral-100);}
+
+  /* Tabs */
+  .tab-bar{display:flex;gap:0;border-bottom:2px solid var(--color-neutral-200);}
+  .tab-btn{padding:10px 18px;border:none;background:none;font:inherit;font-size:14px;color:var(--color-neutral-600);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .12s,border-color .12s;}
+  .tab-btn:hover{color:#1d1f20;}
+  .tab-btn.on{color:var(--color-accent-800);border-bottom-color:var(--color-accent);font-weight:500;}
+
+  /* Dark mode */
+  .is-dark{background:#111213!important;color:#e8e8ea!important;}
+  .is-dark .soft{background:#1a1c1e!important;}
+  .is-dark .lbl{color:#5e6165!important;}
+  .is-dark .fld{background:#232527!important;color:#e8e8ea!important;}
+  .is-dark .fld:focus-visible{background:#2a2c2e!important;}
+  .is-dark .pill-light{background:#252729!important;color:#e8e8ea!important;box-shadow:0 0 0 1px rgba(255,255,255,.08)!important;}
+  .is-dark .pill-light:hover{background:#2e3032!important;}
+  .is-dark .pill-quiet{color:#888!important;}
+  .is-dark .pill-quiet:hover{background:rgba(255,255,255,.07)!important;color:#e8e8ea!important;}
+  .is-dark .ico{color:#888!important;}
+  .is-dark .ico:hover{background:rgba(255,255,255,.08)!important;color:#e8e8ea!important;}
+  .is-dark .rowh{background:#1e2022!important;}
+  .is-dark .rowh:hover{background:#28292c!important;}
+  .is-dark .cb{background:#252729!important;border-color:#3a3c3f!important;}
+  .is-dark .tab-btn{color:#5e6165!important;}
+  .is-dark .tab-btn:hover{color:#e8e8ea!important;}
+  .is-dark .tab-btn.on{color:var(--color-accent-300)!important;}
+  .is-dark .tab-bar{border-color:#2e3032!important;}
+</style>
+</helmet>
+
+<div class="{{ rootClass }}" style="min-height:100vh;padding:18px;font-family:var(--font-body)">
+
+<!-- ══ TOASTS ════════════════════════════════ -->
+<div style="position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:8px;z-index:9999;pointer-events:none">
+  <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="0">
+    <div class="toast-item" style="background:{{ t.bg }};color:{{ t.fg }};pointer-events:auto">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ t.icon }}"></path></svg>
+      {{ t.msg }}
+    </div>
+  </sc-for>
+</div>
+
+<!-- ══ TECH MODAL ════════════════════════════ -->
+<sc-if value="{{ techModalOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:rgba(29,31,32,.42);backdrop-filter:blur(4px);z-index:1000">
+    <div class="soft" style="width:min(520px,100%);border-radius:22px;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;background:var(--color-neutral-100);border-bottom:1px solid var(--color-neutral-200)">
+        <div>
+          <div class="lbl">Résumé journée · {{ techModalDate }}</div>
+          <h4 style="margin:3px 0 0;font-size:21px">{{ techModalName }}</h4>
+        </div>
+        <button class="ico" onClick="{{ closeTechModal }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div style="padding:18px 22px;display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto">
+        <sc-for list="{{ techModalSlots }}" as="s" hint-placeholder-count="5">
+          <div class="rowh" style="display:grid;grid-template-columns:90px 58px 1fr 90px;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.05)">
+            <span style="font-weight:500">{{ s.time }}</span>
+            <span style="font-family:var(--font-heading);font-size:17px">{{ s.unit }}</span>
+            <span style="font-size:13px;color:var(--color-neutral-600)">{{ s.services }}</span>
+            <span style="font-size:13px">{{ s.dureeLabel }}</span>
+          </div>
+        </sc-for>
+        <div style="padding:12px;border-radius:12px;background:var(--color-neutral-100);font-size:13px;color:var(--color-neutral-700)">{{ techModalSummary }}</div>
+      </div>
+      <div style="display:flex;gap:8px;padding:14px 22px;border-top:1px solid var(--color-neutral-200)">
+        <button class="pill pill-light" style="flex:1;justify-content:center" onClick="{{ closeTechModal }}">Fermer</button>
+        <button class="pill pill-dark" style="flex:1;justify-content:center" onClick="{{ sendTechSummary }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2 15 22 11 13 2 9l20-7z"></path></svg>
+          Envoyer par courriel
+        </button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══ LOGIN ═════════════════════════════════ -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Connexion" class="soft page-in" style="min-height:calc(100vh - 36px);border-radius:26px;overflow:hidden;display:grid;grid-template-columns:1.05fr .95fr">
+    <div style="padding:44px 46px;display:flex;flex-direction:column;justify-content:space-between;gap:40px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:30px;height:30px;border-radius:999px;background:#1d1f20;color:#fff;display:grid;place-items:center;font-family:var(--font-heading);font-size:15px">C</div>
+        <span style="font-family:var(--font-heading);font-size:20px">cvac<span style="color:var(--color-accent)">pro</span></span>
+      </div>
+      <div style="max-width:430px;display:flex;flex-direction:column;gap:18px">
+        <span class="lbl">Inscription groupée · Québec</span>
+        <h1 style="margin:0;font-size:48px;line-height:1.04">Une campagne, un immeuble, toutes les unités.</h1>
+        <p style="margin:0;font-size:15px;color:var(--color-neutral-700);text-wrap:pretty">Inscriptions des résidents, paliers dégressifs, relances automatiques et planification des techniciens.</p>
+      </div>
+      <div style="display:flex;gap:12px">
+        <sc-for list="{{ loginStats }}" as="s" hint-placeholder-count="3">
+          <div style="flex:1;border-radius:16px;padding:14px 16px;background:{{ s.bg }};transition:transform .2s" style-hover="transform:translateY(-2px)">
+            <div style="font-family:var(--font-heading);font-size:30px;line-height:1">{{ s.value }}</div>
+            <div style="font-size:12px;color:var(--color-neutral-700)">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div class="lbl" style="display:flex;gap:14px;flex-wrap:wrap">
+        <span>N — Nouvelle campagne</span><span>D — Mode sombre</span><span>Échap — Fermer</span>
+      </div>
+    </div>
+    <div style="background:var(--color-neutral-100);display:grid;place-items:center;padding:40px">
+      <div class="soft" style="width:min(380px,100%);padding:28px;display:flex;flex-direction:column;gap:14px">
+        <div><span class="lbl">Espace entrepreneur</span><h3 style="margin:4px 0 0;font-size:26px">Connexion</h3></div>
+        <div><div class="lbl" style="margin-bottom:5px">Courriel</div><input class="fld" type="email" value="{{ loginEmail }}" onChange="{{ onLoginEmail }}"></div>
+        <div><div class="lbl" style="margin-bottom:5px">Mot de passe</div><input class="fld" type="password" value="{{ loginPass }}" onChange="{{ onLoginPass }}" placeholder="••••••••"></div>
+        <button class="pill pill-dark" style="justify-content:center;padding:13px;font-size:15px" onClick="{{ doLogin }}">Se connecter</button>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--color-neutral-600)">
+          <a href="#" onClick="{{ doLogin }}">Lien magique</a><span>RBQ-123456</span>
+        </div>
+        <div style="height:1px;background:var(--color-neutral-200);margin:2px 0"></div>
+        <span class="lbl">Accès sans compte</span>
+        <div style="display:flex;gap:8px">
+          <button class="pill pill-light" style="flex:1;justify-content:center" onClick="{{ goOnboarding }}">Nouveau compte →</button>
+          <button class="pill pill-light" style="flex:1;justify-content:center" onClick="{{ goPortal }}">Portail résident</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══ APP SHELL ══════════════════════════════ -->
+<sc-if value="{{ inApp }}" hint-placeholder-val="{{ false }}">
+  <div class="soft" data-screen-label="Application" style="border-radius:26px;min-height:calc(100vh - 36px);display:flex;overflow:hidden">
+
+    <!-- rail -->
+    <div style="width:60px;flex:none;padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--color-neutral-100);border-right:1px solid var(--color-neutral-200)">
+      <sc-for list="{{ railTop }}" as="r" hint-placeholder-count="5">
+        <button class="ico" title="{{ r.title }}" onClick="{{ r.go }}" style="background:{{ r.bg }};color:{{ r.fg }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.d }}"></path></svg>
+        </button>
+      </sc-for>
+      <div style="flex:1"></div>
+      <button class="ico" title="Mode sombre (D)" onClick="{{ toggleDark }}" style="background:{{ darkBtnBg }}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ darkIcon }}"></path></svg>
+      </button>
+      <button class="ico" title="Déconnexion" onClick="{{ logout }}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"></path></svg>
+      </button>
+      <div style="width:30px;height:30px;border-radius:999px;background:var(--color-accent);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:500;margin-top:6px">VP</div>
+    </div>
+
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+      <!-- header -->
+      <header style="display:flex;align-items:center;gap:12px;padding:16px 24px 0;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:9px;margin-right:4px">
+          <div style="width:26px;height:26px;border-radius:999px;background:#1d1f20;color:#fff;display:grid;place-items:center;font-family:var(--font-heading);font-size:13px">C</div>
+          <span style="font-family:var(--font-heading);font-size:18px">cvac<span style="color:var(--color-accent)">pro</span></span>
+        </div>
+        <nav style="display:flex;align-items:center;gap:2px;flex:1;flex-wrap:wrap">
+          <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="8">
+            <button class="pill {{ n.cls }}" onClick="{{ n.go }}" style="padding:7px 13px;font-size:13px">
+              {{ n.label }}
+              <sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:10.5px;padding:1px 6px;border-radius:999px;background:{{ n.badgeBg }};color:{{ n.badgeFg }}">{{ n.badge }}</span>
+              </sc-if>
+            </button>
+          </sc-for>
+        </nav>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input class="fld" style="width:180px;border-radius:999px;padding:8px 14px" placeholder="Recherche…" value="{{ gSearch }}" onChange="{{ onGSearch }}">
+          <!-- notification bell -->
+          <div style="position:relative">
+            <button class="ico" onClick="{{ toggleNotif }}" style="position:relative">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <sc-if value="{{ notifUnread }}" hint-placeholder-val="{{ false }}">
+                <span class="notif-badge">{{ notifCount }}</span>
+              </sc-if>
+            </button>
+            <sc-if value="{{ notifOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:calc(100% + 8px);right:0;width:320px;border-radius:18px;background:#fff;box-shadow:0 8px 32px rgba(29,31,32,.18);z-index:200;overflow:hidden">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--color-neutral-200)">
+                  <span style="font-size:14px;font-weight:500">Notifications</span>
+                  <button class="pill pill-quiet" style="padding:4px 10px;font-size:12px" onClick="{{ markAllRead }}">Tout marquer lu</button>
+                </div>
+                <div style="display:flex;flex-direction:column;max-height:320px;overflow-y:auto">
+                  <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="4">
+                    <div class="rowh" style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:{{ n.bg }}">
+                      <div style="width:32px;height:32px;flex:none;border-radius:999px;background:{{ n.iconBg }};color:#fff;display:grid;place-items:center;margin-top:1px">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ n.icon }}"></path></svg>
+                      </div>
+                      <div style="flex:1;min-width:0">
+                        <div style="font-size:13px;line-height:1.4">{{ n.msg }}</div>
+                        <div class="lbl" style="margin-top:2px">{{ n.time }}</div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <button class="pill pill-light" style="padding:7px 13px;font-size:13px" onClick="{{ goPortal }}">Portail ↗</button>
+        </div>
+      </header>
+
+      <main style="flex:1;min-width:0;padding:6px 24px 34px">
+
+        <!-- ── Campaigns ────────── -->
+        <sc-if value="{{ isCampaigns }}" hint-placeholder-val="{{ true }}">
+          <div data-screen-label="Vue d'ensemble campagnes" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:16px 0">
+              <div><span class="lbl">Ventilation Pro Québec · saison 2026</span><h2 style="margin:2px 0 0;font-size:34px">Campagnes</h2></div>
+              <button class="pill pill-dark" onClick="{{ goNew }}" title="N">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                Nouvelle campagne
+              </button>
+            </div>
+
+            <!-- annual KPIs -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px">
+              <sc-for list="{{ annualKpis }}" as="k" hint-placeholder-count="4">
+                <div class="card-lift" style="border-radius:16px;padding:16px 18px;background:{{ k.bg }};color:{{ k.fg }};box-shadow:0 1px 3px rgba(43,43,45,.07)">
+                  <div style="font-size:11px;opacity:.72;margin-bottom:4px">{{ k.label }}</div>
+                  <div style="font-family:var(--font-heading);font-size:32px;line-height:1.1">{{ k.value }}</div>
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:4px;font-size:12px;opacity:.8">
+                    <span style="font-size:15px">{{ k.arrow }}</span>{{ k.note }}
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:16px;flex-wrap:wrap">
+              <div style="display:flex;gap:6px">
+                <sc-for list="{{ boardFilters }}" as="f" hint-placeholder-count="3">
+                  <button class="pill {{ f.cls }}" style="padding:7px 13px;font-size:13px" onClick="{{ f.set }}">{{ f.label }}<span style="font-size:10.5px;padding:1px 6px;border-radius:999px;background:{{ f.badgeBg }};color:{{ f.badgeFg }};margin-left:2px">{{ f.count }}</span></button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;align-items:start">
+              <sc-for list="{{ columns }}" as="col" hint-placeholder-count="6">
+                <div style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                  <div style="height:3px;border-radius:2px;background:{{ col.bar }}"></div>
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 2px">
+                    <div style="display:flex;align-items:baseline;gap:5px">
+                      <span style="font-size:12.5px;font-weight:500">{{ col.label }}</span>
+                      <span style="font-size:11.5px;color:var(--color-neutral-500)">{{ col.count }}</span>
+                    </div>
+                    <sc-if value="{{ col.revenue }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:11px;color:var(--color-neutral-500)">{{ col.revenue }}</span>
+                    </sc-if>
+                  </div>
+                  <sc-for list="{{ col.cards }}" as="c" hint-placeholder-count="1">
+                    <div class="card-lift" onClick="{{ c.open }}" style="border-radius:16px;padding:14px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:0 1px 3px rgba(43,43,45,.07);display:flex;flex-direction:column;gap:11px">
+                      <div style="font-size:13px;font-weight:500;line-height:1.25">{{ c.name }}</div>
+                      <div style="display:flex;gap:3px">
+                        <sc-for list="{{ c.segs }}" as="g" hint-placeholder-count="8">
+                          <div style="flex:1;height:3px;border-radius:2px;background:{{ g }}"></div>
+                        </sc-for>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px">
+                        <div style="width:26px;height:26px;flex:none;border-radius:999px;background:{{ c.avBg }};color:{{ c.avFg }};display:grid;place-items:center;font-size:10.5px;font-weight:500">{{ c.initials }}</div>
+                        <div style="min-width:0">
+                          <div style="font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.place }}</div>
+                          <div style="font-size:11.5px;color:{{ c.muted }}">{{ c.deadline }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ col.empty }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-radius:16px;padding:22px 0;text-align:center;font-size:12px;color:var(--color-neutral-400);background:repeating-linear-gradient(135deg,var(--color-neutral-100) 0 8px,transparent 8px 16px)">Aucune</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Campaign detail ───── -->
+        <sc-if value="{{ isCampaign }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Détail campagne" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:16px 0">
+              <div style="display:flex;align-items:center;gap:12px">
+                <button class="ico" style="background:var(--color-neutral-100)" onClick="{{ goCampaigns }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                </button>
+                <div>
+                  <span class="lbl">Résidence du Parc · Montréal</span>
+                  <h2 style="margin:2px 0 0;font-size:32px">Nettoyage printemps 2026</h2>
+                </div>
+                <span class="pill" style="padding:6px 13px;font-size:12.5px;background:var(--color-accent-200);color:var(--color-accent-800)">
+                  <span class="pdot pdot-pulse" style="background:var(--color-accent)"></span>Ouvert · 6 jours
+                </span>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="pill pill-light" onClick="{{ askRelance }}">Relancer {{ nbAttente }}</button>
+                <button class="pill pill-light" onClick="{{ goPortal }}">Portail</button>
+                <button class="pill pill-dark" onClick="{{ goPlanning }}">Clôturer et planifier</button>
+              </div>
+            </div>
+
+            <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+              <div style="border-radius:14px;padding:11px 16px;margin-bottom:14px;background:var(--color-accent-100);color:var(--color-accent-800);font-size:13.5px;display:flex;align-items:center;gap:10px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>{{ toast }}
+              </div>
+            </sc-if>
+
+            <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:18px">
+              <div style="border-radius:18px;padding:20px 22px;background:var(--color-neutral-100)">
+                <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px">
+                  <div><span class="lbl">Palier atteint</span><div style="font-family:var(--font-heading);font-size:36px;line-height:1">{{ tierPrice }} <span style="font-size:14px;color:var(--color-neutral-600)">/ unité</span></div></div>
+                  <div style="text-align:right"><span class="lbl">Inscriptions</span><div style="font-family:var(--font-heading);font-size:36px;line-height:1">{{ nbConfirme }} <span style="font-size:14px;color:var(--color-neutral-600)">/ 32</span></div></div>
+                </div>
+                <!-- sparkline chart -->
+                <div style="margin-bottom:12px">
+                  <svg width="100%" height="72" viewBox="0 0 360 72" style="display:block;overflow:visible">
+                    <defs>
+                      <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--color-accent)" stop-opacity=".25"></stop>
+                        <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+                    <polygon points="{{ chartArea }}" fill="url(#cg)"></polygon>
+                    <polyline points="{{ chartPoints }}" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                    <circle cx="{{ chartLastX }}" cy="{{ chartLastY }}" r="4" fill="var(--color-accent)"></circle>
+                  </svg>
+                  <div style="display:flex;justify-content:space-between;margin-top:4px" class="lbl">
+                    <span>Il y a 30 jours</span><span>{{ nbConfirme }} inscriptions aujourd'hui</span>
+                  </div>
+                </div>
+                <div style="height:10px;border-radius:999px;background:#fff;overflow:hidden">
+                  <div style="height:10px;border-radius:999px;width:{{ pctConfirme }};background:var(--color-accent);transition:width .4s"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:10px">
+                  <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="5">
+                    <div style="text-align:center;font-size:11.5px;color:{{ t.color }}"><div style="font-weight:500;font-size:13.5px">{{ t.price }}</div>{{ t.range }}</div>
+                  </sc-for>
+                </div>
+                <p style="margin:10px 0 0;font-size:13px;color:var(--color-neutral-700)">{{ tierNote }}</p>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <sc-for list="{{ campaignStats }}" as="s" hint-placeholder-count="4">
+                  <div style="border-radius:16px;padding:14px 16px;background:{{ s.bg }};color:{{ s.fg }};transition:transform .2s" style-hover="transform:translateY(-2px)">
+                    <div style="font-size:11px;opacity:.72;margin-bottom:2px">{{ s.label }}</div>
+                    <div style="font-family:var(--font-heading);font-size:28px;line-height:1.15">{{ s.value }}</div>
+                    <div style="font-size:11.5px;opacity:.7">{{ s.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <sc-if value="{{ hasBulkSelection }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:14px;margin-bottom:10px;background:var(--color-accent-900);color:#fff">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3"></path></svg>
+                <span style="font-size:13.5px;flex:1">{{ selectedCount }} unités sélectionnées</span>
+                <button class="pill" style="background:rgba(255,255,255,.18);color:#fff;padding:6px 14px;font-size:13px" onClick="{{ bulkRelance }}">Relancer la sélection</button>
+                <button class="pill" style="background:transparent;color:rgba(255,255,255,.65);padding:6px 14px;font-size:13px" onClick="{{ clearSelection }}">Annuler</button>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:10px">
+              <h4 style="margin:0;font-size:20px">Suivi des unités</h4>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <div style="display:flex;gap:4px;background:var(--color-neutral-100);border-radius:999px;padding:4px">
+                  <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+                    <button class="pill {{ f.cls }}" style="padding:6px 13px;font-size:12.5px" onClick="{{ f.set }}">{{ f.label }}</button>
+                  </sc-for>
+                </div>
+                <input class="fld" style="width:180px;border-radius:999px" placeholder="Chercher…" value="{{ search }}" onChange="{{ onSearch }}">
+                <button class="pill pill-light" style="padding:7px 13px;font-size:12.5px" onClick="{{ exportCSV }}" title="Exporter en CSV">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+                  CSV
+                </button>
+              </div>
+            </div>
+
+            <div style="overflow-x:auto;padding-bottom:4px">
+              <div style="display:grid;grid-template-columns:22px 56px minmax(190px,1.6fr) 108px minmax(150px,1.4fr) 68px 112px 84px;gap:10px;padding:0 14px 6px;min-width:960px">
+                <button class="cb {{ selAllCls }}" onClick="{{ toggleSelectAll }}" style="margin-top:3px">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="{{ selAllIcon }}"></path></svg>
+                </button>
+                <sc-for list="{{ thCols }}" as="th" hint-placeholder-count="7">
+                  <div class="sort-h lbl {{ th.active }}" onClick="{{ th.click }}" style="padding:4px 0">
+                    {{ th.label }}
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ th.arrowPath }}"></path></svg>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:960px">
+                <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+                  <div class="rowh" style="display:grid;grid-template-columns:22px 56px minmax(190px,1.6fr) 108px minmax(150px,1.4fr) 68px 112px 84px;gap:10px;align-items:center;padding:11px 14px;border-radius:14px;background:{{ r.rowBg }};box-shadow:0 1px 2px rgba(43,43,45,.05)">
+                    <button class="cb {{ r.cbCls }}" onClick="{{ r.toggleSel }}">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                    </button>
+                    <span style="font-family:var(--font-heading);font-size:18px">{{ r.unit }}</span>
+                    <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                      <div style="width:28px;height:28px;flex:none;border-radius:999px;background:{{ r.avBg }};display:grid;place-items:center;font-size:11px;font-weight:500">{{ r.initials }}</div>
+                      <div style="min-width:0">
+                        <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.owner }}</div>
+                        <div style="font-size:11px;color:var(--color-neutral-500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.email }}</div>
+                      </div>
+                    </div>
+                    <span class="pill" style="padding:4px 10px;font-size:12px;background:{{ r.stBg }};color:{{ r.stFg }}">
+                      <sc-if value="{{ r.showDot }}" hint-placeholder-val="{{ false }}"><span class="pdot pdot-pulse" style="background:{{ r.dotColor }}"></span></sc-if>
+                      {{ r.statutLabel }}
+                    </span>
+                    <span style="font-size:12.5px;color:var(--color-neutral-700)">{{ r.services }}</span>
+                    <span style="font-size:13px">{{ r.duree }}</span>
+                    <span style="font-size:12px;color:var(--color-neutral-600)">{{ r.locataire }}</span>
+                    <span style="font-family:var(--font-heading);font-size:17px">{{ r.montant }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:0 2px">
+              <span class="lbl">{{ rowsNote }}</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <button class="pill pill-light" style="padding:6px 13px;font-size:12.5px" onClick="{{ prevPage }}" disabled="{{ !hasPrev }}">← Préc.</button>
+                <span style="font-size:13px;color:var(--color-neutral-600)">{{ pageLabel }}</span>
+                <button class="pill pill-light" style="padding:6px 13px;font-size:12.5px" onClick="{{ nextPage }}" disabled="{{ !hasNext }}">Suiv. →</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── New campaign wizard ─ -->
+        <sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Nouvelle campagne" class="page-in" style="max-width:900px">
+            <div style="display:flex;align-items:center;gap:12px;padding:16px 0">
+              <button class="ico" style="background:var(--color-neutral-100)" onClick="{{ goCampaigns }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+              </button>
+              <div><span class="lbl">4 étapes</span><h2 style="margin:2px 0 0;font-size:32px">Nouvelle campagne</h2></div>
+            </div>
+            <div style="display:flex;gap:6px;margin-bottom:20px">
+              <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+                <button class="pill {{ s.cls }}" style="padding:8px 14px;font-size:13px" onClick="{{ s.go }}">
+                  <span style="width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font-size:11.5px;background:{{ s.numBg }};color:{{ s.numFg }}">{{ s.n }}</span>{{ s.label }}
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ step0 }}" hint-placeholder-val="{{ true }}">
+              <div style="border-radius:18px;padding:22px;background:var(--color-neutral-100);display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div style="grid-column:1/-1"><div class="lbl" style="margin-bottom:5px">Nom de la campagne</div><input class="fld" style="background:#fff" value="{{ w.name }}" onChange="{{ setW.name }}"></div>
+                <div><div class="lbl" style="margin-bottom:5px">Immeuble</div><select class="fld" style="background:#fff" value="{{ w.building }}" onChange="{{ setW.building }}"><sc-for list="{{ buildingOptions }}" as="b" hint-placeholder-count="4"><option value="{{ b.value }}">{{ b.label }}</option></sc-for></select></div>
+                <div><div class="lbl" style="margin-bottom:5px">Client</div><select class="fld" style="background:#fff" value="{{ w.client }}" onChange="{{ setW.client }}"><sc-for list="{{ clientOptions }}" as="c" hint-placeholder-count="3"><option value="{{ c.value }}">{{ c.label }}</option></sc-for></select></div>
+                <div><div class="lbl" style="margin-bottom:5px">Ouverture</div><input class="fld" style="background:#fff" type="date" value="{{ w.open }}" onChange="{{ setW.open }}"></div>
+                <div><div class="lbl" style="margin-bottom:5px">Clôture</div><input class="fld" style="background:#fff" type="date" value="{{ w.close }}" onChange="{{ setW.close }}"></div>
+                <div style="grid-column:1/-1"><div class="lbl" style="margin-bottom:5px">Note interne</div><textarea class="fld" style="background:#fff;min-height:80px;resize:vertical" value="{{ w.notes }}" onChange="{{ setW.notes }}" placeholder="Échangeur central au sous-sol — accès par le concierge."></textarea></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ step1 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ wizardServices }}" as="s" hint-placeholder-count="3">
+                  <div style="border-radius:16px;padding:15px 18px;background:{{ s.cardBg }};display:flex;align-items:center;gap:14px;box-shadow:0 1px 2px rgba(43,43,45,.04);transition:box-shadow .2s" style-hover="box-shadow:0 6px 18px rgba(43,43,45,.1)">
+                    <button onClick="{{ s.toggle }}" style="width:22px;height:22px;flex:none;border-radius:7px;border:1.5px solid {{ s.markBorder }};background:{{ s.mark }};cursor:pointer;display:grid;place-items:center;color:#fff;transition:all .15s">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ s.checkOpacity }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                    </button>
+                    <div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:500">{{ s.name }}</div><div style="font-size:12.5px;color:var(--color-neutral-600)">{{ s.meta }}</div></div>
+                    <div style="display:flex;gap:4px;background:rgba(255,255,255,.8);border-radius:999px;padding:4px">
+                      <button class="pill {{ s.residentCls }}" style="padding:5px 12px;font-size:12.5px" onClick="{{ s.setResident }}">Résident</button>
+                      <button class="pill {{ s.syndicatCls }}" style="padding:5px 12px;font-size:12.5px" onClick="{{ s.setSyndicat }}">Syndicat</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+              <div style="border-radius:18px;padding:20px 22px;background:var(--color-neutral-100)">
+                <h4 style="margin:0 0 14px;font-size:20px">Palier standard</h4>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div class="lbl" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding:0 14px"><span>Inscriptions</span><span>Prix / unité</span><span>Revenu au palier</span><span>Marge</span></div>
+                  <sc-for list="{{ tierRows }}" as="t" hint-placeholder-count="5">
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding:11px 14px;border-radius:13px;background:#fff;font-size:13.5px">
+                      <span style="font-weight:500">{{ t.range }}</span><span>{{ t.price }}</span><span>{{ t.revenue }}</span><span style="color:var(--color-neutral-600)">{{ t.margin }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ step3 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div style="border-radius:18px;padding:20px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:12px">
+                  <h4 style="margin:0;font-size:20px">Relances</h4>
+                  <div><div class="lbl" style="margin-bottom:5px">Première relance après (jours)</div><input class="fld" style="background:#fff" type="number" value="{{ w.relanceJours }}" onChange="{{ setW.relanceJours }}"></div>
+                  <div><div class="lbl" style="margin-bottom:5px">Relance finale avant clôture (h)</div><input class="fld" style="background:#fff" type="number" value="{{ w.relanceFinale }}" onChange="{{ setW.relanceFinale }}"></div>
+                  <div><div class="lbl" style="margin-bottom:5px">Nombre max de relances</div><input class="fld" style="background:#fff" type="number" value="{{ w.relancesMax }}" onChange="{{ setW.relancesMax }}"></div>
+                </div>
+                <div style="border-radius:18px;padding:20px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:12px">
+                  <h4 style="margin:0;font-size:20px">Planification</h4>
+                  <div><div class="lbl" style="margin-bottom:5px">Effet d'échelle (%)</div><input class="fld" style="background:#fff" type="number" value="{{ w.echelle }}" onChange="{{ setW.echelle }}"></div>
+                  <div><div class="lbl" style="margin-bottom:5px">Déplacement entre unités (min)</div><input class="fld" style="background:#fff" type="number" value="{{ w.deplacement }}" onChange="{{ setW.deplacement }}"></div>
+                  <div><div class="lbl" style="margin-bottom:5px">Réservation automatique (h)</div><input class="fld" style="background:#fff" type="number" value="{{ w.resaAuto }}" onChange="{{ setW.resaAuto }}"></div>
+                </div>
+              </div>
+            </sc-if>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px">
+              <button class="pill pill-light" onClick="{{ prevStep }}" disabled="{{ atFirstStep }}">← Précédent</button>
+              <div style="display:flex;align-items:center;gap:14px">
+                <span style="font-size:13px;color:var(--color-neutral-600)">Étape {{ wstepNum }} / 4</span>
+                <button class="pill pill-dark" onClick="{{ nextStep }}">{{ nextLabel }}</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Planning ────────────── -->
+        <sc-if value="{{ isPlanning }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Planification" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:16px 0">
+              <div>
+                <span class="lbl">Nettoyage printemps 2026 · Résidence du Parc</span>
+                <h2 style="margin:2px 0 0;font-size:32px">Planification</h2>
+                <p style="margin:5px 0 0;font-size:13.5px;color:var(--color-neutral-600)">{{ planningSummary }}</p>
+              </div>
+              <div style="display:flex;gap:4px;background:var(--color-neutral-100);border-radius:999px;padding:4px">
+                <button class="pill {{ calCls }}" style="padding:7px 14px" onClick="{{ setViewCal }}">Jour</button>
+                <button class="pill {{ semaineCls }}" style="padding:7px 14px" onClick="{{ setViewSemaine }}">Semaine</button>
+                <button class="pill {{ listCls }}" style="padding:7px 14px" onClick="{{ setViewList }}">Liste</button>
+              </div>
+            </div>
+
+            <div style="border-radius:18px;padding:15px 18px;margin-bottom:18px;background:var(--color-neutral-100);display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap">
+              <div style="width:148px"><div class="lbl" style="margin-bottom:5px">Date de début</div><input class="fld" style="background:#fff" type="date" value="{{ g.date }}" onChange="{{ setG.date }}"></div>
+              <div style="width:106px"><div class="lbl" style="margin-bottom:5px">Début</div><input class="fld" style="background:#fff" type="time" value="{{ g.start }}" onChange="{{ setG.start }}"></div>
+              <div style="width:106px"><div class="lbl" style="margin-bottom:5px">Fin</div><input class="fld" style="background:#fff" type="time" value="{{ g.end }}" onChange="{{ setG.end }}"></div>
+              <div style="width:106px"><div class="lbl" style="margin-bottom:5px">Techniciens</div><input class="fld" style="background:#fff" type="number" value="{{ g.techs }}" onChange="{{ setG.techs }}"></div>
+              <button class="pill pill-dark" style="padding:11px 18px" onClick="{{ generate }}">{{ generateLabel }}</button>
+              <sc-if value="{{ conflictCount }}" hint-placeholder-val="{{ false }}">
+                <span class="pill" style="padding:6px 12px;font-size:12.5px;background:oklch(55% .18 25);color:#fff">⚠ {{ conflictCount }} conflit(s)</span>
+              </sc-if>
+            </div>
+
+            <sc-if value="{{ noSlots }}" hint-placeholder-val="{{ true }}">
+              <div style="border-radius:18px;padding:56px;text-align:center;background:repeating-linear-gradient(135deg,var(--color-neutral-100) 0 10px,#fff 10px 20px)">
+                <div style="font-family:var(--font-heading);font-size:24px">Aucune plage générée</div>
+                <p style="margin:8px auto 0;max-width:500px;font-size:14px;color:var(--color-neutral-700)">{{ nbConfirme }} unités confirmées · cliquer Générer pour les répartir.</p>
+              </div>
+            </sc-if>
+
+            <!-- day view -->
+            <sc-if value="{{ showCal }}" hint-placeholder-val="{{ false }}">
+              <div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+                  <div style="display:flex;gap:4px;background:var(--color-neutral-100);border-radius:999px;padding:4px">
+                    <sc-for list="{{ days }}" as="d" hint-placeholder-count="2">
+                      <button class="pill {{ d.cls }}" style="padding:7px 14px;font-size:13px" onClick="{{ d.set }}">{{ d.label }}</button>
+                    </sc-for>
+                  </div>
+                  <span style="font-size:13px;color:var(--color-neutral-600)">{{ dayNote }}</span>
+                </div>
+                <div style="border-radius:18px;padding:16px;background:var(--color-neutral-100);display:flex;gap:10px">
+                  <div style="width:46px;flex:none;padding-top:42px">
+                    <sc-for list="{{ hours }}" as="h" hint-placeholder-count="10">
+                      <div style="height:72px;font-size:11.5px;color:var(--color-neutral-500)">{{ h }}</div>
+                    </sc-for>
+                  </div>
+                  <sc-for list="{{ techColumns }}" as="col" hint-placeholder-count="3">
+                    <div style="flex:1;min-width:0">
+                      <div style="height:42px;display:flex;align-items:center;gap:8px">
+                        <div style="width:26px;height:26px;border-radius:999px;background:{{ col.avBg }};color:#fff;display:grid;place-items:center;font-size:11px;font-weight:500">{{ col.initials }}</div>
+                        <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">{{ col.name }}</div><div style="font-size:11px;color:var(--color-neutral-500)">{{ col.load }}</div></div>
+                        <button class="pill pill-light" style="padding:4px 10px;font-size:11.5px" onClick="{{ col.openModal }}" title="Voir le résumé">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2 15 22 11 13 2 9l20-7z"></path></svg>
+                        </button>
+                      </div>
+                      <div style="position:relative;height:720px;border-radius:14px;background:#fff;overflow:hidden">
+                        <sc-for list="{{ hours }}" as="h" hint-placeholder-count="10"><div style="height:72px;border-top:1px solid var(--color-neutral-200)"></div></sc-for>
+                        <sc-for list="{{ col.slots }}" as="s" hint-placeholder-count="6">
+                          <div style="position:absolute;left:5px;right:5px;top:{{ s.top }};height:{{ s.height }};border-radius:11px;background:{{ s.bg }};color:{{ s.color }};padding:8px 10px;overflow:hidden;transition:box-shadow .15s" style-hover="box-shadow:0 6px 18px rgba(29,31,32,.18)">
+                            <div style="font-size:13px;font-weight:500;line-height:1.2">Unité {{ s.unit }}</div>
+                            <div style="font-size:11px;opacity:.75">{{ s.time }} · {{ s.dureeLabel }}</div>
+                            <sc-if value="{{ s.conflict }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;opacity:.9;margin-top:2px">⚠ Conflit</div></sc-if>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:18px;margin-top:12px;font-size:12.5px;color:var(--color-neutral-600)">
+                  <span style="display:flex;align-items:center;gap:7px"><span style="width:12px;height:12px;border-radius:4px;background:var(--color-accent);display:inline-block"></span>Réservée</span>
+                  <span style="display:flex;align-items:center;gap:7px"><span style="width:12px;height:12px;border-radius:4px;background:var(--color-accent-200);display:inline-block"></span>Proposée</span>
+                  <span style="display:flex;align-items:center;gap:7px"><span style="width:12px;height:12px;border-radius:4px;background:oklch(55% .18 25);display:inline-block"></span>Conflit</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- week view -->
+            <sc-if value="{{ showSemaine }}" hint-placeholder-val="{{ false }}">
+              <div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+                  <span style="font-size:13.5px;font-weight:500">Technicien :</span>
+                  <div style="display:flex;gap:4px;background:var(--color-neutral-100);border-radius:999px;padding:4px">
+                    <sc-for list="{{ planTechBtns }}" as="t" hint-placeholder-count="3">
+                      <button class="pill {{ t.cls }}" style="padding:7px 14px;font-size:13px" onClick="{{ t.set }}">{{ t.name }}</button>
+                    </sc-for>
+                  </div>
+                  <span style="font-size:13px;color:var(--color-neutral-600)">{{ weekViewLoad }}</span>
+                </div>
+                <div style="border-radius:18px;padding:16px;background:var(--color-neutral-100);display:flex;gap:0;overflow-x:auto">
+                  <div style="width:46px;flex:none;padding-top:42px">
+                    <sc-for list="{{ hours }}" as="h" hint-placeholder-count="10"><div style="height:72px;font-size:11.5px;color:var(--color-neutral-500)">{{ h }}</div></sc-for>
+                  </div>
+                  <sc-for list="{{ weekDays }}" as="wd" hint-placeholder-count="2">
+                    <div style="flex:1;min-width:180px;border-left:1px solid var(--color-neutral-200)">
+                      <div style="height:42px;display:flex;align-items:center;padding:0 10px;font-size:13px;font-weight:500;border-bottom:1px solid var(--color-neutral-200)">{{ wd.label }}</div>
+                      <div style="position:relative;height:720px;background:#fff;overflow:hidden">
+                        <sc-for list="{{ hours }}" as="h" hint-placeholder-count="10"><div style="height:72px;border-top:1px solid var(--color-neutral-200)"></div></sc-for>
+                        <sc-for list="{{ wd.slots }}" as="s" hint-placeholder-count="4">
+                          <div style="position:absolute;left:5px;right:5px;top:{{ s.top }};height:{{ s.height }};border-radius:10px;background:{{ s.bg }};color:{{ s.color }};padding:7px 9px;overflow:hidden;font-size:12px">
+                            <div style="font-weight:500">Unité {{ s.unit }}</div>
+                            <div style="opacity:.75;font-size:10.5px">{{ s.time }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- list view -->
+            <sc-if value="{{ showList }}" hint-placeholder-val="{{ false }}">
+              <div style="overflow-x:auto">
+                <div style="display:flex;flex-direction:column;gap:6px;min-width:980px">
+                  <div class="lbl" style="display:grid;grid-template-columns:98px 120px 58px minmax(170px,1.5fr) minmax(150px,1.2fr) 72px 98px 100px;gap:10px;padding:0 14px"><span>Jour</span><span>Heure</span><span>Unité</span><span>Propriétaire</span><span>Services</span><span>Durée</span><span>Technicien</span><span>Statut</span></div>
+                  <sc-for list="{{ slotRows }}" as="s" hint-placeholder-count="10">
+                    <div class="rowh" style="display:grid;grid-template-columns:98px 120px 58px minmax(170px,1.5fr) minmax(150px,1.2fr) 72px 98px 100px;gap:10px;align-items:center;padding:11px 14px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.05);font-size:13.5px">
+                      <span style="color:var(--color-neutral-600)">{{ s.day }}</span>
+                      <span style="font-weight:500">{{ s.time }}</span>
+                      <span style="font-family:var(--font-heading);font-size:17px">{{ s.unit }}</span>
+                      <span>{{ s.owner }}</span>
+                      <span style="color:var(--color-neutral-600);font-size:12.5px">{{ s.services }}</span>
+                      <span>{{ s.dureeLabel }}</span>
+                      <span>{{ s.tech }}</span>
+                      <span class="pill" style="padding:4px 10px;font-size:12px;background:{{ s.stBg }};color:{{ s.stFg }}">{{ s.statutLabel }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ── Buildings ─────────── -->
+        <sc-if value="{{ isBuildings }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Immeubles" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:16px 0">
+              <div><span class="lbl">Catalogue</span><h2 style="margin:2px 0 0;font-size:32px">Immeubles</h2></div>
+              <button class="pill pill-dark">+ Ajouter</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+              <sc-for list="{{ buildings }}" as="b" hint-placeholder-count="6">
+                <div class="card-lift" style="border-radius:18px;padding:18px;background:{{ b.bg }};box-shadow:0 1px 2px rgba(43,43,45,.05);display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+                    <div>
+                      <span class="lbl">{{ b.client }}</span>
+                      <div style="font-family:var(--font-heading);font-size:21px;line-height:1.15;margin-top:2px">{{ b.name }}</div>
+                      <div style="font-size:12.5px;color:var(--color-neutral-600)">{{ b.address }}</div>
+                    </div>
+                    <span class="pill" style="padding:4px 10px;font-size:12px;background:{{ b.stBg }};color:{{ b.stFg }}">
+                      <sc-if value="{{ b.pulse }}" hint-placeholder-val="{{ false }}"><span class="pdot pdot-pulse" style="background:{{ b.stFg }}"></span></sc-if>{{ b.state }}
+                    </span>
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <div style="flex:1;border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.72)"><div class="lbl">Unités</div><div style="font-family:var(--font-heading);font-size:22px">{{ b.units }}</div></div>
+                    <div style="flex:1;border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.72)"><div class="lbl">Étages</div><div style="font-family:var(--font-heading);font-size:22px">{{ b.floors }}</div></div>
+                    <div style="flex:1.3;border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.72)"><div class="lbl">Échangeur</div><div style="font-family:var(--font-heading);font-size:22px">{{ b.exchanger }}</div></div>
+                  </div>
+                  <button class="pill pill-light" style="align-self:flex-start;padding:6px 12px;font-size:12.5px" onClick="{{ b.open }}">Fiche →</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Building detail ────── -->
+        <sc-if value="{{ isBuilding }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Fiche immeuble" class="page-in">
+            <div style="display:flex;align-items:center;gap:12px;padding:16px 0">
+              <button class="ico" style="background:var(--color-neutral-100)" onClick="{{ goBuildings }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+              </button>
+              <div>
+                <span class="lbl">{{ buildingDetail.client }} · {{ buildingDetail.address }}</span>
+                <h2 style="margin:2px 0 0;font-size:32px">{{ buildingDetail.name }}</h2>
+              </div>
+              <span class="pill" style="padding:6px 13px;font-size:12.5px;background:{{ buildingDetail.stBg }};color:{{ buildingDetail.stFg }}">
+                <sc-if value="{{ buildingDetail.pulse }}" hint-placeholder-val="{{ false }}"><span class="pdot pdot-pulse" style="background:{{ buildingDetail.stFg }}"></span></sc-if>{{ buildingDetail.state }}
+              </span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:22px">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <!-- unit grid -->
+                <div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                    <h4 style="margin:0;font-size:19px">Unités</h4>
+                    <div style="display:flex;gap:14px;font-size:12px" class="lbl">
+                      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:var(--color-accent);display:inline-block"></span>Confirmé</span>
+                      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:var(--color-accent-200);display:inline-block"></span>En attente</span>
+                      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:oklch(65% .18 25);display:inline-block"></span>Refus</span>
+                    </div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px">
+                    <sc-for list="{{ unitGrid }}" as="u" hint-placeholder-count="32">
+                      <div title="{{ u.owner }}" style="border-radius:10px;padding:8px 6px;background:{{ u.bg }};color:{{ u.fg }};text-align:center;transition:transform .15s" style-hover="transform:scale(1.06)">
+                        <div style="font-family:var(--font-heading);font-size:15px;line-height:1">{{ u.unit }}</div>
+                        <div style="font-size:9.5px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.prenom }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+                <!-- campaign history -->
+                <div>
+                  <h4 style="margin:0 0 12px;font-size:19px">Historique des campagnes</h4>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <div class="lbl" style="display:grid;grid-template-columns:1fr 100px 80px 100px 100px;gap:10px;padding:0 14px"><span>Campagne</span><span>Période</span><span>Inscrits</span><span>Palier</span><span>Revenu</span></div>
+                    <sc-for list="{{ buildingHistory }}" as="h" hint-placeholder-count="3">
+                      <div class="rowh" style="display:grid;grid-template-columns:1fr 100px 80px 100px 100px;gap:10px;align-items:center;padding:11px 14px;border-radius:13px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.05);font-size:13.5px">
+                        <span style="font-weight:500">{{ h.name }}</span>
+                        <span style="color:var(--color-neutral-600);font-size:12px">{{ h.period }}</span>
+                        <span style="font-family:var(--font-heading);font-size:17px">{{ h.inscrits }}</span>
+                        <span>{{ h.palier }}</span>
+                        <span style="font-family:var(--font-heading);font-size:15px">{{ h.revenue }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+              <!-- SDC contact -->
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="border-radius:18px;padding:18px;background:var(--color-accent-900);color:#fff">
+                  <div class="lbl" style="color:rgba(242,242,243,.55);margin-bottom:10px">Contact SDC</div>
+                  <div style="font-size:15px;font-weight:500;margin-bottom:4px">{{ buildingDetail.contactName }}</div>
+                  <div style="font-size:13px;opacity:.85;margin-bottom:2px">{{ buildingDetail.contactRole }}</div>
+                  <div style="font-size:13px;opacity:.75;margin-bottom:10px">{{ buildingDetail.contactEmail }}</div>
+                  <div style="font-size:13px;opacity:.75">{{ buildingDetail.contactPhone }}</div>
+                  <button class="pill" style="margin-top:14px;background:rgba(255,255,255,.18);color:#fff;padding:7px 14px;font-size:13px" onClick="{{ contactSdc }}">Envoyer un courriel</button>
+                </div>
+                <div style="border-radius:18px;padding:18px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:10px">
+                  <div class="lbl">Caractéristiques</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <sc-for list="{{ buildingDetail.specs }}" as="s" hint-placeholder-count="4">
+                      <div><div class="lbl" style="margin-bottom:2px">{{ s.label }}</div><div style="font-family:var(--font-heading);font-size:18px">{{ s.value }}</div></div>
+                    </sc-for>
+                  </div>
+                </div>
+                <button class="pill pill-dark" style="justify-content:center;padding:11px" onClick="{{ goNew }}">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                  Nouvelle campagne pour cet immeuble
+                </button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Clients ────────────── -->
+        <sc-if value="{{ isClients }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Clients" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:16px 0">
+              <div><span class="lbl">Catalogue</span><h2 style="margin:2px 0 0;font-size:32px">Clients</h2></div>
+              <button class="pill pill-dark">+ Ajouter</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div class="lbl" style="display:grid;grid-template-columns:1.7fr 120px 1.4fr 90px 90px 130px;gap:10px;padding:0 14px"><span>Nom</span><span>Type</span><span>Contact</span><span>Immeubles</span><span>Unités</span><span>Dernière campagne</span></div>
+              <sc-for list="{{ clients }}" as="c" hint-placeholder-count="4">
+                <div class="rowh" onClick="{{ c.open }}" style="display:grid;grid-template-columns:1.7fr 120px 1.4fr 90px 90px 130px;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.05);cursor:pointer">
+                  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                    <div style="width:32px;height:32px;flex:none;border-radius:999px;background:{{ c.avBg }};display:grid;place-items:center;font-size:11.5px;font-weight:500">{{ c.initials }}</div>
+                    <div style="min-width:0"><div style="font-size:14px;font-weight:500">{{ c.name }}</div><div style="font-size:11.5px;color:var(--color-neutral-500)">{{ c.address }}</div></div>
+                  </div>
+                  <span class="pill" style="padding:4px 10px;font-size:12px;background:{{ c.stBg }};color:{{ c.stFg }}">{{ c.type }}</span>
+                  <div style="font-size:13px;min-width:0"><div>{{ c.email }}</div><div style="font-size:11.5px;color:var(--color-neutral-500)">{{ c.phone }}</div></div>
+                  <span style="font-family:var(--font-heading);font-size:18px">{{ c.buildings }}</span>
+                  <span style="font-family:var(--font-heading);font-size:18px">{{ c.units }}</span>
+                  <span style="font-size:13px;color:var(--color-neutral-600)">{{ c.last }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Client detail ─────── -->
+        <sc-if value="{{ isClient }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Fiche client" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:16px 0">
+              <div style="display:flex;align-items:center;gap:12px">
+                <button class="ico" style="background:var(--color-neutral-100)" onClick="{{ goClients }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                </button>
+                <div style="width:42px;height:42px;border-radius:999px;background:{{ clientDetail.avBg }};display:grid;place-items:center;font-size:16px;font-weight:500">{{ clientDetail.initials }}</div>
+                <div>
+                  <span class="lbl">{{ clientDetail.type }}</span>
+                  <h2 style="margin:2px 0 0;font-size:30px">{{ clientDetail.name }}</h2>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="pill pill-light">Modifier la fiche</button>
+                <button class="pill pill-dark" onClick="{{ goNew }}">+ Nouvelle campagne</button>
+              </div>
+            </div>
+
+            <div class="tab-bar" style="margin-bottom:20px">
+              <button class="tab-btn {{ ctab0 }}" onClick="{{ setClientTab0 }}">Campagnes</button>
+              <button class="tab-btn {{ ctab1 }}" onClick="{{ setClientTab1 }}">Immeubles</button>
+              <button class="tab-btn {{ ctab2 }}" onClick="{{ setClientTab2 }}">Factures</button>
+              <button class="tab-btn {{ ctab3 }}" onClick="{{ setClientTab3 }}">Infos</button>
+            </div>
+
+            <sc-if value="{{ clientTabCamp }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div class="lbl" style="display:grid;grid-template-columns:1fr 100px 80px 100px 130px;gap:10px;padding:0 14px"><span>Campagne</span><span>Statut</span><span>Inscrits</span><span>Revenu</span><span>Clôture</span></div>
+                <sc-for list="{{ clientCamps }}" as="c" hint-placeholder-count="3">
+                  <div class="rowh" style="display:grid;grid-template-columns:1fr 100px 80px 100px 130px;gap:10px;align-items:center;padding:11px 14px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.05);font-size:13.5px">
+                    <span style="font-weight:500">{{ c.name }}</span>
+                    <span class="pill" style="padding:3px 10px;font-size:12px;background:{{ c.stBg }};color:{{ c.stFg }}">{{ c.statut }}</span>
+                    <span style="font-family:var(--font-heading);font-size:17px">{{ c.inscrits }}</span>
+                    <span style="font-family:var(--font-heading);font-size:15px">{{ c.rev }}</span>
+                    <span style="color:var(--color-neutral-600);font-size:12.5px">{{ c.date }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ clientTabBuildings }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+                <sc-for list="{{ clientBuildings }}" as="b" hint-placeholder-count="2">
+                  <div class="card-lift" style="border-radius:18px;padding:16px;background:{{ b.bg }};box-shadow:0 1px 2px rgba(43,43,45,.05)">
+                    <div style="font-family:var(--font-heading);font-size:19px;margin-bottom:4px">{{ b.name }}</div>
+                    <div style="font-size:12.5px;color:var(--color-neutral-600);margin-bottom:12px">{{ b.address }}</div>
+                    <div style="display:flex;gap:8px">
+                      <div style="flex:1;border-radius:10px;padding:8px;background:rgba(255,255,255,.7)"><div class="lbl">Unités</div><div style="font-family:var(--font-heading);font-size:19px">{{ b.units }}</div></div>
+                      <div style="flex:1;border-radius:10px;padding:8px;background:rgba(255,255,255,.7)"><div class="lbl">Campagnes</div><div style="font-family:var(--font-heading);font-size:19px">{{ b.camps }}</div></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ clientTabInvoices }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div class="lbl" style="display:grid;grid-template-columns:120px 1fr 100px 110px 100px;gap:10px;padding:0 14px"><span>N° facture</span><span>Description</span><span>Date</span><span>Montant</span><span>Statut</span></div>
+                <sc-for list="{{ clientInvoices }}" as="inv" hint-placeholder-count="4">
+                  <div class="rowh" style="display:grid;grid-template-columns:120px 1fr 100px 110px 100px;gap:10px;align-items:center;padding:11px 14px;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(43,43,45,.05);font-size:13.5px">
+                    <span style="font-family:var(--font-heading);font-size:15px">{{ inv.num }}</span>
+                    <span style="font-size:13px">{{ inv.desc }}</span>
+                    <span style="color:var(--color-neutral-600);font-size:12.5px">{{ inv.date }}</span>
+                    <span style="font-family:var(--font-heading);font-size:16px">{{ inv.montant }}</span>
+                    <span class="pill" style="padding:3px 10px;font-size:12px;background:{{ inv.stBg }};color:{{ inv.stFg }}">{{ inv.statut }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ clientTabInfo }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div style="border-radius:18px;padding:20px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:12px">
+                  <h4 style="margin:0;font-size:19px">Contact principal</h4>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Nom</span>{{ clientDetail.contactName }}</div>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Courriel</span>{{ clientDetail.contactEmail }}</div>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Téléphone</span>{{ clientDetail.contactPhone }}</div>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Rôle</span>{{ clientDetail.contactRole }}</div>
+                </div>
+                <div style="border-radius:18px;padding:20px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:12px">
+                  <h4 style="margin:0;font-size:19px">Compte</h4>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Adresse</span>{{ clientDetail.address }}</div>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Type</span>{{ clientDetail.type }}</div>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Client depuis</span>Janvier 2024</div>
+                  <div style="font-size:14px"><span class="lbl" style="display:block;margin-bottom:2px">Immeubles gérés</span>{{ clientDetail.buildings }} immeuble(s) · {{ clientDetail.units }} unités</div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ── Services ───────────── -->
+        <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Services" class="page-in">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:16px 0">
+              <div><span class="lbl">Catalogue</span><h2 style="margin:2px 0 0;font-size:32px">Services</h2></div>
+              <button class="pill pill-dark">+ Ajouter</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+              <sc-for list="{{ serviceCards }}" as="s" hint-placeholder-count="3">
+                <div class="card-lift" style="border-radius:18px;padding:20px;background:{{ s.bg }};box-shadow:0 1px 2px rgba(43,43,45,.05);display:flex;flex-direction:column;gap:14px">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                    <div>
+                      <span class="lbl">{{ s.cat }}</span>
+                      <div style="font-family:var(--font-heading);font-size:22px;line-height:1.15;margin-top:2px">{{ s.nameFr }}</div>
+                      <div style="font-size:12.5px;color:var(--color-neutral-600)">{{ s.nameEn }}</div>
+                    </div>
+                    <span class="pill" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.8)">Actif</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-600)">Durée</span><span>{{ s.duree }}</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-600)">Trappes</span><span>{{ s.trappes }}</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-600)">Prix appliqué</span><span style="font-family:var(--font-heading);font-size:17px">{{ s.prix }}</span></div>
+                  </div>
+                  <p style="margin:0;font-size:12.5px;color:var(--color-neutral-600)">{{ s.usage }}</p>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Pricing ─────────────── -->
+        <sc-if value="{{ isPricing }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Tarification" class="page-in" style="max-width:900px">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:16px 0">
+              <div><span class="lbl">Catalogue</span><h2 style="margin:2px 0 0;font-size:32px">Tarification par paliers</h2></div>
+              <button class="pill pill-light">+ Nouvelle grille</button>
+            </div>
+            <div style="border-radius:18px;padding:20px 22px;background:var(--color-neutral-100)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                <h4 style="margin:0;font-size:20px">Palier standard</h4>
+                <span style="font-size:12.5px;color:var(--color-neutral-600)">Appliquée à 3 campagnes actives</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div class="lbl" style="display:grid;grid-template-columns:88px 88px 126px 1fr;gap:12px;padding:0 14px"><span>De</span><span>À</span><span>Prix / unité</span><span>Position</span></div>
+                <sc-for list="{{ pricingRows }}" as="p" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:88px 88px 126px 1fr;gap:12px;align-items:center;padding:9px 14px;border-radius:14px;background:#fff">
+                    <input class="fld" style="background:var(--color-neutral-100)" value="{{ p.min }}" onChange="{{ p.setMin }}">
+                    <input class="fld" style="background:var(--color-neutral-100)" value="{{ p.max }}" onChange="{{ p.setMax }}">
+                    <input class="fld" style="background:var(--color-neutral-100)" value="{{ p.price }}" onChange="{{ p.setPrice }}">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <div style="flex:1;height:7px;border-radius:999px;background:var(--color-neutral-200);overflow:hidden">
+                        <div style="height:7px;border-radius:999px;width:{{ p.bar }};background:{{ p.barColor }};transition:width .3s"></div>
+                      </div>
+                      <span style="font-size:12px;color:var(--color-neutral-600);width:130px">{{ p.note }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:16px">
+                <button class="pill pill-light" onClick="{{ addTier }}">+ Ajouter un palier</button>
+                <button class="pill pill-dark" onClick="{{ savePricing }}">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ── Onboarding ──────────── -->
+        <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Bienvenue" class="page-in">
+            <div style="padding:32px 0 20px">
+              <span class="lbl">Nouveau compte</span>
+              <h2 style="margin:4px 0 8px;font-size:38px">Bienvenue sur cvacpro.</h2>
+              <p style="margin:0;font-size:15px;color:var(--color-neutral-700);max-width:540px;text-wrap:pretty">Trois étapes pour lancer votre première campagne d'inscription groupée et remplir votre agenda de la saison.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px">
+              <sc-for list="{{ onboardingSteps }}" as="s" hint-placeholder-count="3">
+                <div class="card-lift" style="border-radius:20px;padding:24px;background:{{ s.bg }};box-shadow:0 1px 3px rgba(43,43,45,.07);display:flex;flex-direction:column;gap:14px">
+                  <div style="width:44px;height:44px;border-radius:999px;background:{{ s.iconBg }};color:{{ s.iconFg }};display:grid;place-items:center">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ s.icon }}"></path></svg>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;letter-spacing:.04em;color:var(--color-neutral-500);margin-bottom:4px">ÉTAPE {{ s.n }}</div>
+                    <div style="font-family:var(--font-heading);font-size:22px;line-height:1.15;margin-bottom:6px">{{ s.title }}</div>
+                    <p style="margin:0;font-size:13.5px;color:var(--color-neutral-700)">{{ s.desc }}</p>
+                  </div>
+                  <button class="pill {{ s.btnCls }}" style="align-self:flex-start;padding:8px 16px;font-size:13.5px" onClick="{{ s.action }}">{{ s.btnLabel }}</button>
+                </div>
+              </sc-for>
+            </div>
+            <div style="border-radius:18px;padding:22px 26px;background:var(--color-neutral-100);display:flex;align-items:center;gap:18px">
+              <div style="flex:1">
+                <div style="font-size:15px;font-weight:500;margin-bottom:4px">Des questions ? Regardez la démonstration.</div>
+                <p style="margin:0;font-size:13.5px;color:var(--color-neutral-600)">Explorez un compte exemple avec des données réelles — campagne ouverte, portail résident, planification des techniciens.</p>
+              </div>
+              <button class="pill pill-dark" style="padding:12px 20px;white-space:nowrap" onClick="{{ doLogin }}">Voir la démo →</button>
+            </div>
+          </div>
+        </sc-if>
+
+      </main>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══ PORTAL RÉSIDENT ════════════════════════ -->
+<sc-if value="{{ isPortal }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Portail résident" style="min-height:calc(100vh - 36px)">
+    <div style="max-width:1080px;margin:0 auto 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <button class="pill pill-light" onClick="{{ backToApp }}">← Tableau de bord</button>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div style="display:flex;gap:4px;background:#fff;border-radius:999px;padding:4px">
+          <button class="pill {{ mobileCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setMobile }}">Mobile</button>
+          <button class="pill {{ deskCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setDesk }}">Bureau</button>
+        </div>
+        <div style="display:flex;gap:4px;background:#fff;border-radius:999px;padding:4px">
+          <button class="pill {{ stepsCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setFlowSteps }}">Par étapes</button>
+          <button class="pill {{ pageCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setFlowPage }}">Page unique</button>
+        </div>
+        <div style="display:flex;gap:4px;background:#fff;border-radius:999px;padding:4px">
+          <button class="pill {{ frCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setFr }}">FR</button>
+          <button class="pill {{ enCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setEn }}">EN</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="soft" style="margin:0 auto;width:{{ portalWidth }};max-width:100%;border-radius:26px;overflow:hidden">
+      <header style="display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:var(--color-neutral-100)">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:26px;height:26px;border-radius:999px;background:var(--color-accent);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:500">V</div>
+          <span style="font-size:14.5px;font-weight:500">Ventilation Pro Québec</span>
+        </div>
+        <span style="font-size:11.5px;color:var(--color-neutral-500)">RBQ-123456</span>
+      </header>
+
+      <!-- contract preview -->
+      <sc-if value="{{ portalContrat }}" hint-placeholder-val="{{ false }}">
+        <div class="step-fade" style="padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div style="border-radius:16px;padding:20px;background:var(--color-neutral-100)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;border-bottom:1px solid var(--color-neutral-200);padding-bottom:14px">
+              <div>
+                <div style="font-family:var(--font-heading);font-size:20px">Contrat de service</div>
+                <div class="lbl" style="margin-top:2px">N° {{ contractNum }}</div>
+              </div>
+              <div style="text-align:right" class="lbl"><div>Ventilation Pro Québec</div><div>RBQ-123456</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;font-size:13.5px">
+              <div>
+                <div class="lbl" style="margin-bottom:6px">PRESTATAIRE</div>
+                <div style="font-weight:500">Ventilation Pro Québec</div>
+                <div style="color:var(--color-neutral-600)">1234 rue des Entrepreneurs, Montréal QC</div>
+                <div style="color:var(--color-neutral-600)">RBQ-123456</div>
+              </div>
+              <div>
+                <div class="lbl" style="margin-bottom:6px">CLIENT</div>
+                <div style="font-weight:500">{{ f.owner || 'Résident de l\'unité ' + (f.unit || '—') }}</div>
+                <div style="color:var(--color-neutral-600)">Résidence du Parc, 123 Rue du Parc, Montréal</div>
+                <div style="color:var(--color-neutral-600)">Unité {{ f.unit || '—' }}</div>
+              </div>
+            </div>
+            <div style="border:1px solid var(--color-neutral-200);border-radius:12px;overflow:hidden;margin-bottom:14px">
+              <div class="lbl" style="padding:9px 12px;background:var(--color-neutral-100);border-bottom:1px solid var(--color-neutral-200)">SERVICES RETENUS</div>
+              <sc-for list="{{ summaryLines }}" as="l" hint-placeholder-count="2">
+                <div style="display:flex;justify-content:space-between;padding:9px 12px;border-bottom:1px solid var(--color-neutral-200);font-size:13.5px;color:{{ l.color }}">
+                  <span>{{ l.label }}</span><span>{{ l.value }}</span>
+                </div>
+              </sc-for>
+              <div style="display:flex;justify-content:space-between;padding:11px 12px;background:var(--color-neutral-100);font-family:var(--font-heading);font-size:18px">
+                <span>Total</span><span>{{ portalTotal }}</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:var(--color-accent-100)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div style="font-size:12.5px;color:var(--color-accent-800)">
+                <div style="font-weight:500;margin-bottom:2px">Signé électroniquement le {{ contractDate }}</div>
+                <div>Signature horodatée et scellée · identité vérifiée par courriel {{ f.email || '—' }}</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="pill pill-light" style="flex:1;justify-content:center" onClick="{{ downloadContract }}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+              Télécharger le PDF
+            </button>
+            <button class="pill pill-dark" style="flex:1.6;justify-content:center" onClick="{{ finishPortal }}">Terminer →</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ portalDone }}" hint-placeholder-val="{{ false }}">
+        <div class="step-fade" style="padding:46px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px">
+          <div style="width:52px;height:52px;border-radius:999px;background:var(--color-accent);color:#fff;display:grid;place-items:center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          </div>
+          <h3 style="margin:0;font-size:26px">{{ P.thanks }}</h3>
+          <p style="margin:0;font-size:14px;color:var(--color-neutral-700);max-width:380px">{{ P.thanksBody }}</p>
+          <div style="border-radius:16px;padding:14px 16px;background:var(--color-neutral-100);text-align:left;width:min(360px,100%)">
+            <span class="lbl">{{ P.nextStep }}</span>
+            <p style="margin:5px 0 0;font-size:13.5px">{{ P.nextStepBody }}</p>
+          </div>
+          <button class="pill pill-light" onClick="{{ resetPortal }}">{{ P.restart }}</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ portalRefuse }}" hint-placeholder-val="{{ false }}">
+        <div class="step-fade" style="padding:22px;display:flex;flex-direction:column;gap:14px">
+          <div><span class="lbl">{{ P.refuseKicker }}</span><h4 style="margin:3px 0 0;font-size:21px">{{ P.refuseTitle }}</h4></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ motifs }}" as="m" hint-placeholder-count="5">
+              <button onClick="{{ m.set }}" style="display:flex;align-items:center;gap:11px;padding:12px 15px;border:none;border-radius:14px;background:{{ m.bg }};color:{{ m.fg }};cursor:pointer;font:inherit;font-size:13.5px;text-align:left;transition:background .12s">
+                <span style="width:18px;height:18px;flex:none;border-radius:999px;border:1.5px solid {{ m.ring }};background:{{ m.dot }};transition:all .12s"></span>{{ m.label }}
+              </button>
+            </sc-for>
+          </div>
+          <div><div class="lbl" style="margin-bottom:5px">{{ P.noteOptional }}</div><textarea class="fld" style="min-height:70px;resize:vertical" value="{{ refusNotes }}" onChange="{{ onRefusNotes }}"></textarea></div>
+          <div style="display:flex;gap:10px">
+            <button class="pill pill-light" style="flex:1;justify-content:center" onClick="{{ portalHome }}">{{ P.back }}</button>
+            <button class="pill pill-dark" style="flex:1;justify-content:center" onClick="{{ submitRefuse }}" disabled="{{ noMotif }}">{{ P.confirmRefuse }}</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ portalForm }}" hint-placeholder-val="{{ true }}">
+        <div class="step-fade" style="padding:20px;display:flex;flex-direction:column;gap:14px">
+          <sc-if value="{{ showSteps }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:6px">
+              <sc-for list="{{ portalSteps }}" as="s" hint-placeholder-count="4">
+                <div style="flex:1"><div style="height:4px;border-radius:999px;background:{{ s.bar }};transition:background .3s"></div><div style="font-size:11px;margin-top:5px;color:{{ s.color }}">{{ s.label }}</div></div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="border-radius:20px;padding:20px;background:var(--color-accent);color:#fff">
+                <div style="font-size:11.5px;opacity:.8">{{ P.campaignOpen }}</div>
+                <h3 style="margin:6px 0 2px;font-size:26px;color:#fff">Résidence du Parc</h3>
+                <div style="font-size:13px;opacity:.85">123 Rue du Parc · 32 {{ P.units }}</div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:flex-end">
+                  <div><div style="font-family:var(--font-heading);font-size:34px;line-height:1">{{ tierPrice }}</div><div style="font-size:11.5px;opacity:.8">{{ P.currentPrice }}</div></div>
+                  <div style="font-size:12px;opacity:.85">{{ P.closes }} 12/04/2026</div>
+                </div>
+              </div>
+              <div style="border-radius:16px;padding:15px 17px;background:var(--color-neutral-100)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+                  <span style="font-size:14.5px;font-weight:500">{{ nbConfirme }} {{ P.registrations }}</span>
+                  <span class="pill" style="padding:3px 11px;font-size:11.5px;background:#fff;color:var(--color-accent-800)">{{ P.toNextTier }}</span>
+                </div>
+                <div style="height:9px;border-radius:999px;background:#fff;overflow:hidden"><div style="height:9px;border-radius:999px;width:{{ pctConfirme }};background:var(--color-accent);transition:width .4s"></div></div>
+                <p style="margin:9px 0 0;font-size:12.5px;color:var(--color-neutral-600)">{{ P.gaugeNote }}</p>
+              </div>
+              <sc-if value="{{ showHomeCta }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <p style="margin:0;font-size:14px;color:var(--color-neutral-700);text-wrap:pretty">{{ P.intro }}</p>
+                  <button class="pill pill-dark" style="justify-content:center;padding:14px;font-size:15px" onClick="{{ portalStart }}">{{ P.join }}</button>
+                  <button class="pill pill-quiet" style="justify-content:center" onClick="{{ portalDecline }}">{{ P.decline }}</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showServices }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-if value="{{ syndicatLabel }}" hint-placeholder-val="{{ false }}">
+                <div style="border-radius:16px;padding:13px 16px;background:var(--color-accent-100);color:var(--color-accent-800)">
+                  <div style="font-size:14px;font-weight:500">{{ P.includedBySdc }}</div>
+                  <div style="font-size:13px;margin-top:2px">{{ syndicatLabel }}</div>
+                </div>
+              </sc-if>
+              <span class="lbl">{{ P.optionalTitle }}</span>
+              <sc-for list="{{ portalServices }}" as="s" hint-placeholder-count="2">
+                <div onClick="{{ s.toggle }}" style="border-radius:16px;padding:15px 17px;background:{{ s.bg }};cursor:pointer;box-shadow:0 1px 2px rgba(43,43,45,.05);transition:box-shadow .2s" style-hover="box-shadow:0 8px 24px rgba(43,43,45,.12)">
+                  <div style="display:flex;align-items:flex-start;gap:12px">
+                    <span style="width:22px;height:22px;flex:none;margin-top:2px;border-radius:7px;border:1.5px solid {{ s.markBorder }};background:{{ s.mark }};display:grid;place-items:center;color:#fff;transition:all .15s">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ s.checkOpacity }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                    </span>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:15px;font-weight:500">{{ s.name }}</div>
+                      <div style="font-size:12.5px;opacity:.7">{{ s.meta }}</div>
+                    </div>
+                    <div style="font-family:var(--font-heading);font-size:19px">{{ s.price }}</div>
+                  </div>
+                  <sc-if value="{{ s.showTrappes }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+                      <span style="font-size:13px;flex:1">{{ P.vents }}</span>
+                      <button class="pill pill-light" style="width:32px;height:32px;padding:0;justify-content:center" onClick="{{ s.less }}">−</button>
+                      <span style="font-family:var(--font-heading);font-size:19px;width:26px;text-align:center">{{ s.trappes }}</span>
+                      <button class="pill pill-light" style="width:32px;height:32px;padding:0;justify-content:center" onClick="{{ s.more }}">+</button>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 17px;border-radius:16px;background:#1d1f20;color:#fff">
+                <span style="font-size:14.5px">{{ P.estimatedTotal }}</span>
+                <span style="font-family:var(--font-heading);font-size:24px">{{ portalTotal }}</span>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showContact }}" hint-placeholder-val="{{ false }}">
+            <div style="border-radius:16px;padding:17px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:12px">
+              <span class="lbl">{{ P.contactTitle }}</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+                <div><div class="lbl" style="margin-bottom:5px">{{ P.unitNo }} *</div><input class="fld" style="background:#fff" value="{{ f.unit }}" onChange="{{ setF.unit }}" placeholder="302"></div>
+                <div><div class="lbl" style="margin-bottom:5px">{{ P.phone }}</div><input class="fld" style="background:#fff" value="{{ f.phone }}" onChange="{{ setF.phone }}" placeholder="514-555-0100"></div>
+                <div style="grid-column:1/-1"><div class="lbl" style="margin-bottom:5px">{{ P.fullName }} *</div><input class="fld" style="background:#fff" value="{{ f.owner }}" onChange="{{ setF.owner }}" placeholder="Jean Tremblay"></div>
+                <div style="grid-column:1/-1"><div class="lbl" style="margin-bottom:5px">{{ P.email }} *</div><input class="fld" style="background:#fff" type="email" value="{{ f.email }}" onChange="{{ setF.email }}" placeholder="jean@courriel.ca"></div>
+              </div>
+              <button onClick="{{ toggleLoue }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border:none;border-radius:14px;background:{{ loueBg }};cursor:pointer;font:inherit;font-size:13.5px;text-align:left;transition:background .12s">
+                <span style="width:20px;height:20px;flex:none;border-radius:6px;border:1.5px solid {{ loueBorder }};background:{{ loueMark }};display:grid;place-items:center;color:#fff;transition:all .15s">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ loueCheck }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                </span>{{ P.rented }}
+              </button>
+              <sc-if value="{{ f.estLoue }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <p style="margin:0;font-size:12.5px;color:var(--color-neutral-600)">{{ P.tenantNote }}</p>
+                  <div><div class="lbl" style="margin-bottom:5px">{{ P.tenantName }}</div><input class="fld" style="background:#fff" value="{{ f.locName }}" onChange="{{ setF.locName }}"></div>
+                  <div><div class="lbl" style="margin-bottom:5px">{{ P.tenantEmail }}</div><input class="fld" style="background:#fff" value="{{ f.locEmail }}" onChange="{{ setF.locEmail }}"></div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showSign }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="border-radius:16px;padding:16px 18px;background:var(--color-neutral-100)">
+                <span class="lbl">{{ P.summary }}</span>
+                <div style="margin-top:8px">
+                  <sc-for list="{{ summaryLines }}" as="l" hint-placeholder-count="3">
+                    <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:4px 0;color:{{ l.color }}"><span>{{ l.label }}</span><span>{{ l.value }}</span></div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;padding-top:10px;border-top:1px solid var(--color-neutral-200)">
+                  <span style="font-size:14.5px;font-weight:500">{{ P.totalDue }}</span>
+                  <span style="font-family:var(--font-heading);font-size:26px">{{ portalTotal }}</span>
+                </div>
+                <p style="margin:8px 0 0;font-size:12px;color:var(--color-neutral-600)">{{ P.paymentNote }}</p>
+              </div>
+              <div style="border-radius:16px;padding:16px 18px;background:var(--color-neutral-100)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                  <span class="lbl">{{ P.signatureTitle }}</span>
+                  <button class="pill pill-light" style="padding:5px 12px;font-size:12px" onClick="{{ clearSign }}">{{ P.clear }}</button>
+                </div>
+                <canvas ref="{{ canvasRef }}" width="640" height="200" style="width:100%;height:130px;border-radius:12px;background:#fff;touch-action:none;display:block;border:1px solid var(--color-neutral-200)"></canvas>
+                <p style="margin:8px 0 0;font-size:12px;color:var(--color-neutral-600)">{{ P.signHint }}</p>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showNav }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:10px">
+              <button class="pill pill-light" style="flex:1;justify-content:center;padding:12px" onClick="{{ portalBack }}">{{ P.back }}</button>
+              <button class="pill pill-dark" style="flex:1.6;justify-content:center;padding:12px" onClick="{{ portalNext }}" disabled="{{ nextBlocked }}">{{ portalNextLabel }}</button>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══ PORTAL LOCATAIRE ═══════════════════════ -->
+<sc-if value="{{ isTenant }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Portail locataire" style="min-height:calc(100vh - 36px)">
+    <div style="max-width:1080px;margin:0 auto 16px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <button class="pill pill-light" onClick="{{ backToApp }}">← Tableau de bord</button>
+      <div style="display:flex;gap:4px;background:#fff;border-radius:999px;padding:4px">
+        <button class="pill {{ frCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setFr }}">FR</button>
+        <button class="pill {{ enCls }}" style="padding:7px 13px;font-size:12.5px" onClick="{{ setEn }}">EN</button>
+      </div>
+    </div>
+    <div class="soft" style="margin:0 auto;width:420px;max-width:100%;border-radius:26px;overflow:hidden">
+      <header style="display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:var(--color-neutral-100)">
+        <span style="font-size:14.5px;font-weight:500">Ventilation Pro Québec</span>
+        <span class="pill" style="padding:3px 10px;font-size:11.5px;background:#fff">{{ P.tenantBadge }}</span>
+      </header>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+        <div>
+          <span class="lbl">{{ P.tenantKicker }}</span>
+          <h4 style="margin:4px 0 4px;font-size:21px">{{ P.tenantTitle }}</h4>
+          <p style="margin:0;font-size:13.5px;color:var(--color-neutral-700)">{{ P.tenantBody }}</p>
+        </div>
+        <div style="border-radius:16px;padding:15px 17px;background:var(--color-neutral-100);display:flex;flex-direction:column;gap:7px;font-size:13.5px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-600)">{{ P.unitNo }}</span><span style="font-family:var(--font-heading);font-size:17px">305</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-600)">{{ P.ownerLabel }}</span><span>Simon Pelletier</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--color-neutral-600)">{{ P.buildingLabel }}</span><span>Résidence du Parc</span></div>
+          <div style="margin-top:4px;padding-top:8px;border-top:1px solid var(--color-neutral-200)">
+            <div style="color:var(--color-neutral-600);margin-bottom:3px">{{ P.workLabel }}</div>{{ tenantServices }}
+          </div>
+        </div>
+        <div style="border-radius:16px;padding:15px 17px;background:var(--color-accent);color:#fff">
+          <div style="font-size:11.5px;opacity:.85;display:flex;align-items:center;gap:6px"><span class="pdot pdot-pulse" style="background:#fff"></span>{{ P.proposedSlot }}</div>
+          <div style="font-family:var(--font-heading);font-size:24px;margin-top:3px">samedi 18 avril · 10 h 45 – 12 h 00</div>
+          <div style="font-size:12.5px;opacity:.85;margin-top:4px">{{ P.slotNote }}</div>
+        </div>
+        <sc-if value="{{ tenantPending }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <button class="pill pill-dark" style="justify-content:center;padding:13px;font-size:14.5px" onClick="{{ tenantAccept }}">{{ P.accessYes }}</button>
+            <button class="pill pill-light" style="justify-content:center;padding:12px" onClick="{{ tenantRefuse }}">{{ P.accessNo }}</button>
+            <p style="margin:0;font-size:12px;color:var(--color-neutral-500);text-align:center">{{ P.noPriceNote }}</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ tenantAnswered }}" hint-placeholder-val="{{ false }}">
+          <div style="border-radius:16px;padding:17px;text-align:center;background:{{ tenantResultBg }}">
+            <div style="font-family:var(--font-heading);font-size:20px">{{ tenantResultTitle }}</div>
+            <p style="margin:6px 0 10px;font-size:13px;color:var(--color-neutral-700)">{{ tenantResultBody }}</p>
+            <button class="pill pill-light" style="font-size:12.5px" onClick="{{ tenantReset }}">{{ P.changeAnswer }}</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══ DIALOG ════════════════════════════════ -->
+<sc-if value="{{ dialog }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;display:grid;place-items:center;padding:20px;background:rgba(29,31,32,.38);backdrop-filter:blur(4px);z-index:1000">
+    <div class="soft" style="width:min(430px,100%);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:12px">
+      <h4 style="margin:0;font-size:22px">{{ dialogTitle }}</h4>
+      <p style="margin:0;font-size:14px;color:var(--color-neutral-700)">{{ dialogBody }}</p>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:6px">
+        <button class="pill pill-light" onClick="{{ closeDialog }}">Annuler</button>
+        <button class="pill pill-dark" onClick="{{ confirmDialog }}">{{ dialogAction }}</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;planningView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;calendrier&quot;,&quot;semaine&quot;,&quot;liste&quot;],&quot;default&quot;:&quot;calendrier&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Structure&quot;},&quot;portalFlow&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;etapes&quot;,&quot;page&quot;],&quot;default&quot;:&quot;etapes&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Portail résident&quot;},&quot;portalDevice&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;mobile&quot;,&quot;bureau&quot;],&quot;default&quot;:&quot;mobile&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Portail résident&quot;}}">
+class Component extends DCLogic {
+  state = {
+    view: 'login', loginEmail: 'admin@ventilationpro.ca', loginPass: '',
+    filter: 'tous', search: '', gSearch: '', toasts: [], dialog: null, board: 'actives',
+    sortCol: 'unit', sortDir: 'asc', unitPage: 0, perPage: 10, selected: {},
+    darkMode: false, notifOpen: false, notifRead: false,
+    wstep: 0,
+    w: { name: 'Nettoyage printemps 2026', building: 'b1', client: 'c1', open: '2026-03-22', close: '2026-04-12', notes: '',
+         services: { s1: true, s2: true, s3: true }, payeur: { s1: 'resident', s2: 'resident', s3: 'syndicat' },
+         relanceJours: 7, relanceFinale: 72, relancesMax: 2, echelle: 85, deplacement: 5, resaAuto: 72 },
+    g: { date: '2026-04-18', start: '08:00', end: '17:00', techs: 3 },
+    slotsOn: false, planView: null, day: 0, planTech: 0,
+    techModal: null,
+    lang: 'fr', device: null, flow: null,
+    pstep: 'accueil', sel: { s1: true }, trappes: { s3: 5 },
+    f: { unit: '', owner: '', email: '', phone: '', estLoue: false, locName: '', locEmail: '' },
+    signed: false, refusMotif: '', refusNotes: '', tenant: null,
+    tiers: [{ min: 1, max: '9', price: 17900 }, { min: 10, max: '19', price: 16900 }, { min: 20, max: '29', price: 15900 }, { min: 30, max: '39', price: 14900 }, { min: 40, max: '—', price: 13900 }],
+    buildingKey: 0,
+    clientKey: 0, clientTab: 'campagnes',
+    toast: '',
+  };
+
+  SERVICES = [
+    { id: 's1', fr: 'Conduit de sécheuse', en: 'Dryer duct', cat: 'Sécheuse', dmin: 30, dmax: 45, trappes: false, tiered: true },
+    { id: 's2', fr: 'Thermopompe murale', en: 'Wall heat pump', cat: 'Thermopompe', dmin: 60, dmax: 90, trappes: false, price: 12900 },
+    { id: 's3', fr: "Échangeur d'air ERV", en: 'ERV air exchanger', cat: 'Échangeur', dmin: 45, dmax: 60, trappes: true, perTrappe: 10, price: 8900, trappePrice: 1500 },
+  ];
+
+  NAMES = ['Jean Tremblay', 'Marie Gagnon', 'Luc Bergeron', 'Sophie Roy', 'Martin Côté', 'Nathalie Fortin', 'Éric Lavoie', 'Julie Bouchard', 'Patrick Morin', 'Isabelle Gauthier', 'Simon Pelletier', 'Caroline Bélanger', 'Daniel Lévesque', 'Chantal Poirier', 'François Girard', 'Mélanie Ouellet', 'Alain Dubé', 'Véronique Caron', 'Sylvain Nadeau', 'Josée Cloutier', 'Michel Lapointe', 'Annie Beaulieu', 'Guy Rousseau', 'Hélène Thibault', 'Pierre Boivin', 'Line Desjardins', 'Robert Grenier', 'Sonia Léger', 'Marc Sauvé', 'Diane Turcotte', 'Yves Charette', 'Claudine Hébert'];
+  TECHS = ['Éric Lavoie', 'Maxime Tanguay', 'Sarah Bilodeau'];
+  AV = ['#dde9f4', '#e8e8eb', '#eef5f9', '#dfe9f0'];
+
+  BUILDINGS_DATA = [
+    { client:'SDC Résidence du Parc', name:'Résidence du Parc', address:'123 Rue du Parc, Montréal H2X 1A1', units:32, floors:6, exchanger:'Oui', state:'Ouverte', pulse:true, bg:'var(--color-accent-100)', stBg:'var(--color-accent)', stFg:'#fff', contactName:'Marielle Dubé', contactRole:'Gestionnaire SDC', contactEmail:'gestionnaire@sdc-parc.ca', contactPhone:'514-555-0200' },
+    { client:'Gestion Métropole', name:'Tour Belvédère', address:'900 boul. Le Corbusier, Laval', units:48, floors:12, exchanger:'Oui', state:'Brouillon', pulse:false, bg:'var(--color-neutral-100)', stBg:'#fff', stFg:'var(--color-neutral-700)', contactName:'Pierre Arsenault', contactRole:'Directeur immobilier', contactEmail:'p.arsenault@gi-metropole.ca', contactPhone:'450-555-0310' },
+    { client:'SDC Le Domaine', name:'Le Domaine', address:'45 rue Saint-Charles, Longueuil', units:18, floors:4, exchanger:'Non', state:'Ouverte', pulse:true, bg:'var(--color-accent-100)', stBg:'var(--color-accent)', stFg:'#fff', contactName:'François Bergeron', contactRole:'Président SDC', contactEmail:'conseil@ledomaine.ca', contactPhone:'450-555-0144' },
+    { client:'Gestion Métropole', name:'Villa Nova', address:'7100 av. Taschereau, Brossard', units:24, floors:5, exchanger:'Oui', state:'Clôturé', pulse:false, bg:'var(--color-accent-200)', stBg:'#fff', stFg:'var(--color-neutral-700)', contactName:'Élise Hamelin', contactRole:'Coordonnatrice', contactEmail:'e.hamelin@gi-metropole.ca', contactPhone:'450-555-0322' },
+    { client:'SDC Les Jardins', name:'Les Jardins', address:'210 Grande Allée, Québec', units:40, floors:8, exchanger:'Non', state:'Réservations', pulse:false, bg:'var(--color-neutral-100)', stBg:'#fff', stFg:'var(--color-neutral-700)', contactName:'Sylvain Pelchat', contactRole:'Administrateur', contactEmail:'admin@les-jardins.ca', contactPhone:'418-555-0195' },
+    { client:'SDC Sextant', name:'Le Sextant', address:'18 rue King Ouest, Sherbrooke', units:30, floors:6, exchanger:'Oui', state:'Terminé', pulse:false, bg:'var(--color-neutral-100)', stBg:'#fff', stFg:'var(--color-neutral-700)', contactName:'Joël Simard', contactRole:'Conseil SDC', contactEmail:'admin@sextant.ca', contactPhone:'819-555-0177' },
+  ];
+
+  CLIENTS_DATA = [
+    { name:'SDC Résidence du Parc', address:'123 Rue du Parc, Montréal', type:'Syndicat', email:'gestionnaire@sdc-parc.ca', phone:'514-555-0200', buildings:1, units:32, last:'avril 2026', initials:'RP', avBg:'var(--color-accent-200)', stBg:'var(--color-accent)', stFg:'#fff', contactName:'Marielle Dubé', contactRole:'Gestionnaire SDC', contactEmail:'gestionnaire@sdc-parc.ca', contactPhone:'514-555-0200' },
+    { name:'Gestion Immobilière Métropole', address:'400 rue Sherbrooke, Montréal', type:'Gestionnaire', email:'contrats@gi-metropole.ca', phone:'514-555-0311', buildings:2, units:72, last:'mars 2026', initials:'GM', avBg:'var(--color-accent-100)', stBg:'var(--color-neutral-200)', stFg:'var(--color-neutral-700)', contactName:'Pierre Arsenault', contactRole:'Directeur immobilier', contactEmail:'p.arsenault@gi-metropole.ca', contactPhone:'450-555-0310' },
+    { name:'SDC Le Domaine', address:'45 rue Saint-Charles, Longueuil', type:'Syndicat', email:'conseil@ledomaine.ca', phone:'450-555-0144', buildings:1, units:18, last:'avril 2026', initials:'LD', avBg:'var(--color-accent-200)', stBg:'var(--color-accent)', stFg:'#fff', contactName:'François Bergeron', contactRole:'Président SDC', contactEmail:'conseil@ledomaine.ca', contactPhone:'450-555-0144' },
+    { name:'Fiducie Sextant', address:'18 rue King Ouest, Sherbrooke', type:'Propriétaire', email:'admin@sextant.ca', phone:'819-555-0177', buildings:1, units:30, last:'février 2026', initials:'FS', avBg:'var(--color-neutral-200)', stBg:'var(--color-neutral-200)', stFg:'var(--color-neutral-700)', contactName:'Joël Simard', contactRole:'Conseil SDC', contactEmail:'admin@sextant.ca', contactPhone:'819-555-0177' },
+  ];
+
+  STR = {
+    campaignOpen:['Campagne ouverte','Campaign open'],units:['unités','units'],currentPrice:['prix actuel par unité','current price per unit'],closes:['Clôture le','Closes'],
+    registrations:['inscriptions confirmées','confirmed registrations'],toNextTier:['+5 pour 149 $','+5 for $149'],
+    gaugeNote:['Chaque inscription fait baisser le prix pour tout le monde, rétroactivement.','Every registration lowers the price for everyone, retroactively.'],
+    intro:['Votre syndicat a mandaté Ventilation Pro Québec pour le nettoyage groupé des conduits.','Your condo board has retained Ventilation Pro Québec for group duct cleaning.'],
+    join:['Je participe',"I'm in"],decline:['Je ne souhaite pas participer','I do not wish to participate'],
+    includedBySdc:['Inclus par votre syndicat','Included by your condo board'],optionalTitle:['Services optionnels à votre charge','Optional services at your cost'],
+    vents:['Nombre de trappes','Number of vents'],estimatedTotal:['Total estimé','Estimated total'],contactTitle:['Vos coordonnées','Your contact information'],
+    unitNo:["Numéro d'unité",'Unit number'],fullName:['Nom complet','Full name'],email:['Courriel','Email'],phone:['Téléphone','Phone'],
+    rented:['Cette unité est louée à un locataire','This unit is rented to a tenant'],
+    tenantNote:["Le locataire recevra un lien distinct pour confirmer l'accès, sans voir les prix.",'The tenant receives a separate link to confirm access, without seeing prices.'],
+    tenantName:['Nom du locataire','Tenant name'],tenantEmail:['Courriel du locataire','Tenant email'],
+    summary:['Récapitulatif','Summary'],totalDue:['Total à payer','Total due'],paymentNote:["Règlement sur place. Aucun prépaiement.",'Payment on site. No prepayment.'],
+    signatureTitle:['Signature électronique','Electronic signature'],clear:['Effacer','Clear'],signHint:['Signez avec le doigt ou la souris.','Sign with your finger or mouse.'],
+    back:['Retour','Back'],continue:['Continuer','Continue'],confirm:['Confirmer mon inscription','Confirm my registration'],
+    thanks:['Inscription confirmée','Registration confirmed'],
+    thanksBody:['Un courriel de confirmation vient de vous être envoyé avec votre contrat signé.','A confirmation email with your signed contract is on its way.'],
+    nextStep:['Prochaine étape','Next step'],
+    nextStepBody:["À la clôture, vous recevrez une proposition de créneau.",'After closing you will receive a proposed time slot.'],
+    restart:['Recommencer la démonstration','Restart the demo'],
+    refuseKicker:['Refus','Declining'],refuseTitle:['Pourquoi ne participez-vous pas ?','Why are you not taking part?'],
+    noteOptional:['Note (optionnel)','Note (optional)'],confirmRefuse:['Confirmer le refus','Confirm decline'],
+    tenantBadge:['Accès locataire','Tenant access'],tenantKicker:["Confirmation d'accès",'Access confirmation'],
+    tenantTitle:["Serez-vous présent pour laisser entrer le technicien ?",'Will you be there to let the technician in?'],
+    tenantBody:["Le propriétaire de votre unité a inscrit le logement à la campagne d'entretien.",'The owner of your unit registered it for the building maintenance campaign.'],
+    ownerLabel:['Propriétaire','Owner'],buildingLabel:['Immeuble','Building'],workLabel:['Travaux prévus','Scheduled work'],
+    proposedSlot:['Créneau proposé','Proposed slot'],slotNote:['Durée estimée 75 min.','Estimated 75 min.'],
+    accessYes:['Je confirme, je serai présent','Confirmed, I will be there'],accessNo:['Je ne serai pas présent','I will not be there'],
+    noPriceNote:["Aucun montant n'est à votre charge.",'No amount is charged to you.'],changeAnswer:['Modifier ma réponse','Change my answer'],
+  };
+
+  NAV = [
+    {key:'campaigns',label:'Campagnes'},{key:'campaign',label:'Campagne active',badge:'32'},{key:'planning',label:'Planification'},
+    {key:'new',label:'Nouvelle'},{key:'buildings',label:'Immeubles'},{key:'clients',label:'Clients'},
+    {key:'services',label:'Services'},{key:'pricing',label:'Tarification'},
+  ];
+  RAIL = [
+    {key:'campaigns',title:'Campagnes',d:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z'},
+    {key:'planning',title:'Planification',d:'M3 5h18v16H3zM8 3v4M16 3v4M3 10h18'},
+    {key:'buildings',title:'Immeubles',d:'M4 21V4h10v17M14 9h6v12M8 8h2M8 12h2M8 16h2'},
+    {key:'clients',title:'Clients',d:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8'},
+    {key:'pricing',title:'Tarification',d:'M20 12l-8 8-9-9V3h8zM7.5 7.5h.01'},
+  ];
+
+  money(c){return Math.round(c/100)+' $';}
+  initials(n){const p=n.split(' ');return(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase();}
+  avBg(i){return this.AV[i%this.AV.length];}
+
+  addToast(msg,type){
+    const id=Date.now()+Math.random();
+    const cfg=type==='success'?{bg:'#1d1f20',fg:'#f7f7f8',icon:'M20 6 9 17l-5-5'}:type==='error'?{bg:'oklch(55% .18 25)',fg:'#fff',icon:'M18 6 6 18M6 6l12 12'}:{bg:'var(--color-accent)',fg:'#fff',icon:'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z'};
+    this.setState(s=>({toasts:[...s.toasts,{id,msg,...cfg}]}));
+    setTimeout(()=>this.setState(s=>({toasts:s.toasts.filter(t=>t.id!==id)})),3500);
+  }
+
+  componentDidMount(){
+    this._keys=e=>{
+      if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+      const v=this.state.view;
+      if(e.key==='Escape')this.setState({dialog:null,notifOpen:false,techModal:null});
+      if((e.key==='n'||e.key==='N')&&['campaigns','campaign'].includes(v))this.setState({view:'new',selected:{}});
+      if(e.key==='d'||e.key==='D'){const dm=!this.state.darkMode;this.setState({darkMode:dm});this.addToast(dm?'Mode sombre activé':'Mode clair activé','info');}
+    };
+    this._clickOut=e=>{
+      if(this.state.notifOpen&&!e.target.closest('.notif-wrap'))this.setState({notifOpen:false});
+    };
+    window.addEventListener('keydown',this._keys);
+    document.addEventListener('click',this._clickOut);
+  }
+  componentWillUnmount(){
+    window.removeEventListener('keydown',this._keys);
+    document.removeEventListener('click',this._clickOut);
+  }
+
+  regs(){
+    return this.NAMES.map((owner,i)=>{
+      const statut=i%9===3?'attente':(i%11===5?'refuse':'confirme');
+      const floor=Math.floor(i/6)+1;
+      const unit=String(floor)+'0'+((i%6)+1);
+      const ids=i%3===0?['s1','s3']:(i%3===1?['s1']:['s1','s2','s3']);
+      const trappes=ids.indexOf('s3')>=0?4+(i%4):0;
+      const slug=owner.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]+/g,'.');
+      return{i,unit,owner,email:slug+'@courriel.ca',statut,ids,trappes,estLoue:i%5===0,acces:i%10===0?'confirme':'attente'};
+    });
+  }
+  duree(r){
+    const ds=r.ids.map(id=>{const s=this.SERVICES.filter(x=>x.id===id)[0];return s.dmax+(s.trappes?r.trappes*s.perTrappe:0);}).sort((a,b)=>b-a);
+    let t=0;ds.forEach((d,i)=>{t+=i===0?d:d*(this.state.w.echelle/100);});
+    t+=Number(this.state.w.deplacement)||0;return Math.ceil(t/15)*15;
+  }
+  priceOf(r,tp){let total=0;r.ids.forEach(id=>{if(id==='s3')return;const s=this.SERVICES.filter(x=>x.id===id)[0];total+=s.tiered?tp:s.price;});return total;}
+  tierFor(n){const t=this.state.tiers;for(let i=t.length-1;i>=0;i--)if(n>=Number(t[i].min))return t[i];return t[0];}
+  hm(m){const h=Math.floor(m/60),mm=m%60;return h+' h'+(mm?' '+String(mm).padStart(2,'0'):'');}
+
+  buildSlots(confirmes){
+    const n=Math.max(1,Math.min(3,Number(this.state.g.techs)||3));
+    const ds=8*60,de=17*60;
+    const st=[];for(let i=0;i<n;i++)st.push({day:0,t:ds});
+    const out=[];
+    confirmes.forEach((r,idx)=>{
+      let k=0;for(let i=1;i<n;i++)if(st[i].day<st[k].day||(st[i].day===st[k].day&&st[i].t<st[k].t))k=i;
+      const d=this.duree(r);
+      if(st[k].t+d>de){st[k].day+=1;st[k].t=ds;}
+      const conflict=st[k].t+d>de+30;
+      out.push({tech:k,techName:this.TECHS[k],day:st[k].day,start:st[k].t,end:st[k].t+d,duree:d,reg:r,statut:idx<15?'reservee':'proposee',conflict});
+      st[k].t+=d;
+    });
+    return out;
+  }
+
+  canvasRef=node=>{
+    if(!node||node.__wired)return;
+    node.__wired=true;
+    const ctx=node.getContext('2d');ctx.scale(2,2);
+    let drawing=false;
+    const pos=e=>{const r=node.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return{x:(p.clientX-r.left)*(node.width/2/r.width),y:(p.clientY-r.top)*(node.height/2/r.height)};};
+    const start=e=>{drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);if(!this.state.signed)this.setState({signed:true});};
+    const move=e=>{if(!drawing)return;e.preventDefault();const p=pos(e);ctx.strokeStyle='#1d1f20';ctx.lineWidth=1.6;ctx.lineCap='round';ctx.lineTo(p.x,p.y);ctx.stroke();};
+    const stop=()=>{drawing=false;};
+    node.addEventListener('mousedown',start);node.addEventListener('mousemove',move);window.addEventListener('mouseup',stop);
+    node.addEventListener('touchstart',start,{passive:false});node.addEventListener('touchmove',move,{passive:false});node.addEventListener('touchend',stop);
+    node.__clear=()=>ctx.clearRect(0,0,node.width,node.height);
+    this._canvas=node;
+  };
+
+  renderVals(){
+    const s=this.state;
+    const set=(k,v)=>this.setState({[k]:v});
+    const setIn=(o,k,v)=>this.setState({[o]:Object.assign({},s[o],{[k]:v})});
+    const go=v=>()=>this.setState({view:v,selected:{},notifOpen:false});
+    const L=s.lang==='fr'?0:1;
+    const P={};Object.keys(this.STR).forEach(k=>{P[k]=this.STR[k][L];});
+    const money=c=>this.money(c);
+    const pd='pill-dark',pl='pill-light',pq='pill-quiet';
+
+    const regs=this.regs();
+    const confirmes=regs.filter(r=>r.statut==='confirme');
+    const refuses=regs.filter(r=>r.statut==='refuse');
+    const attente=regs.filter(r=>r.statut==='attente');
+    const tier=this.tierFor(confirmes.length);
+    const tp=tier.price;
+    const nextTier=s.tiers.filter(t=>Number(t.min)>confirmes.length)[0];
+    const planView=s.planView||'calendrier';
+
+    // chart sparkline
+    const chartRaw=[];let cum=2;
+    for(let i=0;i<30;i++){
+      if(i<8)cum=Math.min(confirmes.length,cum+Math.floor(i*0.3));
+      else if(i<20)cum=Math.min(confirmes.length,cum+(i%4===0?2:1));
+      else cum=Math.min(confirmes.length,cum+(i%3===0?1:0));
+      chartRaw.push(cum);
+    }
+    const cW=360,cH=60,cMax=Math.max(...chartRaw,1);
+    const cPts=chartRaw.map((v,i)=>`${(i/29)*cW},${cH-(v/cMax)*(cH-8)-4}`).join(' ');
+    const cArea=`0,${cH} `+cPts+` ${cW},${cH}`;
+    const cLast=chartRaw[29],cLX=(1)*cW,cLY=cH-(cLast/cMax)*(cH-8)-4;
+
+    // kanban
+    const CAMPS=[
+      {st:'brouillon',name:'Tour Belvédère — automne 2026',place:'Laval · 48 unités',units:48,deadline:'non ouvert',done:0,owner:'Maxime Tanguay',rev:0},
+      {st:'ouvert',name:'Nettoyage printemps 2026',place:'Résidence du Parc',units:32,deadline:'6 jours restants',done:confirmes.length,owner:'Éric Lavoie',active:true,rev:confirmes.length*tp},
+      {st:'ouvert',name:'Sécheuses — Le Domaine',place:'Longueuil',units:18,deadline:'11 jours restants',done:7,owner:'Sarah Bilodeau',rev:7*16900},
+      {st:'cloture',name:'Échangeurs — Villa Nova',place:'Brossard',units:24,deadline:'clôturé 02/04',done:19,owner:'Éric Lavoie',rev:19*15900},
+      {st:'reservation',name:'Thermopompes — Les Jardins',place:'Québec',units:40,deadline:'9 créneaux à confirmer',done:31,owner:'Maxime Tanguay',rev:31*14900},
+      {st:'planifie',name:'Conduits — Carré Saint-Roch',place:'Québec',units:26,deadline:'22–23 avril',done:22,owner:'Sarah Bilodeau',rev:22*15900},
+      {st:'termine',name:'Hiver 2026 — Le Sextant',place:'Sherbrooke',units:30,deadline:'terminé 12/02',done:27,owner:'Éric Lavoie',rev:27*16900},
+    ];
+    const COLS=[
+      {key:'brouillon',label:'Brouillon',bar:'var(--color-neutral-300)',bg:'var(--color-neutral-100)',solid:false},
+      {key:'ouvert',label:'Ouvert',bar:'var(--color-accent)',bg:'var(--color-accent)',solid:true},
+      {key:'cloture',label:'Clôturé',bar:'var(--color-accent-300)',bg:'var(--color-accent-200)',solid:false},
+      {key:'reservation',label:'Réservations',bar:'var(--color-accent-200)',bg:'var(--color-accent-100)',solid:false},
+      {key:'planifie',label:'Planifié',bar:'var(--color-accent-700)',bg:'var(--color-accent-900)',solid:true},
+      {key:'termine',label:'Terminé',bar:'var(--color-neutral-400)',bg:'#fff',solid:false},
+    ];
+    const columns=COLS.map(c=>{
+      const cCamps=CAMPS.filter(x=>x.st===c.key);
+      const cards=cCamps.map((x,ci)=>{
+        const filled=Math.round((x.done/x.units)*8);
+        const segs=[];for(let i=0;i<8;i++)segs.push(i<filled?(c.solid?'rgba(255,255,255,.92)':'#1d1f20'):(c.solid?'rgba(255,255,255,.28)':'rgba(29,31,32,.15)'));
+        return{name:x.name,place:x.place,deadline:x.deadline,segs,bg:c.bg,fg:c.solid?'#fff':'#1d1f20',muted:c.solid?'rgba(255,255,255,.72)':'var(--color-neutral-500)',initials:this.initials(x.owner),avBg:c.solid?'rgba(255,255,255,.22)':this.avBg(ci+COLS.indexOf(c)),avFg:c.solid?'#fff':'#1d1f20',open:()=>this.setState({view:'campaign',selected:{}})};
+      });
+      const totalRev=cCamps.reduce((a,x)=>a+(x.rev||0),0);
+      return{label:c.label,bar:c.bar,count:cards.length,cards,empty:cards.length===0,revenue:totalRev>0?money(totalRev):null};
+    });
+
+    // annual KPIs
+    const annualRev=CAMPS.reduce((a,x)=>a+(x.rev||0),0);
+    const annualKpis=[
+      {label:'Revenu annuel engagé',value:money(annualRev),arrow:'↑',note:'+23 % vs 2025',bg:'var(--color-accent)',fg:'#fff'},
+      {label:'Unités traitées (2026)',value:'116',arrow:'↑',note:'+14 unités',bg:'var(--color-accent-200)',fg:'#1d1f20'},
+      {label:'Taux de participation',value:'73 %',arrow:'↑',note:'moy. 6 camps.',bg:'var(--color-neutral-100)',fg:'#1d1f20'},
+      {label:'Campagnes actives',value:'2',arrow:'→',note:'+ 1 brouillon',bg:'var(--color-neutral-100)',fg:'#1d1f20'},
+    ];
+
+    // notifications
+    const notifs=[
+      {msg:'Unité 101 — Jean Tremblay a confirmé son inscription',time:'il y a 2 min',bg:'var(--color-accent-100)',icon:'M20 6 9 17l-5-5',iconBg:'var(--color-accent)'},
+      {msg:'Le Domaine — clôture dans 3 jours, 7/18 inscrits',time:'il y a 1 h',bg:s.notifRead?'transparent':'var(--color-accent-100)',icon:'M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z',iconBg:'oklch(65% .18 50)'},
+      {msg:'Relance automatique envoyée à 5 unités (campagne active)',time:'hier',bg:'transparent',icon:'M22 2 11 13M22 2 15 22 11 13 2 9l20-7z',iconBg:'var(--color-accent-600)'},
+      {msg:'Tour Belvédère ajouté au catalogue des immeubles',time:'il y a 2 j',bg:'transparent',icon:'M4 21V4h10v17M14 9h6v12',iconBg:'var(--color-neutral-500)'},
+    ];
+    const notifCount=s.notifRead?0:3;
+
+    // slots
+    const slots=this.buildSlots(confirmes);
+    const conflicts=slots.filter(x=>x.conflict);
+    const maxDay=slots.reduce((m,x)=>Math.max(m,x.day),0);
+    const dayLabels=['sam. 18 avr.','dim. 19 avr.','lun. 20 avr.'];
+    const hours=['8 h','9 h','10 h','11 h','12 h','13 h','14 h','15 h','16 h','17 h'];
+    const nTechs=Math.max(1,Math.min(3,Number(s.g.techs)||3));
+    const techColumns=this.TECHS.slice(0,nTechs).map((name,k)=>{
+      const dayMine=slots.filter(x=>x.tech===k&&x.day===s.day);
+      const totalMin=dayMine.reduce((a,x)=>a+x.duree,0);
+      return{
+        name:name.split(' ')[0],initials:this.initials(name),
+        avBg:k===0?'var(--color-accent)':(k===1?'var(--color-accent-600)':'var(--color-accent-800)'),
+        load:dayMine.length+' unités · '+this.hm(totalMin),overloaded:totalMin>480,
+        openModal:()=>this.setState({techModal:{tech:k,day:s.day}}),
+        slots:dayMine.map(x=>({unit:x.reg.unit,owner:x.reg.owner,top:((x.start-480)*1.2)+'px',height:(x.duree*1.2-4)+'px',time:this.hm(x.start)+' – '+this.hm(x.end),dureeLabel:x.duree+' min',bg:x.conflict?'oklch(55% .18 25)':(x.statut==='reservee'?'var(--color-accent)':'var(--color-accent-200)'),color:x.conflict?'#fff':(x.statut==='reservee'?'#fff':'#1d1f20'),conflict:x.conflict})),
+      };
+    });
+
+    // week view
+    const planTechBtns=this.TECHS.slice(0,nTechs).map((name,k)=>({name:name.split(' ')[0],cls:s.planTech===k?pd:pq,set:()=>set('planTech',k)}));
+    const weekDays=dayLabels.slice(0,maxDay+1).map((label,di)=>{
+      const dSlots=slots.filter(x=>x.tech===s.planTech&&x.day===di);
+      return{label,slots:dSlots.map(x=>({unit:x.reg.unit,top:((x.start-480)*1.2)+'px',height:(x.duree*1.2-4)+'px',time:this.hm(x.start)+' – '+this.hm(x.end),bg:x.conflict?'oklch(55% .18 25)':(x.statut==='reservee'?'var(--color-accent)':'var(--color-accent-200)'),color:x.conflict?'#fff':(x.statut==='reservee'?'#fff':'#1d1f20')}))};
+    });
+    const weekTech=this.TECHS[s.planTech];
+    const weekLoad=slots.filter(x=>x.tech===s.planTech).reduce((a,x)=>a+x.duree,0);
+    const slotRows=slots.map(x=>({day:dayLabels[x.day],time:this.hm(x.start)+' – '+this.hm(x.end),unit:x.reg.unit,owner:x.reg.owner,tech:x.techName.split(' ')[0]+' '+x.techName.split(' ')[1][0]+'.',services:x.reg.ids.map(id=>this.SERVICES.filter(y=>y.id===id)[0].cat).join(', '),dureeLabel:x.duree+' min',statutLabel:x.conflict?'Conflit':(x.statut==='reservee'?'Réservée':'Proposée'),stBg:x.conflict?'oklch(55% .18 25)':(x.statut==='reservee'?'var(--color-accent)':'var(--color-neutral-100)'),stFg:x.conflict?'#fff':(x.statut==='reservee'?'#fff':'var(--color-neutral-700)')}));
+
+    // tech modal
+    const tmData=s.techModal;
+    const tmSlots=tmData?slots.filter(x=>x.tech===tmData.tech&&x.day===tmData.day):[];
+    const tmName=tmData?this.TECHS[tmData.tech].split(' ')[0]+' '+this.TECHS[tmData.tech].split(' ')[1]:'';
+    const tmTotal=tmSlots.reduce((a,x)=>a+x.duree,0);
+
+    // unit table
+    const thColDefs=[{key:'unit',label:'Unité'},{key:'owner',label:'Propriétaire'},{key:'statut',label:'Statut'},{key:'services',label:'Services'},{key:'duree',label:'Durée'},{key:'locataire',label:'Locataire'},{key:'montant',label:'Montant'}];
+    const thCols=thColDefs.map(c=>({label:c.label,active:s.sortCol===c.key?'active':'',arrowPath:s.sortCol===c.key?(s.sortDir==='asc'?'M12 4v16M5 11l7-7 7 7':'M12 4v16M5 13l7 7 7-7'):'M7 10l5-5 5 5M7 14l5 5 5-5',click:()=>this.setState({sortCol:c.key,sortDir:s.sortCol===c.key&&s.sortDir==='asc'?'desc':'asc',unitPage:0})}));
+    const allFiltered=regs.filter(r=>{
+      if(s.filter==='confirmes'&&r.statut!=='confirme')return false;
+      if(s.filter==='refuses'&&r.statut!=='refuse')return false;
+      if(s.filter==='attente'&&r.statut!=='attente')return false;
+      const q=s.search||s.gSearch;if(q&&(r.unit+' '+r.owner).toLowerCase().indexOf(q.toLowerCase())<0)return false;
+      return true;
+    });
+    const sorted=allFiltered.slice().sort((a,b)=>{
+      let av,bv;
+      if(s.sortCol==='unit'){av=a.unit;bv=b.unit;}else if(s.sortCol==='owner'){av=a.owner;bv=b.owner;}
+      else if(s.sortCol==='statut'){av=a.statut;bv=b.statut;}else if(s.sortCol==='montant'){av=a.statut==='confirme'?this.priceOf(a,tp):0;bv=b.statut==='confirme'?this.priceOf(b,tp):0;}
+      else{av=a.unit;bv=b.unit;}
+      if(av<bv)return s.sortDir==='asc'?-1:1;if(av>bv)return s.sortDir==='asc'?1:-1;return 0;
+    });
+    const totalPages=Math.max(1,Math.ceil(sorted.length/s.perPage));
+    const curPage=Math.min(s.unitPage,totalPages-1);
+    const pageRows=sorted.slice(curPage*s.perPage,(curPage+1)*s.perPage);
+    const selKeys=Object.keys(s.selected).filter(k=>s.selected[k]);
+    const selCount=selKeys.length;
+    const allPageSelected=pageRows.length>0&&pageRows.every(r=>s.selected[r.unit]);
+    const someSelected=selCount>0&&!allPageSelected;
+    const rows=pageRows.map(r=>{
+      const sel=!!s.selected[r.unit];
+      return{unit:r.unit,owner:r.owner,email:r.email,initials:this.initials(r.owner),avBg:this.avBg(r.i),rowBg:sel?'var(--color-accent-100)':'#fff',cbCls:sel?'on':'',toggleSel:()=>this.setState(st=>({selected:Object.assign({},st.selected,{[r.unit]:!st.selected[r.unit]})})),statutLabel:r.statut==='confirme'?'Confirmé':(r.statut==='refuse'?'Refusé':'En attente'),stBg:r.statut==='confirme'?'var(--color-accent)':(r.statut==='refuse'?'var(--color-neutral-200)':'var(--color-accent-100)'),stFg:r.statut==='confirme'?'#fff':(r.statut==='refuse'?'var(--color-neutral-700)':'var(--color-accent-800)'),showDot:r.statut==='confirme',dotColor:'#fff',services:r.statut==='refuse'?'—':r.ids.map(id=>this.SERVICES.filter(y=>y.id===id)[0].cat+(id==='s3'?' ('+r.trappes+')':'')).join(', '),duree:r.statut==='confirme'?this.duree(r)+' min':'—',locataire:r.statut==='refuse'?'—':(r.estLoue?(r.acces==='confirme'?'Accès ✓':'En attente'):'—'),montant:r.statut==='confirme'?money(this.priceOf(r,tp)):'—'};
+    });
+    const exportCSV=()=>{const h='Unité,Propriétaire,Courriel,Statut,Durée,Montant';const lines=sorted.map(r=>[r.unit,'"'+r.owner+'"',r.email,r.statut,r.statut==='confirme'?this.duree(r)+' min':'',r.statut==='confirme'?money(this.priceOf(r,tp)):''].join(','));const csv=[h,...lines].join('\n');const a=Object.assign(document.createElement('a'),{href:'data:text/csv;charset=utf-8,'+encodeURIComponent(csv),download:'unites.csv'});document.body.appendChild(a);a.click();document.body.removeChild(a);this.addToast(sorted.length+' unités exportées','success');};
+
+    // wizard
+    const steps=['Immeuble et dates','Services et payeur','Tarification','Relances et planification'].map((label,n)=>({n:n+1,label,cls:n===s.wstep?pd:pl,numBg:n===s.wstep?'rgba(255,255,255,.22)':'var(--color-neutral-100)',numFg:n===s.wstep?'#fff':'var(--color-neutral-600)',go:()=>set('wstep',n)}));
+    const wizardServices=this.SERVICES.map(sv=>{const on=!!s.w.services[sv.id];return{name:sv.fr+' · '+sv.en,meta:sv.dmin+'–'+sv.dmax+' min'+(sv.trappes?' · +'+sv.perTrappe+' min/trappe':'')+' · '+(sv.tiered?'prix par palier':money(sv.price)),cardBg:on?'var(--color-accent-100)':'var(--color-neutral-100)',mark:on?'var(--color-accent)':'#fff',markBorder:on?'var(--color-accent)':'var(--color-neutral-300)',checkOpacity:on?'1':'0',toggle:()=>setIn('w','services',Object.assign({},s.w.services,{[sv.id]:!on})),residentCls:s.w.payeur[sv.id]==='resident'?pd:pq,syndicatCls:s.w.payeur[sv.id]==='syndicat'?pd:pq,setResident:()=>setIn('w','payeur',Object.assign({},s.w.payeur,{[sv.id]:'resident'})),setSyndicat:()=>setIn('w','payeur',Object.assign({},s.w.payeur,{[sv.id]:'syndicat'}))};});
+    const tierRows=s.tiers.map(t=>{const mid=t.max==='—'?44:Math.round((Number(t.min)+Number(t.max))/2);return{range:t.min+' – '+t.max,price:money(t.price),revenue:money(t.price*mid),margin:Math.round(38-(17900-t.price)/800)+' %'};});
+
+    // portal
+    const portalServices=this.SERVICES.filter(sv=>s.w.payeur[sv.id]==='resident'&&s.w.services[sv.id]).map(sv=>{const on=!!s.sel[sv.id],tr=s.trappes[sv.id]||0,base=sv.tiered?tp:sv.price;return{name:s.lang==='fr'?sv.fr:sv.en,meta:sv.dmin+'–'+sv.dmax+' min',price:money(base+(sv.trappes?tr*sv.trappePrice:0)),bg:on?'var(--color-accent-100)':'var(--color-neutral-100)',mark:on?'var(--color-accent)':'#fff',markBorder:on?'var(--color-accent)':'var(--color-neutral-300)',checkOpacity:on?'1':'0',showTrappes:on&&sv.trappes,trappes:tr,toggle:()=>this.setState({sel:Object.assign({},s.sel,{[sv.id]:!on})}),more:()=>this.setState({trappes:Object.assign({},s.trappes,{[sv.id]:Math.min(20,tr+1)})}),less:()=>this.setState({trappes:Object.assign({},s.trappes,{[sv.id]:Math.max(0,tr-1)})})};});
+    let ptotal=0;this.SERVICES.forEach(sv=>{if(s.w.payeur[sv.id]!=='resident'||!s.sel[sv.id])return;ptotal+=(sv.tiered?tp:sv.price)+(sv.trappes?(s.trappes[sv.id]||0)*sv.trappePrice:0);});
+    const syndicatNames=this.SERVICES.filter(sv=>s.w.payeur[sv.id]==='syndicat'&&s.w.services[sv.id]).map(sv=>s.lang==='fr'?sv.fr:sv.en).join(' · ');
+    const summaryLines=this.SERVICES.filter(sv=>s.sel[sv.id]&&s.w.payeur[sv.id]==='resident').map(sv=>({label:(s.lang==='fr'?sv.fr:sv.en)+(sv.trappes?' ('+(s.trappes[sv.id]||0)+')':''),value:money((sv.tiered?tp:sv.price)+(sv.trappes?(s.trappes[sv.id]||0)*sv.trappePrice:0)),color:'#1d1f20'})).concat(this.SERVICES.filter(sv=>s.w.payeur[sv.id]==='syndicat'&&s.w.services[sv.id]).map(sv=>({label:s.lang==='fr'?sv.fr:sv.en,value:s.lang==='fr'?'Payé par le syndicat':'Paid by the board',color:'var(--color-neutral-600)'})));
+    const pOrder=['accueil','services','contact','signature','contrat'];
+    const pIdx=pOrder.indexOf(s.pstep);
+    const portalSteps=['Immeuble','Services',s.lang==='fr'?'Coordonnées':'Details','Signature'].map((label,i)=>({label:s.lang==='fr'?label:['Building','Services','Details','Signature'][i],bar:i<=pIdx?'var(--color-accent)':'var(--color-neutral-200)',color:i<=pIdx?'var(--color-accent-800)':'var(--color-neutral-500)'}));
+    const contactOk=s.f.unit&&s.f.owner&&s.f.email;
+    const nextBlocked=s.pstep==='services'?(ptotal===0&&!syndicatNames):(s.pstep==='contact'?!contactOk:(s.pstep==='signature'?!s.signed:false));
+    const motifs=[['Je serai absent ce jour-là',"I'll be away that day"],['Travaux en cours dans mon unité','Renovations under way'],['Mon unité est en vente','My unit is for sale'],['Déjà fait récemment','Already done recently'],['Autre raison','Other reason']].map((m,i)=>{const on=s.refusMotif===String(i);return{label:m[L],bg:on?'var(--color-accent)':'var(--color-neutral-100)',fg:on?'#fff':'#1d1f20',ring:on?'#fff':'var(--color-neutral-300)',dot:on?'#fff':'transparent',set:()=>set('refusMotif',String(i))};});
+    const now=new Date();
+    const contractDate=now.toLocaleDateString('fr-CA')+' à '+now.getHours()+'h'+String(now.getMinutes()).padStart(2,'0');
+    const contractNum='CVP-2026-'+Math.floor(1000+Math.random()*9000);
+    const flow=s.flow||'etapes';
+    const device=s.device||'mobile';
+
+    // building detail
+    const bd=this.BUILDINGS_DATA[s.buildingKey]||this.BUILDINGS_DATA[0];
+    const unitGrid=regs.map(r=>({unit:r.unit,prenom:r.owner.split(' ')[0],owner:r.owner,bg:r.statut==='confirme'?'var(--color-accent)':(r.statut==='refuse'?'oklch(65% .18 25)':'var(--color-neutral-100)'),fg:r.statut==='confirme'?'#fff':(r.statut==='refuse'?'#fff':'var(--color-neutral-600)')}));
+    const buildingHistory=[
+      {name:'Nettoyage printemps 2026',period:'mars–avr. 2026',inscrits:confirmes.length,palier:money(tp),revenue:money(confirmes.length*tp)},
+      {name:'Sécheuses automne 2025',period:'oct.–nov. 2025',inscrits:27,palier:money(15900),revenue:money(27*15900)},
+      {name:'Échangeurs printemps 2025',period:'avr.–mai 2025',inscrits:24,palier:money(15900),revenue:money(24*15900)},
+    ];
+
+    // client detail
+    const cd=this.CLIENTS_DATA[s.clientKey]||this.CLIENTS_DATA[0];
+    const clientCamps=[
+      {name:'Nettoyage printemps 2026',statut:'Ouvert',inscrits:confirmes.length,rev:money(confirmes.length*tp),date:'clôture 12/04',stBg:'var(--color-accent-200)',stFg:'var(--color-accent-800)'},
+      {name:'Sécheuses automne 2025',statut:'Terminé',inscrits:27,rev:money(27*15900),date:'term. 18/11/25',stBg:'var(--color-neutral-200)',stFg:'var(--color-neutral-700)'},
+      {name:'Échangeurs printemps 2025',statut:'Terminé',inscrits:24,rev:money(24*15900),date:'term. 05/05/25',stBg:'var(--color-neutral-200)',stFg:'var(--color-neutral-700)'},
+    ];
+    const clientBuildings=this.BUILDINGS_DATA.filter((_,i)=>i===0).map(b=>({name:b.name,address:b.address,units:b.units,camps:3,bg:'var(--color-accent-100)'}));
+    const clientInvoices=[
+      {num:'F-2026-042',desc:'Campagne printemps 2026 — acompte 50%',date:'01/03/2026',montant:money(confirmes.length*tp/2),statut:'Payée',stBg:'var(--color-accent-100)',stFg:'var(--color-accent-800)'},
+      {num:'F-2025-089',desc:'Campagne automne 2025 — solde',date:'12/11/2025',montant:money(27*15900),statut:'Payée',stBg:'var(--color-accent-100)',stFg:'var(--color-accent-800)'},
+      {num:'F-2025-031',desc:'Campagne printemps 2025',date:'08/05/2025',montant:money(24*15900),statut:'Payée',stBg:'var(--color-accent-100)',stFg:'var(--color-accent-800)'},
+      {num:'F-2026-078',desc:'Campagne printemps 2026 — solde',date:'À venir',montant:money(confirmes.length*tp/2),statut:'En attente',stBg:'var(--color-neutral-100)',stFg:'var(--color-neutral-700)'},
+    ];
+
+    return{
+      rootClass:'dark-root-v5'+(s.darkMode?' is-dark':''),
+      isLogin:s.view==='login',
+      inApp:['campaigns','campaign','new','planning','buildings','building','clients','client','services','pricing','onboarding'].indexOf(s.view)>=0,
+      isPortal:s.view==='portal',isTenant:s.view==='tenant',
+      toasts:s.toasts,
+      techModalOpen:!!s.techModal,
+      techModalName:tmName,techModalDate:tmData?dayLabels[tmData.day]:'',
+      techModalSlots:tmSlots.map(x=>({time:this.hm(x.start)+' – '+this.hm(x.end),unit:x.reg.unit,services:x.reg.ids.map(id=>this.SERVICES.filter(y=>y.id===id)[0].cat).join(', '),dureeLabel:x.duree+' min'})),
+      techModalSummary:tmSlots.length+' unités · '+this.hm(tmTotal)+' au total · '+(tmTotal>480?'⚠ Journée chargée':'Charge normale'),
+      closeTechModal:()=>set('techModal',null),
+      sendTechSummary:()=>{this.setState({techModal:null});this.addToast('Résumé envoyé à '+tmName+' par courriel','success');},
+      darkBtnBg:s.darkMode?'#1d1f20':'transparent',
+      darkIcon:s.darkMode?'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M18.364 18.364l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z':'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z',
+      toggleDark:()=>{const dm=!s.darkMode;this.setState({darkMode:dm});this.addToast(dm?'Mode sombre activé (D pour revenir)':'Mode clair activé','info');},
+      toggleNotif:()=>this.setState(st=>({notifOpen:!st.notifOpen})),
+      notifOpen:s.notifOpen,notifCount,notifUnread:notifCount>0,
+      notifs,markAllRead:()=>{this.setState({notifRead:true,notifOpen:false});this.addToast('Toutes les notifications marquées comme lues','info');},
+      loginStats:[{value:'32',label:'unités par campagne',bg:'var(--color-accent-100)'},{value:'5',label:'paliers de prix',bg:'var(--color-neutral-100)'},{value:'3',label:'techniciens planifiés',bg:'var(--color-accent-200)'}],
+      navItems:this.NAV.map(n=>({label:n.label,badge:n.badge,go:go(n.key),cls:s.view===n.key?pd:pq,badgeBg:s.view===n.key?'rgba(255,255,255,.22)':'var(--color-neutral-200)',badgeFg:s.view===n.key?'#fff':'var(--color-neutral-700)'})),
+      railTop:this.RAIL.map(r=>({title:r.title,d:r.d,go:go(r.key),bg:s.view===r.key?'#1d1f20':'transparent',fg:s.view===r.key?'#fff':'var(--color-neutral-600)'})),
+      gSearch:s.gSearch,onGSearch:e=>{set('gSearch',e.target.value);if(e.target.value&&s.view!=='campaign')this.setState({view:'campaign'});},
+      isCampaigns:s.view==='campaigns',isCampaign:s.view==='campaign',isNew:s.view==='new',isPlanning:s.view==='planning',
+      isBuildings:s.view==='buildings',isBuilding:s.view==='building',isClients:s.view==='clients',isClient:s.view==='client',
+      isServices:s.view==='services',isPricing:s.view==='pricing',isOnboarding:s.view==='onboarding',
+      goCampaigns:go('campaigns'),goNew:go('new'),goPlanning:go('planning'),
+      goBuildings:go('buildings'),goClients:go('clients'),
+      goPortal:()=>this.setState({view:'portal'}),goTenant:()=>this.setState({view:'tenant'}),
+      backToApp:go('campaigns'),logout:()=>this.setState({view:'login'}),
+      goOnboarding:()=>this.setState({view:'onboarding'}),
+      doLogin:e=>{if(e&&e.preventDefault)e.preventDefault();this.setState({view:'campaigns'});this.addToast('Connexion réussie — bienvenue, Ventilation Pro Québec','success');},
+      loginEmail:s.loginEmail,loginPass:s.loginPass,
+      onLoginEmail:e=>set('loginEmail',e.target.value),onLoginPass:e=>set('loginPass',e.target.value),
+      annualKpis,
+      boardFilters:[
+        {label:'Actives',count:3,cls:s.board==='actives'?pd:pl,set:()=>set('board','actives'),badgeBg:s.board==='actives'?'rgba(255,255,255,.22)':'var(--color-neutral-200)',badgeFg:s.board==='actives'?'#fff':'var(--color-neutral-700)'},
+        {label:'Toutes',count:7,cls:s.board==='all'?pd:pl,set:()=>set('board','all'),badgeBg:s.board==='all'?'rgba(255,255,255,.22)':'var(--color-neutral-200)',badgeFg:s.board==='all'?'#fff':'var(--color-neutral-700)'},
+        {label:'Archivées',count:3,cls:s.board==='closed'?pd:pl,set:()=>set('board','closed'),badgeBg:s.board==='closed'?'rgba(255,255,255,.22)':'var(--color-neutral-200)',badgeFg:s.board==='closed'?'#fff':'var(--color-neutral-700)'},
+      ],
+      kpis:[{label:'Inscriptions ce mois',value:'118',bar:'var(--color-accent)'},{label:'Unités à planifier',value:String(confirmes.length),bar:'var(--color-accent-400)'},{label:'Sans réponse',value:String(attente.length),bar:'var(--color-neutral-300)'}],
+      columns,
+      chartPoints:cPts,chartArea:cArea,chartLastX:String(cLX),chartLastY:String(cLY),
+      nbConfirme:confirmes.length,nbAttente:attente.length,
+      pctConfirme:Math.round((confirmes.length/32)*100)+'%',tierPrice:money(tp),
+      tierNote:nextTier?'Encore '+(Number(nextTier.min)-confirmes.length)+' inscriptions pour passer à '+money(nextTier.price)+'.':'Dernier palier atteint.',
+      tiers:s.tiers.map(t=>({price:money(t.price),range:t.min+'–'+t.max,color:t===tier?'var(--color-accent-800)':'var(--color-neutral-500)'})),
+      campaignStats:[{label:'Confirmées',value:String(confirmes.length),note:money(confirmes.length*tp),bg:'var(--color-accent)',fg:'#fff'},{label:'Refus',value:String(refuses.length),note:'réversibles',bg:'var(--color-neutral-100)',fg:'#1d1f20'},{label:'Sans réponse',value:String(attente.length),note:'relance J+7',bg:'var(--color-accent-100)',fg:'#1d1f20'},{label:'Unités louées',value:String(regs.filter(r=>r.estLoue).length),note:regs.filter(r=>r.estLoue&&r.acces==='confirme').length+' accès conf.',bg:'var(--color-accent-200)',fg:'#1d1f20'}],
+      hasBulkSelection:selCount>0,selectedCount:selCount,
+      bulkRelance:()=>{const n=selCount;this.setState({selected:{}});this.addToast(n+' relances envoyées','success');},
+      clearSelection:()=>this.setState({selected:{}}),
+      selAllCls:allPageSelected?'on':(someSelected?'part':''),
+      selAllIcon:allPageSelected?'M20 6 9 17l-5-5':(someSelected?'M5 12h14':'M20 6 9 17l-5-5'),
+      toggleSelectAll:()=>{if(allPageSelected){const sel=Object.assign({},s.selected);pageRows.forEach(r=>{delete sel[r.unit];});this.setState({selected:sel});}else{const sel=Object.assign({},s.selected);pageRows.forEach(r=>{sel[r.unit]=true;});this.setState({selected:sel});}},
+      thCols,rows,exportCSV,
+      filters:[{label:'Tous',cls:s.filter==='tous'?pd:pq,set:()=>this.setState({filter:'tous',unitPage:0})},{label:'Confirmés',cls:s.filter==='confirmes'?pd:pq,set:()=>this.setState({filter:'confirmes',unitPage:0})},{label:'Refus',cls:s.filter==='refuses'?pd:pq,set:()=>this.setState({filter:'refuses',unitPage:0})},{label:'En attente',cls:s.filter==='attente'?pd:pq,set:()=>this.setState({filter:'attente',unitPage:0})}],
+      search:s.search,onSearch:e=>this.setState({search:e.target.value,unitPage:0}),
+      rowsNote:sorted.length+' unités · tri : '+s.sortCol+' '+(s.sortDir==='asc'?'↑':'↓'),
+      hasPrev:curPage>0,hasNext:curPage<totalPages-1,pageLabel:'Page '+(curPage+1)+' / '+totalPages,
+      prevPage:()=>set('unitPage',Math.max(0,curPage-1)),nextPage:()=>set('unitPage',Math.min(totalPages-1,curPage+1)),
+      toast:s.toast,
+      askRelance:()=>set('dialog','relance'),
+      dialog:!!s.dialog,
+      dialogTitle:s.dialog==='relance'?'Relancer '+attente.length+' unités':'Générer les plages',
+      dialogBody:s.dialog==='relance'?'Un courriel de rappel sera envoyé aux '+attente.length+' unités sans réponse.':'Les '+confirmes.length+' unités confirmées recevront un créneau proposé.',
+      dialogAction:s.dialog==='relance'?'Envoyer les relances':'Générer',
+      closeDialog:()=>set('dialog',null),
+      confirmDialog:()=>{if(s.dialog==='relance'){this.setState({dialog:null});this.addToast(attente.length+' relances envoyées','success');}else{this.setState({dialog:null,slotsOn:true,view:'planning'});this.addToast('Plages générées','success');}},
+      steps,step0:s.wstep===0,step1:s.wstep===1,step2:s.wstep===2,step3:s.wstep===3,
+      wstepNum:s.wstep+1,w:s.w,
+      setW:{name:e=>setIn('w','name',e.target.value),building:e=>setIn('w','building',e.target.value),client:e=>setIn('w','client',e.target.value),open:e=>setIn('w','open',e.target.value),close:e=>setIn('w','close',e.target.value),notes:e=>setIn('w','notes',e.target.value),relanceJours:e=>setIn('w','relanceJours',e.target.value),relanceFinale:e=>setIn('w','relanceFinale',e.target.value),relancesMax:e=>setIn('w','relancesMax',e.target.value),echelle:e=>setIn('w','echelle',e.target.value),deplacement:e=>setIn('w','deplacement',e.target.value),resaAuto:e=>setIn('w','resaAuto',e.target.value)},
+      buildingOptions:[{value:'b1',label:'Résidence du Parc — Montréal (32 unités)'},{value:'b2',label:'Tour Belvédère — Laval (48 unités)'},{value:'b3',label:'Le Domaine — Longueuil (18 unités)'},{value:'b4',label:'Villa Nova — Brossard (24 unités)'}],
+      clientOptions:[{value:'c1',label:'SDC Résidence du Parc'},{value:'c2',label:'Gestion Immobilière Métropole'},{value:'c3',label:'SDC Le Domaine'}],
+      wizardServices,tierRows,atFirstStep:s.wstep===0,
+      prevStep:()=>set('wstep',Math.max(0,s.wstep-1)),
+      nextStep:()=>{if(s.wstep<3)set('wstep',s.wstep+1);else{this.setState({view:'campaign'});this.addToast('Campagne « '+s.w.name+' » créée','success');}},
+      nextLabel:s.wstep===3?'Créer la campagne':'Suivant',
+      planningSummary:s.slotsOn?slots.length+' créneaux · '+(maxDay+1)+' jours':confirmes.length+' unités · '+this.hm(confirmes.reduce((a,r)=>a+this.duree(r),0)),
+      g:s.g,
+      setG:{date:e=>setIn('g','date',e.target.value),start:e=>setIn('g','start',e.target.value),end:e=>setIn('g','end',e.target.value),techs:e=>setIn('g','techs',e.target.value)},
+      generate:()=>{this.setState({slotsOn:true});this.addToast('Plages générées · '+confirmes.length+' créneaux répartis','success');},
+      generateLabel:s.slotsOn?'Régénérer':'Générer les plages',
+      noSlots:!s.slotsOn,conflictCount:conflicts.length||null,
+      showCal:s.slotsOn&&planView==='calendrier',showSemaine:s.slotsOn&&planView==='semaine',showList:s.slotsOn&&planView==='liste',
+      calCls:planView==='calendrier'?pd:pq,semaineCls:planView==='semaine'?pd:pq,listCls:planView==='liste'?pd:pq,
+      setViewCal:()=>set('planView','calendrier'),setViewSemaine:()=>set('planView','semaine'),setViewList:()=>set('planView','liste'),
+      days:dayLabels.slice(0,maxDay+1).map((d,i)=>({label:d,cls:s.day===i?pd:pq,set:()=>set('day',i)})),
+      dayNote:s.g.start+' – '+s.g.end+' · déplacement '+s.w.deplacement+' min',
+      hours,techColumns,slotRows,planTechBtns,weekDays,weekViewLoad:weekTech?weekTech.split(' ')[0]+' : '+this.hm(weekLoad)+' sur '+maxDay+1+' jours':'',
+      buildings:this.BUILDINGS_DATA.map((b,i)=>({...b,open:()=>this.setState({view:'building',buildingKey:i})})),
+      buildingDetail:{...bd,specs:[{label:'Unités',value:bd.units},{label:'Étages',value:bd.floors},{label:'Échangeur',value:bd.exchanger},{label:'Année construite',value:'2007'}]},
+      unitGrid,buildingHistory,contactSdc:()=>this.addToast('Courriel envoyé à '+bd.contactName,'success'),
+      clients:this.CLIENTS_DATA.map((c,i)=>({...c,open:()=>this.setState({view:'client',clientKey:i})})),
+      clientDetail:{...cd},clientCamps,clientBuildings,clientInvoices,
+      ctab0:s.clientTab==='campagnes'?'on':'',ctab1:s.clientTab==='immeubles'?'on':'',ctab2:s.clientTab==='factures'?'on':'',ctab3:s.clientTab==='info'?'on':'',
+      setClientTab0:()=>set('clientTab','campagnes'),setClientTab1:()=>set('clientTab','immeubles'),setClientTab2:()=>set('clientTab','factures'),setClientTab3:()=>set('clientTab','info'),
+      clientTabCamp:s.clientTab==='campagnes',clientTabBuildings:s.clientTab==='immeubles',clientTabInvoices:s.clientTab==='factures',clientTabInfo:s.clientTab==='info',
+      serviceCards:this.SERVICES.map((sv,i)=>({cat:sv.cat,nameFr:sv.fr,nameEn:sv.en,bg:i===0?'var(--color-accent-100)':(i===1?'var(--color-neutral-100)':'var(--color-accent-200)'),duree:sv.dmin+'–'+sv.dmax+' min',trappes:sv.trappes?'+'+sv.perTrappe+' min/trappe':'sans objet',prix:sv.tiered?money(tp)+' (palier)':money(sv.price),usage:sv.tiered?'Présent dans toutes les campagnes actives.':(sv.trappes?'Souvent payé par le syndicat.':'Ajouté à la demande du résident.')})),
+      pricingRows:s.tiers.map((t,i)=>({min:String(t.min),max:String(t.max),price:money(t.price),bar:Math.round(((17900-t.price)/4000)*100+12)+'%',barColor:t===tier?'var(--color-accent)':'var(--color-accent-300)',note:t===tier?'← palier actuel':(Number(t.min)>confirmes.length?'à '+(Number(t.min)-confirmes.length)+' inscr.':'franchi'),setMin:e=>{const n=s.tiers.slice();n[i]=Object.assign({},n[i],{min:e.target.value});set('tiers',n);},setMax:e=>{const n=s.tiers.slice();n[i]=Object.assign({},n[i],{max:e.target.value});set('tiers',n);},setPrice:e=>{const n=s.tiers.slice();n[i]=Object.assign({},n[i],{price:(parseInt(String(e.target.value).replace(/\D/g,''),10)||0)*100});set('tiers',n);}})),
+      addTier:()=>set('tiers',s.tiers.concat([{min:50,max:'—',price:12900}])),
+      savePricing:()=>{this.setState({view:'campaign'});this.addToast('Grille enregistrée · prix recalculé pour '+confirmes.length+' unités.','success');},
+      onboardingSteps:[
+        {n:1,title:'Ajoutez un immeuble',desc:'Entrez les informations de l\'immeuble : adresse, nombre d\'unités, échangeur central, contact SDC.',icon:'M4 21V4h10v17M14 9h6v12',bg:'var(--color-accent-100)',iconBg:'var(--color-accent)',iconFg:'#fff',btnCls:'pill-dark',btnLabel:'Ajouter un immeuble',action:go('buildings')},
+        {n:2,title:'Créez une campagne',desc:'Choisissez l\'immeuble, les services, la grille de paliers et les dates d\'ouverture.',icon:'M3 5h18v16H3zM8 3v4M16 3v4M3 10h18',bg:'var(--color-neutral-100)',iconBg:'var(--color-neutral-700)',iconFg:'#fff',btnCls:'pill-light',btnLabel:'Nouvelle campagne',action:go('new')},
+        {n:3,title:'Partagez le portail',desc:'Chaque résident reçoit un lien unique pour s\'inscrire et signer électroniquement — sans créer de compte.',icon:'M15 3h6v6M10 14 21 3M18 13v8H3V6h8',bg:'var(--color-accent-200)',iconBg:'var(--color-accent-600)',iconFg:'#fff',btnCls:'pill-light',btnLabel:'Voir le portail',action:()=>this.setState({view:'portal'})},
+      ],
+      P,
+      frCls:s.lang==='fr'?pd:pq,enCls:s.lang==='en'?pd:pq,
+      setFr:()=>set('lang','fr'),setEn:()=>set('lang','en'),
+      mobileCls:device==='mobile'?pd:pq,deskCls:device==='bureau'?pd:pq,
+      setMobile:()=>set('device','mobile'),setDesk:()=>set('device','bureau'),
+      portalWidth:device==='mobile'?'410px':'760px',
+      stepsCls:flow==='etapes'?pd:pq,pageCls:flow==='page'?pd:pq,
+      setFlowSteps:()=>this.setState({flow:'etapes',pstep:'accueil'}),setFlowPage:()=>this.setState({flow:'page'}),
+      portalContrat:s.pstep==='contrat',
+      portalDone:s.pstep==='fini',portalRefuse:s.pstep==='refus',
+      portalForm:s.pstep!=='fini'&&s.pstep!=='refus'&&s.pstep!=='contrat',
+      showSteps:flow==='etapes'&&s.pstep!=='accueil'&&s.pstep!=='contrat',
+      showHero:flow==='page'||s.pstep==='accueil',
+      showHomeCta:flow==='etapes'&&s.pstep==='accueil',
+      showServices:flow==='page'||s.pstep==='services',
+      showContact:flow==='page'||s.pstep==='contact',
+      showSign:flow==='page'||s.pstep==='signature',
+      showNav:flow==='page'||s.pstep!=='accueil',
+      portalServices,portalTotal:money(ptotal),syndicatLabel:syndicatNames,summaryLines,
+      f:s.f,
+      setF:{unit:e=>setIn('f','unit',e.target.value),owner:e=>setIn('f','owner',e.target.value),email:e=>setIn('f','email',e.target.value),phone:e=>setIn('f','phone',e.target.value),locName:e=>setIn('f','locName',e.target.value),locEmail:e=>setIn('f','locEmail',e.target.value)},
+      toggleLoue:()=>setIn('f','estLoue',!s.f.estLoue),
+      loueBg:s.f.estLoue?'var(--color-accent-100)':'#fff',loueMark:s.f.estLoue?'var(--color-accent)':'#fff',loueBorder:s.f.estLoue?'var(--color-accent)':'var(--color-neutral-300)',loueCheck:s.f.estLoue?'1':'0',
+      portalStart:()=>set('pstep','services'),portalDecline:()=>set('pstep','refus'),portalHome:()=>set('pstep','accueil'),
+      portalBack:()=>set('pstep',pIdx>0?pOrder[pIdx-1]:'accueil'),
+      portalNext:()=>{
+        if(flow==='page'||s.pstep==='signature')this.setState({pstep:'contrat'});
+        else set('pstep',pOrder[Math.min(4,pIdx+1)]);
+      },
+      portalNextLabel:flow==='page'?P.confirm:(s.pstep==='signature'?P.confirm:P.continue),
+      nextBlocked,portalSteps,motifs,noMotif:!s.refusMotif,
+      refusNotes:s.refusNotes,onRefusNotes:e=>set('refusNotes',e.target.value),
+      submitRefuse:()=>{this.setState({pstep:'fini'});this.addToast('Refus enregistré','info');},
+      resetPortal:()=>this.setState({pstep:'accueil',signed:false,refusMotif:'',f:{unit:'',owner:'',email:'',phone:'',estLoue:false,locName:'',locEmail:''}}),
+      clearSign:()=>{if(this._canvas&&this._canvas.__clear)this._canvas.__clear();this.setState({signed:false});},
+      canvasRef:this.canvasRef,
+      contractDate,contractNum,
+      downloadContract:()=>this.addToast('Contrat N° '+contractNum+' téléchargé','success'),
+      finishPortal:()=>{this.setState({pstep:'fini'});this.addToast('Inscription confirmée · contrat envoyé par courriel','success');},
+      tenantPending:!s.tenant,tenantAnswered:!!s.tenant,
+      tenantAccept:()=>{set('tenant','oui');this.addToast('Accès confirmé · entrepreneur avisé','success');},
+      tenantRefuse:()=>{set('tenant','non');this.addToast('Absence signalée · entrepreneur avisé','info');},
+      tenantReset:()=>set('tenant',null),
+      tenantServices:s.lang==='fr'?"Conduit de sécheuse · Échangeur d'air ERV":'Dryer duct · ERV air exchanger',
+      tenantResultBg:s.tenant==='oui'?'var(--color-accent-100)':'var(--color-neutral-100)',
+      tenantResultTitle:s.tenant==='oui'?(s.lang==='fr'?'Accès confirmé':'Access confirmed'):(s.lang==='fr'?'Absence signalée':'Absence reported'),
+      tenantResultBody:s.tenant==='oui'?(s.lang==='fr'?'Le propriétaire et l\'entrepreneur ont été avisés.':'The owner and contractor have been notified.'):(s.lang==='fr'?'L\'entrepreneur cherchera un autre créneau.':'The contractor will look for another slot.'),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -85,6 +85,7 @@ const ROUTES = [
   '/a-propos',
   '/rendez-vous',
   '/crm-nettoyage-conduits',
+  '/campagnes-copropriete',
   '/mentions-legales',
   '/cgv',
 ];
