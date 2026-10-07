@@ -16,7 +16,7 @@ const ETAPES = [
 const CAPTURES = [
   { src: '/campagnes/tableau-de-bord.jpg', alt: 'Tableau des campagnes par étape : brouillon, ouvert, clôturé, planifié, terminé', legende: 'Toutes vos campagnes, étape par étape', w: 1800, h: 1093 },
   { src: '/campagnes/campagne-active.jpg', alt: "Campagne active : paliers de prix dégressifs et suivi des unités", legende: 'Les paliers de prix et le suivi de chaque unité', w: 1800, h: 1093 },
-  { src: '/campagnes/planification.jpg', alt: 'Planification des techniciens sur le calendrier', legende: 'La planification des techniciens', w: 1800, h: 1093 },
+  { src: '/campagnes/tarification.jpg', alt: 'Tarification par paliers : le prix par unité baisse avec le nombre d\'inscriptions', legende: 'Vos paliers de prix : plus il y a d\'inscriptions, plus le prix baisse', w: 1800, h: 1000 },
 ];
 
 export default function CampagnesCopropriete() {
