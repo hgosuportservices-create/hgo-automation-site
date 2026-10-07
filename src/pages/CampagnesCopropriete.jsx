@@ -50,6 +50,16 @@ export default function CampagnesCopropriete() {
         </div>
       </section>
 
+      <section className="px-6 md:px-24 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-2">La plateforme en 40 secondes</h2>
+          <p className="text-ghost/50 text-sm mb-6">Aperçu avec des données fictives.</p>
+          <video className="w-full h-auto rounded-xl border-2 border-cyan/30" controls preload="none" playsInline poster="/campagnes/demo-campagnes-poster.jpg">
+            <source src="/campagnes/demo-campagnes.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
       <section className="px-6 md:px-24 py-12">
         <div className="max-w-5xl mx-auto grid gap-8 md:grid-cols-2">
           {CAPTURES.map((c) => (
