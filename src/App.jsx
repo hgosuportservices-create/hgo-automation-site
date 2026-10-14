@@ -109,7 +109,7 @@ const CAS_CLIENTS = [
 const CasesSection = () => (
   <section className="py-20 md:py-28 px-5 md:px-12" id="cas-clients">
     <div className="max-w-6xl mx-auto">
-      <SectionTitle label="Cas clients" className="mb-12">De vrais clients. <span className="text-cyan">De vrais chiffres.</span></SectionTitle>
+      <SectionTitle label="Cas clients" className="mb-12">De vrais clients. <span className="text-cyan">De vrais résultats.</span></SectionTitle>
       <div className="grid lg:grid-cols-2 gap-8">
         {CAS_CLIENTS.map(c => (
           <div key={c.name} className="card-brut p-8 md:p-10 flex flex-col gap-6">
@@ -159,7 +159,7 @@ const LogicielsSection = () => (
     <div className="max-w-6xl mx-auto">
       <SectionTitle label="Nos logiciels">Des produits, pas <span className="text-cyan">que des heures.</span></SectionTitle>
       <p className="mt-6 text-ghost/65 max-w-2xl leading-relaxed">
-        On édite nos propres logiciels pour les métiers de la ventilation et du bâtiment, puis on les installe et on les adapte à votre entreprise.
+        On édite nos propres logiciels pour les entreprises et les artisans, puis on les installe et on les adapte à votre entreprise.
       </p>
       <div className="mt-12 grid md:grid-cols-2 gap-6">
         {LOGICIELS.map(({ title, desc, to, tag, external }) => {
@@ -185,7 +185,7 @@ const LogicielsSection = () => (
 const MetiersSection = ({ onOpenContact }) => (
   <section id="metiers" className="py-20 md:py-28 px-5 md:px-12">
     <div className="max-w-6xl mx-auto">
-      <SectionTitle label="Par métier">Né sur le terrain <span className="text-cyan">du bâtiment.</span></SectionTitle>
+      <SectionTitle label="Par métier">Une solution <span className="text-cyan">pour chaque métier.</span></SectionTitle>
       <p className="mt-6 text-ghost/65 max-w-2xl leading-relaxed">
         Les mêmes problèmes reviennent chez tous les artisans : appels manqués en intervention, devis envoyés trop tard, relances oubliées. On a des solutions prêtes pour chaque métier.
       </p>

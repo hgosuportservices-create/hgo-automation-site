@@ -77,7 +77,7 @@ export default function APropos() {
               Hugo<br />Fonseca
             </motion.h1>
             <p className="text-lg md:text-xl text-ghost/80 leading-relaxed bg-void/80 rounded-2xl max-w-xl">
-              Fondateur d'HGO Automation. J'aide les artisans du bâtiment et les PME à ne plus perdre de clients à cause de l'administratif : appels, RDV, devis, relances et factures qui tournent tout seuls.
+              Fondateur d'HGO Automation. J'aide les entreprises et les artisans à ne plus perdre de clients à cause de l'administratif : appels, RDV, devis, relances et factures qui tournent tout seuls.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button onClick={() => open('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
@@ -97,7 +97,7 @@ export default function APropos() {
       <section className="px-5 md:px-16 py-20 md:py-28">
         <div className="max-w-6xl mx-auto">
           <p className="label-cond mb-4">Mon parcours</p>
-          <h2 className="chunky-sm text-[clamp(2rem,5vw,3.5rem)] mb-12">Du terrain <span className="text-cyan">à l'automatisation.</span></h2>
+          <h2 className="chunky-sm text-[clamp(2rem,5vw,3.5rem)] mb-12">Le constat, <span className="text-cyan">puis les outils.</span></h2>
           <div className="grid md:grid-cols-3 gap-6">
             {PARCOURS.map((p, i) => (
               <div key={p.title} className="card-brut p-8 flex flex-col gap-4">
@@ -131,7 +131,7 @@ export default function APropos() {
       <section className="px-5 md:px-16 pt-20 md:pt-28">
         <div className="max-w-6xl mx-auto">
           <p className="label-cond mb-4">Ce que j'ai construit</p>
-          <h2 className="chunky-sm text-[clamp(2rem,5vw,3.5rem)] mb-12">Deux outils <span className="text-cyan">nés du terrain.</span></h2>
+          <h2 className="chunky-sm text-[clamp(2rem,5vw,3.5rem)] mb-12">Deux outils <span className="text-cyan">à tester.</span></h2>
           <div className="grid md:grid-cols-2 gap-6">
             {PRODUITS.map(p => (
               <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="card-brut hoverable p-8 flex flex-col gap-3 group">
