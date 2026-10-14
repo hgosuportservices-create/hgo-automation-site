@@ -12,7 +12,7 @@ import { Sparkle, Van, Tools, ClimUnit, Quote } from '../components/Illustration
 import { CALL_MIN } from '../config';
 
 const PARCOURS = [
-  { title: 'Le terrain d\'abord', desc: "J'ai vécu le quotidien des artisans : les chantiers, les clients au téléphone, les devis à chiffrer et les relances qu'on repousse toujours à plus tard." },
+  { title: 'Le quotidien des artisans', desc: "Les chantiers, les clients au téléphone, les devis à chiffrer et les relances qu'on repousse toujours à plus tard." },
   { title: 'Le constat', desc: "Les artisans ne perdent pas des chantiers sur la technique. Ils les perdent au bureau : un appel manqué en intervention, un devis envoyé trop tard, une relance oubliée." },
   { title: 'HGO Automation', desc: "J'ai créé HGO Automation pour régler ça avec des outils simples : un assistant WhatsApp qui répond 24h/24, des devis qui partent le jour même, des relances qui se font toutes seules. Sans changer vos logiciels." },
 ];
@@ -25,7 +25,7 @@ const VALEURS = [
 
 const PRODUITS = [
   { name: 'Léa', tag: 'Standardiste vocale IA', desc: "Elle décroche à votre place 24h/24, qualifie la demande et prend le rendez-vous. Vous recevez le résumé, le client sa confirmation par email et SMS.", href: 'https://lea.hgoautomation.fr', cta: 'Parler à Léa' },
-  { name: 'CVCPilot', tag: 'Rapports de mise en service CVC', desc: "Le logiciel que j'aurais voulu avoir comme metteur au point : mesures saisies sur téléphone, calculs en direct, rapports Word et PDF prêts avant de quitter le chantier.", href: 'https://www.cvcpilot.fr', cta: 'Voir CVCPilot' },
+  { name: 'CVCPilot', tag: 'Rapports de mise en service CVC', desc: "Le logiciel des metteurs au point : mesures saisies sur téléphone, calculs en direct, rapports Word et PDF prêts avant de quitter le chantier.", href: 'https://www.cvcpilot.fr', cta: 'Voir CVCPilot' },
 ];
 
 const CHIFFRES = [
