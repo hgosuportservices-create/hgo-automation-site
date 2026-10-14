@@ -23,13 +23,6 @@ const CAPTURES = [
   { src: '/crm-conduits/plans-entretien.jpg', alt: "Plans d'entretien pluriannuels avec budget prévu par année et par bâtiment", legende: "Les plans d'entretien sur plusieurs années" },
 ];
 
-const FAQ = [
-  { q: 'Le CRM calcule-t-il la TPS et la TVQ ?', a: "Oui. Vous cochez les services, et le sous-total, la TPS, la TVQ et les rabais sont calculés dans la soumission." },
-  { q: 'Les soumissions peuvent-elles être en français et en anglais ?', a: "Oui. Le devis PDF part par courriel à votre nom, en français ou en anglais, avec des créneaux de rendez-vous proposés au client." },
-  { q: 'Pour quelles entreprises est-il conçu ?', a: "Pour les entreprises de nettoyage de conduits de ventilation (CVAC) qui préparent des soumissions, relancent des clients et suivent des contrats d'entretien récurrents." },
-  { q: 'Combien ça coûte ?', a: "Le prix est sur devis, selon votre volume et ce que vous voulez automatiser. Vous recevez une proposition dans les 48 heures après un appel gratuit de 20 minutes." },
-];
-
 const ETAPES = [
   { n: '1', t: `Un appel de ${CALL_MIN} minutes`, d: "Vous me racontez comment vous préparez et suivez vos devis aujourd'hui." },
   { n: '2', t: 'Une démonstration à votre image', d: "Je vous montre uniquement ce qui répond à votre quotidien, avec le nom de votre entreprise." },
@@ -44,34 +37,13 @@ export default function CrmNettoyageConduits() {
   return (
     <main className="min-h-screen text-ghost font-sans bg-void">
       <Helmet>
-        <title>{`CRM pour nettoyage de conduits au Québec | HGO Automation`}</title>
-        <meta name="description" content="Soumissions en quelques clics, relances automatiques, plans d'entretien et tableau de bord pour les entreprises de nettoyage de conduits (CVAC) au Québec." />
+        <title>{`CRM pour entreprises de nettoyage de conduits | HGO Automation`}</title>
+        <meta name="description" content="Devis en quelques clics, relances automatiques, plans d'entretien et tableau de bord : une plateforme CRM à l'image de votre entreprise de nettoyage de conduits de ventilation." />
         <link rel="canonical" href={URL} />
-        <meta property="og:title" content="CRM pour nettoyage de conduits au Québec — HGO Automation" />
-        <meta property="og:locale" content="fr_CA" />
+        <meta property="og:title" content="CRM pour entreprises de nettoyage de conduits — HGO Automation" />
         <meta property="og:description" content="Vos devis partent en quelques clics, les relances se font seules, vos entretiens sont suivis. Sur devis." />
         <meta property="og:url" content={URL} />
         <meta property="og:image" content="https://www.hgoautomation.fr/og-cover.png" />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "SoftwareApplication",
-              "name": "CRM pour entreprises de nettoyage de conduits",
-              "applicationCategory": "BusinessApplication",
-              "operatingSystem": "Web",
-              "description": "Plateforme CRM sur mesure : soumissions en français ou en anglais avec TPS et TVQ, relances automatiques, plans d'entretien pluriannuels et tableau de bord.",
-              "inLanguage": ["fr-CA", "en-CA"],
-              "areaServed": { "@type": "AdministrativeArea", "name": "Québec" },
-              "provider": { "@type": "Organization", "name": "HGO Automation", "url": "https://www.hgoautomation.fr" },
-              "url": URL
-            },
-            {
-              "@type": "FAQPage",
-              "mainEntity": FAQ.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } }))
-            }
-          ]
-        })}</script>
       </Helmet>
 
       <SharedNav />
@@ -81,7 +53,7 @@ export default function CrmNettoyageConduits() {
           <span className="inline-block font-cond uppercase tracking-[0.18em] text-xs font-semibold text-cyan bg-void border-2 border-cyan rounded-full px-4 py-1.5 mb-6">
             Nettoyage de conduits
           </span>
-          <h1 className="chunky text-[clamp(2rem,5vw,3.6rem)] mb-4">Un CRM pour vos soumissions et vos entretiens de conduits</h1>
+          <h1 className="chunky text-[clamp(2rem,5vw,3.6rem)] mb-4">Un CRM pour vos devis et vos entretiens</h1>
           <p className="text-ghost/60 leading-relaxed mb-8 max-w-2xl">
             Vos devis partent en quelques clics, les relances se font seules et vos clients récurrents sont suivis d'une année à l'autre. Une plateforme à l'image de votre entreprise, conçue pour le nettoyage de conduits de ventilation.
           </p>
@@ -142,20 +114,6 @@ export default function CrmNettoyageConduits() {
                 <div className="chunky text-4xl text-cyan mb-2">{e.n}</div>
                 <h3 className="font-cond uppercase tracking-wide font-semibold mb-2">{e.t}</h3>
                 <p className="text-ghost/60 text-sm leading-relaxed">{e.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 md:px-24 py-12">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-8">Questions fréquentes</h2>
-          <div className="grid gap-4">
-            {FAQ.map((f) => (
-              <div key={f.q} className="card-brut p-6">
-                <h3 className="font-cond uppercase tracking-wide font-semibold mb-2">{f.q}</h3>
-                <p className="text-ghost/60 text-sm leading-relaxed">{f.a}</p>
               </div>
             ))}
           </div>
