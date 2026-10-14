@@ -20,7 +20,7 @@ const PARCOURS = [
 const VALEURS = [
   { not: 'Je ne vends pas de robots.', but: "J'automatise uniquement ce qui vous fait perdre du temps." },
   { not: 'Je ne remplace pas vos équipes.', but: 'Je leur retire les tâches répétitives.' },
-  { not: 'Je ne fais pas de démonstrations.', but: 'Je livre des systèmes utilisés chaque jour.' },
+  { not: 'Je ne vends pas de promesses.', but: 'Je livre des systèmes utilisés chaque jour.' },
 ];
 
 const PRODUITS = [
