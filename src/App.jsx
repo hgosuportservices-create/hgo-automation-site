@@ -89,11 +89,7 @@ const CAS_CLIENTS = [
     name: 'Entreprise de nettoyage CVAC au Québec (Groupe Rousso)',
     role: 'Nettoyage de conduits de ventilation — Montréal, Québec',
     desc: "Plateforme CRM sur mesure : devis PDF en français ou en anglais envoyés en quelques clics avec créneaux de RDV, relances automatiques, plans d'entretien et tableau de bord.",
-    stats: [
-      { value: '52 000 $', label: 'CAD de CA généré (2 mois)' },
-      { value: '70', label: 'Devis convertis / mois' },
-      { value: '85 %', label: 'Taux de conversion' },
-    ],
+    resultat: "Résultat : un chiffre d'affaires en nette progression et plus aucun devis oublié.",
     to: '/cas-client/groupe-rousso',
   },
   {
@@ -127,14 +123,15 @@ const CasesSection = () => (
               </div>
             </div>
             <p className="text-ghost/65 leading-relaxed">{c.desc}</p>
-            <div className="grid grid-cols-3 gap-4 py-5 border-y border-cyan/20">
+            {c.resultat && <p className="py-5 border-y border-cyan/20 text-cyan font-cond text-sm uppercase tracking-widest">{c.resultat}</p>}
+            {c.stats && <div className="grid grid-cols-3 gap-4 py-5 border-y border-cyan/20">
               {c.stats.map(st => (
                 <div key={st.label}>
                   <p className="font-display text-lg md:text-2xl text-cyan leading-tight whitespace-nowrap">{st.value}</p>
                   <p className="font-cond text-[11px] text-ghost/50 uppercase tracking-widest mt-1">{st.label}</p>
                 </div>
               ))}
-            </div>
+            </div>}
             <Link to={c.to} className="mt-auto inline-flex items-center gap-2 font-cond uppercase tracking-[0.12em] text-sm font-semibold text-cyan hover:underline underline-offset-4">
               Voir le cas complet <ArrowUpRight className="w-4 h-4" />
             </Link>

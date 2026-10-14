@@ -7,12 +7,6 @@ import SharedNav from '../components/SharedNav';
 import SiteFooter from '../components/SiteFooter';
 import { CALL_MIN } from '../config';
 
-const STATS = [
-  { value: '52 000 $ CAD', label: 'CA généré sur 2 mois (HT)' },
-  { value: '70', label: 'Devis convertis en août 2026' },
-  { value: '85 %', label: 'Taux de conversion' },
-];
-
 const FEATURES = [
   { title: 'Une plateforme CRM à leur nom', desc: "Une application web sur mesure (tableau de bord, clients, historique des devis), conçue autour de leur façon de travailler, pas un outil générique détourné." },
   { title: 'Devis en quelques clics, en français ou en anglais', desc: "On coche les services : sous-total, TPS, TVQ et rabais sont calculés, puis le devis PDF part par courriel avec jusqu'à 3 créneaux de rendez-vous proposés au client." },
@@ -59,17 +53,6 @@ export default function CasClientGroupeRousso() {
         </div>
       </section>
 
-      <section className="px-8 md:px-24 pb-16">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {STATS.map((s) => (
-            <div key={s.label} className="card-brut p-6 text-center">
-              <p className="text-3xl font-bold text-cyan mb-2">{s.value}</p>
-              <p className="text-ghost/40 text-xs uppercase tracking-widest">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="py-12 px-8 md:px-24">
         <div className="max-w-3xl mx-auto">
           <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-4">Le défi</h2>
@@ -105,10 +88,9 @@ export default function CasClientGroupeRousso() {
 
           <h2 className="chunky-sm text-[clamp(1.5rem,3vw,2.2rem)] mb-4">Les résultats</h2>
           <p className="text-ghost/60 leading-relaxed">
-            Sur les 2 derniers mois, Groupe Rousso a généré <strong className="text-ghost">52 000 $ CAD</strong> de
-            chiffre d'affaires hors taxes via le système de devis automatisé, avec un taux de
-            conversion de <strong className="text-ghost">85 %</strong> — plus de 8 devis envoyés sur 10 aboutissent
-            à une intervention planifiée.
+            Depuis la mise en service, Groupe Rousso a vu son chiffre d'affaires progresser et la part
+            de ses devis qui aboutissent à une intervention planifiée augmenter nettement. Avec le système
+            de devis automatisé, plus aucun devis n'est oublié.
           </p>
         </div>
       </section>
