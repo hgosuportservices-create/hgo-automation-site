@@ -47,7 +47,7 @@ const Hero = ({ onOpenContact }) => {
           Moins de paperasse,<br />plus de chantiers
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-lg text-ghost/85 text-lg md:text-xl leading-relaxed bg-void rounded-2xl px-4 py-1">
-          Nos logiciels, nos agents IA et nos automatisations prennent en charge appels, devis, relances, rendez-vous et suivi clients des entreprises et des artisans. Installés à votre image en 2 semaines, dès 990€.
+          Vous ne perdez plus un client entre l'appel et le devis signé. Nos logiciels, nos agents IA et nos automatisations prennent en charge appels, devis, relances et rendez-vous des entreprises et des artisans. Installés à votre image en 2 semaines, dès 990€.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap justify-center gap-3">
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
