@@ -354,7 +354,7 @@ function App() {
     <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30 overflow-x-hidden">
       <Helmet>
         <title>Éditeur de logiciels, d'agents IA et d'automatisations pour les entreprises et les artisans | HGO Automation</title>
-        <meta name="description" content="Éditeur de logiciels, d'agents IA et d'automatisations pour les entreprises et les artisans : standardiste vocale, assistant WhatsApp, devis automatiques, relances, RDV. Installé à votre image en 2 semaines, dès 990€." />
+        <meta name="description" content="Logiciels, agents IA et automatisations pour entreprises et artisans : standardiste vocale, WhatsApp, devis, relances. Installé en 2 semaines, dès 990 €." />
         <meta property="og:locale" content="fr_FR" />
         <meta property="og:title" content="HGO Automation — Logiciels, agents IA et automatisations pour les entreprises et les artisans" />
         <meta property="og:description" content="Agents IA, devis automatiques, relances et RDV pour les entreprises et les artisans. Logiciels installés à votre image en 2 semaines, dès 990€. Formation n8n dès 290€." />

@@ -1435,7 +1435,7 @@ export const articles = [
   },
   {
     slug: "automatiser-emails-confirmation-entreprise-2026",
-    title: "Automatiser les emails de votre entreprise : confirmation, relance, facturation",
+    title: "Automatiser ses emails d'entreprise : confirmation, relance",
     metaDescription: "Automatiser vos emails pros en 2026 : confirmations, relances clients, rappels de RDV et factures. Guide pratique avec n8n et Make.",
     category: "Tutoriel",
     readTime: "10 min",
@@ -2020,7 +2020,7 @@ export const articles = [
   },
   {
     slug: "agent-ia-service-client-entreprise-2026",
-    title: "Agent IA pour le service client : le guide complet pour les entreprises en 2026",
+    title: "Agent IA pour le service client : guide 2026",
     metaDescription: "Agent IA pour le service client en 2026 : fonctionnement, coûts, risques et bonnes pratiques. Le guide complet pour dirigeants de PME.",
     category: "Guide",
     readTime: "11 min",
@@ -2477,7 +2477,7 @@ export const articles = [
   },
   {
     slug: "5-goulots-etranglement-pme-automatisation-2026",
-    title: "Les 5 goulots d'étranglement qui freinent votre croissance (et comment les éliminer avec l'automatisation)",
+    title: "5 goulots qui freinent votre PME, et comment les automatiser",
     metaDescription: "Délai de rappel, documents, relances, CRM qui dort, reporting : les 5 blocages qui coûtent cher aux PME et comment les automatiser.",
     category: "Guide",
     readTime: "10 min",
