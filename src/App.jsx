@@ -284,7 +284,7 @@ const ProtocolSection = () => (
   </section>
 );
 
-const FOUNDER_BIO = "Ancien metteur au point puis chargé de projet en CVC, je connais les journées des artisans : le téléphone qui sonne en intervention, les devis faits le soir, les relances qu'on n'a jamais le temps de faire. Aujourd'hui, j'automatise tout ça pour les artisans, les entreprises du bâtiment et les PME avec n8n, WhatsApp et l'IA. Et pour ceux qui veulent devenir autonomes, j'installe et je forme.";
+const FOUNDER_BIO = "Je connais les journées des artisans : le téléphone qui sonne en intervention, les devis faits le soir, les relances qu'on n'a jamais le temps de faire. Aujourd'hui, j'automatise tout ça pour les artisans, les entreprises du bâtiment et les PME avec n8n, WhatsApp et l'IA. Et pour ceux qui veulent devenir autonomes, j'installe et je forme.";
 
 const FounderSection = () => (
   <section className="py-20 md:py-28 px-5 md:px-12">
