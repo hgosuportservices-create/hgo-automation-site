@@ -12,7 +12,7 @@ import { Sparkle, Van, Tools, ClimUnit, Quote } from '../components/Illustration
 import { CALL_MIN } from '../config';
 
 const PARCOURS = [
-  { title: 'Le terrain d\'abord', desc: "8 ans de terrain en CVC, de metteur au point à chargé de projet. J'ai vécu le quotidien des artisans : les chantiers, les clients au téléphone, les devis à chiffrer et les relances qu'on repousse toujours à plus tard." },
+  { title: 'Le terrain d\'abord', desc: "Metteur au point puis chargé de projet en CVC. J'ai vécu le quotidien des artisans : les chantiers, les clients au téléphone, les devis à chiffrer et les relances qu'on repousse toujours à plus tard." },
   { title: 'Le constat', desc: "Les artisans ne perdent pas des chantiers sur la technique. Ils les perdent au bureau : un appel manqué en intervention, un devis envoyé trop tard, une relance oubliée." },
   { title: 'HGO Automation', desc: "J'ai créé HGO Automation pour régler ça avec des outils simples : un assistant WhatsApp qui répond 24h/24, des devis qui partent le jour même, des relances qui se font toutes seules. Sans changer vos logiciels." },
 ];
@@ -29,7 +29,7 @@ const PRODUITS = [
 ];
 
 const CHIFFRES = [
-  { v: '8 ans', l: 'de terrain en CVC, de metteur au point à chargé de projet' },
+  { v: '24h/24', l: 'Léa, la standardiste IA, décroche à votre place' },
   { v: '2 semaines', l: 'pour une installation en service' },
   { v: '13 600', l: 'impressions Google en 3 mois pour LesInstallateurs.fr', to: '/cas-client/lesinstallateurs' },
 ];
@@ -42,7 +42,7 @@ export default function APropos() {
     <main className="min-h-screen text-ghost font-sans overflow-x-hidden">
       <Helmet>
         <title>À propos — Hugo Fonseca | HGO Automation</title>
-        <meta name="description" content="Hugo Fonseca, fondateur d'HGO Automation, 8 ans de terrain en CVC, de metteur au point à chargé de projet. Il automatise appels, RDV, devis, relances et factures pour les artisans du bâtiment." />
+        <meta name="description" content="Hugo Fonseca, fondateur d'HGO Automation, ancien metteur au point et chargé de projet en CVC. Il automatise appels, RDV, devis, relances et factures pour les artisans du bâtiment." />
         <link rel="canonical" href="https://www.hgoautomation.fr/a-propos" />
         <meta property="og:title" content="À propos — Hugo Fonseca | HGO Automation" />
         <meta property="og:url" content="https://www.hgoautomation.fr/a-propos" />
