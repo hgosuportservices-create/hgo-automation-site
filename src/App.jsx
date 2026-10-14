@@ -47,7 +47,7 @@ const Hero = ({ onOpenContact }) => {
           Moins de paperasse,<br />plus de chantiers
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-lg text-ghost/85 text-lg md:text-xl leading-relaxed bg-void rounded-2xl px-4 py-1">
-          Nos logiciels et nos automatisations prennent en charge devis, relances, rendez-vous et suivi clients des métiers du bâtiment et de la ventilation. Installés à votre image en 2 semaines, dès 990€.
+          Nos logiciels, nos agents IA et nos automatisations prennent en charge appels, devis, relances, rendez-vous et suivi clients des entreprises et des artisans. Installés à votre image en 2 semaines, dès 990€.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap justify-center gap-3">
           <button onClick={() => onOpenContact('calendly')} className="btn-cyan"><Calendar className="w-4 h-4" /> Appel gratuit de {CALL_MIN} min</button>
@@ -353,26 +353,26 @@ function App() {
   return (
     <main className="min-h-screen text-ghost font-sans selection:bg-cyan/30 overflow-x-hidden">
       <Helmet>
-        <title>Éditeur de logiciels et d'automatisations pour le bâtiment et la ventilation | HGO Automation</title>
-        <meta name="description" content="Éditeur de logiciels et d'automatisations pour le bâtiment et la ventilation : CRM, devis automatiques, relances, RDV WhatsApp. Installé à votre image en 2 semaines, dès 990€." />
+        <title>Éditeur de logiciels, d'agents IA et d'automatisations pour les entreprises et les artisans | HGO Automation</title>
+        <meta name="description" content="Éditeur de logiciels, d'agents IA et d'automatisations pour les entreprises et les artisans : standardiste vocale, assistant WhatsApp, devis automatiques, relances, RDV. Installé à votre image en 2 semaines, dès 990€." />
         <meta property="og:locale" content="fr_FR" />
-        <meta property="og:title" content="HGO Automation — Logiciels et automatisations pour le bâtiment et la ventilation" />
-        <meta property="og:description" content="CRM, devis automatiques, relances et RDV pour le bâtiment et la ventilation. Logiciels installés à votre image en 2 semaines, dès 990€. Formation n8n dès 290€." />
+        <meta property="og:title" content="HGO Automation — Logiciels, agents IA et automatisations pour les entreprises et les artisans" />
+        <meta property="og:description" content="Agents IA, devis automatiques, relances et RDV pour les entreprises et les artisans. Logiciels installés à votre image en 2 semaines, dès 990€. Formation n8n dès 290€." />
         <meta property="og:url" content="https://www.hgoautomation.fr/" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://www.hgoautomation.fr/og-cover.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="HGO Automation — Logiciels et automatisations pour le bâtiment et la ventilation" />
-        <meta name="twitter:description" content="CRM, devis automatiques, relances et RDV pour le bâtiment et la ventilation. Installé à votre image en 2 semaines." />
+        <meta name="twitter:title" content="HGO Automation — Logiciels, agents IA et automatisations pour les entreprises et les artisans" />
+        <meta name="twitter:description" content="Agents IA, devis automatiques, relances et RDV pour les entreprises et les artisans. Installé à votre image en 2 semaines." />
         <meta name="twitter:image" content="https://www.hgoautomation.fr/og-cover.png" />
         <link rel="canonical" href="https://www.hgoautomation.fr/" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "HGO Automation",
-          "description": "Éditeur de logiciels et d'automatisations pour le bâtiment et la ventilation : CRM, devis et relances automatiques, prise de RDV WhatsApp, agents IA. Installation sur mesure, formation n8n.",
+          "description": "Éditeur de logiciels, d'agents IA et d'automatisations pour les entreprises et les artisans : standardiste vocale, assistant WhatsApp, devis et relances automatiques, prise de RDV. Installation sur mesure, formation n8n.",
           "url": "https://www.hgoautomation.fr",
           "logo": "https://www.hgoautomation.fr/hgo-logo.svg",
           "image": "https://www.hgoautomation.fr/og-cover.png",
